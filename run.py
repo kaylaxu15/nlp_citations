@@ -6,6 +6,7 @@ logger.setLevel(logging.INFO)
 import argparse
 import os
 import openai
+import requests
 import json
 from tqdm import tqdm
 from transformers import AutoTokenizer
@@ -26,8 +27,25 @@ class LLM:
     def __init__(self, args):
         self.args = args
 
-        if args.openai_api:
-            import openai 
+        if args.openrouter_api:
+            self.openrouter_api_key = os.environ.get("OPENROUTER_API_KEY")
+            if not self.openrouter_api_key:
+                raise ValueError("OPENROUTER_API_KEY is not set")
+
+            self.openrouter_url = os.environ.get(
+                "OPENROUTER_API_URL",
+                "https://openrouter.ai/api/v1/chat/completions"
+            )
+            self.openrouter_site_url = os.environ.get("OPENROUTER_SITE_URL", "http://localhost")
+            self.openrouter_app_name = os.environ.get("OPENROUTER_APP_NAME", "alce-runner")
+
+            # Used only for prompt-length estimation in this codebase.
+            self.tokenizer = AutoTokenizer.from_pretrained("gpt2", fast_tokenizer=False)
+            self.prompt_tokens = 0
+            self.completion_tokens = 0
+
+        elif args.openai_api:
+            import openai
             OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
             OPENAI_ORG_ID = os.environ.get("OPENAI_ORG_ID")
             OPENAI_API_BASE = os.environ.get("OPENAI_API_BASE")
@@ -36,22 +54,20 @@ class LLM:
                 openai.api_key = OPENAI_API_KEY
                 openai.api_base = OPENAI_API_BASE
                 openai.api_type = 'azure'
-                openai.api_version = '2023-05-15' 
-            else: 
+                openai.api_version = '2023-05-15'
+            else:
                 openai.api_key = OPENAI_API_KEY
                 openai.organization = OPENAI_ORG_ID
 
-            self.tokenizer = AutoTokenizer.from_pretrained("gpt2", fast_tokenizer=False) # TODO: For ChatGPT we should use a different one
-            # To keep track of how much the API costs
+            self.tokenizer = AutoTokenizer.from_pretrained("gpt2", fast_tokenizer=False)
             self.prompt_tokens = 0
             self.completion_tokens = 0
         else:
             self.model, self.tokenizer = load_model(args.model)
-        
+
         self.prompt_exceed_max_length = 0
         self.fewer_than_50 = 0
         self.azure_filter_fail = 0
-
 
     def generate(self, prompt, max_tokens, stop=None):
         args = self.args
@@ -63,10 +79,96 @@ class LLM:
             self.fewer_than_50 += 1
             logger.warning("The model can at most generate < 50 tokens. If this happens too many times, it is suggested to make the prompt shorter")
 
+        # -------- OpenRouter path --------
+        if args.openrouter_api:
+            headers = {
+                "Authorization": f"Bearer {self.openrouter_api_key}",
+                "Content-Type": "application/json",
+                "HTTP-Referer": self.openrouter_site_url,
+                "X-Title": self.openrouter_app_name,
+            }
+
+            payload = {
+                "model": args.model,
+                "messages": [
+                    {"role": "system", "content": "You are a helpful assistant that answers the following questions with proper citations."},
+                    {"role": "user", "content": prompt},
+                ],
+                "temperature": args.temperature,
+                "top_p": args.top_p,
+                "max_tokens": max_tokens,
+            }
+            if stop is not None:
+                payload["stop"] = stop
+            if args.openrouter_reasoning:
+                payload["reasoning"] = {"enabled": True}
+
+            max_retries = 8
+            data = None
+            for attempt in range(max_retries):
+                try:
+                    resp = requests.post(
+                        self.openrouter_url,
+                        headers=headers,
+                        data=json.dumps(payload),
+                        timeout=120,
+                    )
+
+                    # Rate limit: respect Retry-After if present
+                    if resp.status_code == 429:
+                        retry_after = resp.headers.get("Retry-After")
+                        if retry_after is not None:
+                            sleep_s = float(retry_after)
+                        else:
+                            sleep_s = min(60, 2 ** attempt)
+                        logger.warning(f"OpenRouter retry {attempt + 1}/{max_retries} after 429, sleeping {sleep_s:.1f}s")
+                        time.sleep(sleep_s)
+                        continue
+
+                    # Retry transient server errors
+                    if 500 <= resp.status_code < 600:
+                        sleep_s = min(60, 2 ** attempt)
+                        logger.warning(f"OpenRouter server error {resp.status_code}, retry {attempt + 1}/{max_retries} in {sleep_s:.1f}s")
+                        time.sleep(sleep_s)
+                        continue
+
+                    resp.raise_for_status()
+                    data = resp.json()
+                    break
+
+                except requests.RequestException as error:
+                    if attempt < max_retries - 1:
+                        sleep_s = min(60, 2 ** attempt)
+                        logger.warning(f"OpenRouter request retry {attempt + 1}/{max_retries} ({error}); sleeping {sleep_s:.1f}s")
+                        time.sleep(sleep_s)
+                        continue
+                    raise
+
+            if data is None:
+                logger.error("OpenRouter retries exhausted; returning empty output.")
+                return ""
+
+            usage = data.get("usage", {})
+            self.prompt_tokens += usage.get("prompt_tokens", 0)
+            self.completion_tokens += usage.get("completion_tokens", 0)
+
+            message = data["choices"][0]["message"]
+            content = message.get("content", "")
+
+            # Some providers may return content blocks
+            if isinstance(content, list):
+                content = "".join(
+                    block.get("text", "")
+                    for block in content
+                    if isinstance(block, dict)
+                )
+
+            return str(content).strip()
+
+        # -------- OpenAI path --------
         if args.openai_api:
             use_chat_api = ("turbo" in args.model and not args.azure) or ("gpt-4" in args.model and args.azure)
             if use_chat_api:
-                # For chat API, we need to convert text prompts to chat prompts
                 prompt = [
                     {'role': 'system', 'content': "You are a helpful assistant that answers the following questions with proper citations."},
                     {'role': 'user', 'content': prompt}
@@ -113,13 +215,12 @@ class LLM:
                             max_tokens=max_tokens,
                             top_p=args.top_p,
                             stop=["\n", "\n\n"] + (stop if stop is not None else [])
-                        )    
+                        )
                         is_ok = True
                     except Exception as error:
                         if retry_count <= 5:
                             logger.warning(f"OpenAI API retry for {retry_count} times ({error})")
                             if "triggering Azure OpenAI’s content management policy" in str(error):
-                                # filtered by Azure 
                                 self.azure_filter_fail += 1
                                 return ""
                             continue
@@ -128,23 +229,23 @@ class LLM:
                 self.prompt_tokens += response['usage']['prompt_tokens']
                 self.completion_tokens += response['usage']['completion_tokens']
                 return response['choices'][0]['text']
-        else:
-            inputs = self.tokenizer([prompt], return_tensors="pt").to(self.model.device)
-            stop = [] if stop is None else stop
-            stop = list(set(stop + ["\n", "Ċ", "ĊĊ", "<0x0A>"])) # In Llama \n is <0x0A>; In OPT \n is Ċ
-            stop_token_ids = list(set([self.tokenizer._convert_token_to_id(stop_token) for stop_token in stop] + [self.model.config.eos_token_id]))
-            if "llama" in args.model.lower():
-                stop_token_ids.remove(self.tokenizer.unk_token_id)
-            outputs = self.model.generate(
-                **inputs,
-                do_sample=True, temperature=args.temperature, top_p=args.top_p, 
-                max_new_tokens=max_tokens,
-                num_return_sequences=1,
-                eos_token_id=stop_token_ids
-            )
-            generation = self.tokenizer.decode(outputs[0][inputs['input_ids'].size(1):], skip_special_tokens=True)
-            return generation
 
+        # -------- Local model path --------
+        inputs = self.tokenizer([prompt], return_tensors="pt").to(self.model.device)
+        stop = [] if stop is None else stop
+        stop = list(set(stop + ["\n", "Ċ", "ĊĊ", "<0x0A>"]))
+        stop_token_ids = list(set([self.tokenizer._convert_token_to_id(stop_token) for stop_token in stop] + [self.model.config.eos_token_id]))
+        if "llama" in args.model.lower():
+            stop_token_ids.remove(self.tokenizer.unk_token_id)
+        outputs = self.model.generate(
+            **inputs,
+            do_sample=True, temperature=args.temperature, top_p=args.top_p,
+            max_new_tokens=max_tokens,
+            num_return_sequences=1,
+            eos_token_id=stop_token_ids
+        )
+        generation = self.tokenizer.decode(outputs[0][inputs['input_ids'].size(1):], skip_special_tokens=True)
+        return generation
 
 def main():
     parser = argparse.ArgumentParser()
@@ -211,6 +312,9 @@ def main():
     parser.add_argument("--max_doc_show", type=int, default=3, help="Max number of documents to show at one time.")
     parser.add_argument("--force_cite_show", type=bool, default=False, help="Force citing the documents that are shown to the model")
 
+    # for qasa openrouter
+    parser.add_argument("--openrouter_api", action="store_true", default=False, help="Use OpenRouter chat completions API")
+    parser.add_argument("--openrouter_reasoning", action="store_true", default=False, help="Enable OpenRouter reasoning")
 
     # Load config
     args = parser.parse_args()
