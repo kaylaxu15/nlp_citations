@@ -1,0 +1,9 @@
+---
+prompt_file: data/qa_expert_multihop_prompt.json
+eval_file: data/qa_expert_multihop_eval.json
+shot: 2
+ndoc: 5
+dataset_name: qa_expert_multihop
+tag: hf
+model: gpt-3.5-turbo-0301
+openai_api: true

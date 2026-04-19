@@ -32,7 +32,7 @@ This repository also includes code to reproduce the baselines in our paper.
 
 ## Requirements
 
-Please install the latest versions of PyTorch (`torch`), HuggingFace Transformers (`transformers`), HuggingFace Accelerate (`accelerate`), and the OpenAI API package (`openai`). This codebase is tested on 
+Please install the latest versions of PyTorch (`torch`), HuggingFace Transformers (`transformers`), HuggingFace Accelerate (`accelerate`), HuggingFace Datasets (`datasets`), and the OpenAI API package (`openai`). This codebase is tested on 
 `torch==2.1.0.dev20230514+cu118`, `transformers==4.28.1`, `accelerate==0.17.1`, and `openai==0.27.4` with Python 3.9.7.
 
 ## Data
@@ -44,6 +44,28 @@ bash download_data.sh
 ```
 
 All the data will be stored in `data/`. Our data included top-100 DPR/GTR retrieved results for ASQA and QAMPARI, and top-100 BM25 retrieved results for ELI5. We also provide reranked oracle retrieval results, where top-5 passages can achieve the same recall as the original top-100 recall.
+
+### Swap to QA-Expert Multi-hop QA dataset
+
+`run.py` is the main dataset processing entrypoint for generation. It loads:
+- `prompt_file` and `eval_file` from a config in `configs/*.yaml`
+- then builds prompts from those JSON files (see `run.py` around the "Load data" section)
+
+To use `khaimaitien/qa-expert-multi-hop-qa-V1.0`, prepare ALCE-format files with:
+
+```bash
+python3 -m pip install datasets
+python3 tools/prepare_qa_expert_multihop.py \
+  --multihop_only \
+  --prompt_output data/qa_expert_multihop_prompt.json \
+  --eval_output data/qa_expert_multihop_eval.json
+```
+
+Then run with:
+
+```bash
+python run.py --config configs/qa_expert_multihop_turbo_shot2_ndoc5_hf.yaml
+```
 
 ### Retrieval
 
