@@ -1,18 +1,15 @@
 {
-    "instruction1": "Instruction: You are given a question and a list of passages from their respective documents that may be helpful in answering that question. Before generating an answer, first reason through the passages. For each passage, identify its document, and briefly note whether the document is relevant to the question and why. Then identify which 2-3 documents are most critical to answer the question in order of relevance. Format this as: \"Document [ID]: {RELEVANCE} - {REASON}\".",
-    "instruction2": "Instruction: Write an accurate, engaging, and concise answer for the given question using only the provided search results (some of which might be irrelevant) and cite them properly. Use an unbiased and journalistic tone. Always cite for any factual claim. When citing several search results, use [1][2][3]. Cite at least one document and at most three documents in each sentence. If multiple documents support the sentence, only cite a minimum sufficient subset of the documents.",
     "demo_sep": "\n\n\n",
     "demo_prompt": "{INST}\n\nQuestion: {Q}\n\n{D}\nAnswer: {A}",
     "doc_prompt": "Document [{ID}](Title: {T}): {P}\n",
+    "demo_prompt_round2": "{INST}\n\nQuestion: {Q}\n\n{D}\n\nPrior analysis:\n{COT}\n\nAnswer: {A}",
+    "cot_demo_inner_sep": "\n\n\n",
     "demos": [
         {
             "question": "Which is the most rainy place on earth?",
             "answer": [
-                "Check: Document [3]",
-                "Output: Several places on Earth claim to be the most rainy, such as Lloró, Colombia, which reported an average annual rainfall of 12,717 mm between 1952 and 1989, and López de Micay, Colombia, which reported an annual 12,892 mm between 1960 and 2012 [3].",
-                "Check: Document [1][3]",
-                "Output: However, the official record is held by Mawsynram, India with an average annual rainfall of 11,872 mm [3], although nearby town Sohra, India, also known as Cherrapunji, holds the record for most rain in a calendar month for July 1861 and most rain in a year from August 1860 to July 1861 [1].",
-                "End"
+                "Document [1]: Medium relevance - Compares Cherrapunji and Mawsynram and notes record rainfall figures relevant to \"wettest place\" claims.\nDocument [2]: Low relevance - Repeats similar Cherrapunji/Mawsynram material as Doc 1 with little added information.\nDocument [3]: High relevance - Reports Mawsynram average rainfall and disputes from Colombian stations with competing claims.\nDocument [4]: Low relevance - Mostly US/Oceania rainfall patterns; only tangentially about global maxima.\nDocument [5]: Medium relevance - Calls out Mawsynram extreme rainfall and ties it to neighboring Cherrapunji.\n\nMost critical documents (most to least): [3], [1], [5].",
+                "Several places on Earth claim to be the most rainy, such as Llor\u00f3, Colombia, which reported an average annual rainfall of 12,717 mm between 1952 and 1989, and L\u00f3pez de Micay, Colombia, which reported an annual 12,892 mm between 1960 and 2012 [3]. However, the official record is held by Mawsynram, India with an average annual rainfall of 11,872 mm [3], although nearby town Sohra, India, also known as Cherrapunji, holds the record for most rain in a calendar month for July 1861 and most rain in a year from August 1860 to July 1861 [1]."
             ],
             "docs": [
                 {
@@ -29,7 +26,7 @@
                 },
                 {
                     "title": "Mawsynram",
-                    "text": "Mawsynram Mawsynram () is a village in the East Khasi Hills district of Meghalaya state in north-eastern India, 65 kilometres from Shillong. Mawsynram receives one of the highest rainfalls in India. It is reportedly the wettest place on Earth, with an average annual rainfall of 11,872 mm, but that claim is disputed by Lloró, Colombia, which reported an average yearly rainfall of 12,717 mm between 1952 and 1989 and López de Micay, also in Colombia, which reported an annual 12,892 mm per year between 1960 and 2012. According to the \"Guinness Book of World Records\", Mawsynram received of rainfall in 1985. Mawsynram is located at 25° 18′",
+                    "text": "Mawsynram Mawsynram () is a village in the East Khasi Hills district of Meghalaya state in north-eastern India, 65 kilometres from Shillong. Mawsynram receives one of the highest rainfalls in India. It is reportedly the wettest place on Earth, with an average annual rainfall of 11,872 mm, but that claim is disputed by Llor\u00f3, Colombia, which reported an average yearly rainfall of 12,717 mm between 1952 and 1989 and L\u00f3pez de Micay, also in Colombia, which reported an annual 12,892 mm per year between 1960 and 2012. According to the \"Guinness Book of World Records\", Mawsynram received of rainfall in 1985. Mawsynram is located at 25\u00b0 18\u2032",
                     "summary": "Mawsynram, India receives one of the highest rainfalls in India and is reportedly the wettest place on Earth with an average annual rainfall of 11,872 mm. However, this claim is disputed by two places in Colombia that reported higher annual rainfall.",
                     "extraction": "Mawsynram is reportedly the wettest place on Earth, with an average annual rainfall of 11,872 mm."
                 },
@@ -41,7 +38,7 @@
                 },
                 {
                     "title": "Going to Extremes",
-                    "text": "in the world. Oymyakon in Siberia, where the average winter temperature is −47 °F (− 44 °C). Arica in Chile, where there had been fourteen consecutive years without rain. Fog is the only local source of water. Mawsynram in India, where average annual rainfall is 14 meters, falling within a four-month period in the monsoon season. The rainfall is approximately equal to that of its neighbor Cherrapunji. Dallol in Ethiopia, known as the 'Hell-hole of creation' where the temperature averages 94 °F (34 °C) over the year. In his second series, Middleton visited places without permanent towns, locations where \"survival\"",
+                    "text": "in the world. Oymyakon in Siberia, where the average winter temperature is \u221247 \u00b0F (\u2212 44 \u00b0C). Arica in Chile, where there had been fourteen consecutive years without rain. Fog is the only local source of water. Mawsynram in India, where average annual rainfall is 14 meters, falling within a four-month period in the monsoon season. The rainfall is approximately equal to that of its neighbor Cherrapunji. Dallol in Ethiopia, known as the 'Hell-hole of creation' where the temperature averages 94 \u00b0F (34 \u00b0C) over the year. In his second series, Middleton visited places without permanent towns, locations where \"survival\"",
                     "summary": "The document mentions Mawsynram in India as the most rainy place on earth with an average annual rainfall of 14 meters falling within a four-month period in the monsoon season.",
                     "extraction": "Mawsynram in India, where average annual rainfall is 14 meters, falling within a four-month period in the monsoon season."
                 }
@@ -50,11 +47,8 @@
         {
             "question": "When did the us break away from england?",
             "answer": [
-                "Check: Document [2]",
-                "Output: The United States took the first step towards gaining independence from Great Britain when it declared independence from Great Britain on July 2, 1776 (although the event is now commemorated on July 4, 1776, the date when the Declaration of Independence was officially adopted by Congress) [2].",
-                "Check: Document [1][3]",
-                "Output: The Treaty of Paris was later signed on September 3, 1783, formally separating the United States from the British Empire [3].",
-                "End"
+                "Document [1]: Low relevance - Broad decolonization survey; does not give US independence dates.\nDocument [2]: High relevance - States US declared independence from Great Britain on July 2, 1776 and Britain acknowledged independence by 1783.\nDocument [3]: High relevance - Treaty of Paris on September 3, 1783 formally ends the war and confirms separation from the British Empire.\nDocument [4]: Low relevance - Post-WWI mandates; off-topic for the Revolution timeline.\nDocument [5]: Low relevance - Same decolonization overview as Doc 1.\n\nMost critical documents (most to least): [2], [3].",
+                "The United States took the first step towards gaining independence from Great Britain when it declared independence from Great Britain on July 2, 1776 (although the event is now commemorated on July 4, 1776, the date when the Declaration of Independence was officially adopted by Congress) [2]. The Treaty of Paris was later signed on September 3, 1783, formally separating the United States from the British Empire [3]."
             ],
             "docs": [
                 {
@@ -83,7 +77,7 @@
                 },
                 {
                     "title": "Decolonization",
-                    "text": "the responsibility of the United Kingdom (with a copy of the new constitution annexed), and finally, if approved, issuance of an Order of Council fixing the exact date of independence. After World War I, several former German and Ottoman territories in the Middle East, Africa, and the Pacific were governed by the UK as League of Nations mandates. Some were administered directly by the UK, and others by British dominions – Nauru and the Territory of New Guinea by Australia, South West Africa by the Union of South Africa, and Western Samoa by New Zealand. Egypt became independent in 1922,",
+                    "text": "the responsibility of the United Kingdom (with a copy of the new constitution annexed), and finally, if approved, issuance of an Order of Council fixing the exact date of independence. After World War I, several former German and Ottoman territories in the Middle East, Africa, and the Pacific were governed by the UK as League of Nations mandates. Some were administered directly by the UK, and others by British dominions \u2013 Nauru and the Territory of New Guinea by Australia, South West Africa by the Union of South Africa, and Western Samoa by New Zealand. Egypt became independent in 1922,",
                     "summary": "After World War I, several former German and Ottoman territories in the Middle East, Africa, and the Pacific were governed by the UK as League of Nations mandates.",
                     "extraction": "After World War I, several former German and Ottoman territories in the Middle East, Africa, and the Pacific were governed by the UK as League of Nations mandates."
                 }
@@ -92,11 +86,8 @@
         {
             "question": "Who set the record for longest field goal?",
             "answer": [
-                "Check: Document [1]",
-                "Output: The record for the longest field goal in an NFL game was set by Matt Prater at 64 yards [1].",
-                "Check: Document [2]",
-                "Output: but the record for the longest field goal at any level was 69 yards, kicked by collegiate kicker Ove Johansson in a 1976 Abilene Christian University football game against East Texas State University [2].",
-                "End"
+                "Document [1]: High relevance - States NFL record longest field goal 64 yards by Matt Prater.\nDocument [2]: High relevance - Gives longest recorded kick 69 yards (Ove Johansson, college) and notes NFL longest 64 yards by Prater.\nDocument [3]: Medium relevance - Discusses very long attempts (e.g., Janikowski) but not the official records central to the question.\nDocument [4]: Low relevance - Historical kicks and NCAA rule changes; peripheral.\nDocument [5]: Low relevance - Indoor/high school records; less central than NFL/college overall records.\n\nMost critical documents (most to least): [2], [1].",
+                "The record for the longest field goal in an NFL game was set by Matt Prater at 64 yards [1]. but the record for the longest field goal at any level was 69 yards, kicked by collegiate kicker Ove Johansson in a 1976 Abilene Christian University football game against East Texas State University [2]."
             ],
             "docs": [
                 {
@@ -134,11 +125,8 @@
         {
             "question": "Who played galen in planet of the apes?",
             "answer": [
-                "Check: Document [2]",
-                "Output: In the 1968 film Planet of the Apes, Galen was played by Wright King [2].",
-                "Check: Document [1]",
-                "Output: And in the tv series Planet of the Apes, Galen was played by Roddy McDowall [1].",
-                "End"
+                "Document [1]: High relevance - Notes Roddy McDowall played Galen in the CBS television series.\nDocument [2]: High relevance - 1968 film credits Wright King as surgeon Galen.\nDocument [3]: Medium relevance - Film overview and cast list; supports that production is the 1968 movie.\nDocument [4]: Low relevance - Modern reboot casting; does not address Galen in classic entries.\nDocument [5]: Low relevance - 2001 film plot/cast; irrelevant to Galen.\n\nMost critical documents (most to least): [2], [1].",
+                "In the 1968 film Planet of the Apes, Galen was played by Wright King [2]. And in the tv series Planet of the Apes, Galen was played by Roddy McDowall [1]."
             ],
             "docs": [
                 {
@@ -173,5 +161,9 @@
                 }
             ]
         }
+    ],
+    "instructions": [
+        "Instruction: You are given a question and a list of passages from their respective documents that may be helpful in answering that question. Before generating an answer, first reason through the passages. For each passage, identify its document, and briefly note whether the document is relevant to the question and why. Then identify which 2-3 documents are most critical to answer the question in order of relevance. Format this as: \"Document [ID]: {RELEVANCE} - {REASON}\".",
+        "Instruction: Given your prior analysis (above), write a thorough, accurate, and detailed answer for the question using only the provided search results (some of which might be irrelevant) and cite them properly. Use an unbiased and journalistic tone. Aim for multiple sentences where appropriate. Always cite for any factual claim. When citing several search results, use [1][2][3]. Cite at least one document and at most three documents in each sentence. If multiple documents support the sentence, only cite a minimum sufficient subset of the documents."
     ]
 }

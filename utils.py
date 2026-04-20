@@ -70,19 +70,38 @@ def get_shorter_text(item, docs, ndoc, key):
     return doc_list
 
 
-def make_demo(item, prompt, ndoc=None, doc_prompt=None, instruction=None, use_shorter=None, test=False):
-    # For demo prompt
-    # - {INST}: the instruction
-    # - {D}: the documents
-    # - {Q}: the question
-    # - {A}: the answers
-    # ndoc: number of documents to put in context
-    # use_shorter: None, "summary", or "extraction"
+DEFAULT_DEMO_PROMPT_ROUND2 = (
+    "{INST}\n\nQuestion: {Q}\n\n{D}\n\nPrior analysis:\n{COT}\n\nAnswer: {A}"
+)
 
-    prompt = prompt.replace("{INST}", instruction).replace("{Q}", item['question'])
+
+def normalize_instructions(prompt_data):
+    """Return a list of instruction strings. Supports `instructions` (str or list) or legacy `instruction`."""
+    if "instructions" in prompt_data:
+        inst = prompt_data["instructions"]
+        if isinstance(inst, str):
+            return [inst]
+        if isinstance(inst, list):
+            return inst
+        raise TypeError("'instructions' must be a string or a list of strings")
+    if "instruction" in prompt_data:
+        return [prompt_data["instruction"]]
+    raise KeyError("Prompt file must contain 'instructions' (or legacy 'instruction')")
+
+
+def _coerce_instruction_list(instruction):
+    if instruction is None:
+        raise ValueError("instruction / instructions is required")
+    if isinstance(instruction, str):
+        return [instruction]
+    return list(instruction)
+
+
+def _make_demo_single(item, prompt, ndoc, doc_prompt, inst_text, use_shorter, test):
+    prompt = prompt.replace("{INST}", inst_text).replace("{Q}", item["question"])
     if "{D}" in prompt:
         if ndoc == 0:
-            prompt = prompt.replace("{D}\n", "") # if there is no doc we also delete the empty line
+            prompt = prompt.replace("{D}\n", "")
         else:
             doc_list = get_shorter_text(item, item["docs"], ndoc, use_shorter) if use_shorter is not None else item["docs"][:ndoc]
             text = "".join([make_doc_prompt(doc, doc_id, doc_prompt, use_shorter=use_shorter) for doc_id, doc in enumerate(doc_list)])
@@ -92,9 +111,143 @@ def make_demo(item, prompt, ndoc=None, doc_prompt=None, instruction=None, use_sh
         answer = "\n" + "\n".join(item["answer"]) if isinstance(item["answer"], list) else item["answer"]
         prompt = prompt.replace("{A}", "").rstrip() + answer
     else:
-        prompt = prompt.replace("{A}", "").rstrip() # remove any space or \n
+        prompt = prompt.replace("{A}", "").rstrip()
 
     return prompt
+
+
+def _apply_demo_template(
+    item, template, ndoc, doc_prompt, inst_text, use_shorter, test, answer_suffix=None, cot_text=None
+):
+    """Fill {INST},{Q},{D},{A}; optionally {COT} when cot_text is set."""
+    prompt = template.replace("{INST}", inst_text).replace("{Q}", item["question"])
+    if "{D}" in prompt:
+        if ndoc == 0:
+            prompt = prompt.replace("{D}\n", "")
+        else:
+            doc_list = get_shorter_text(item, item["docs"], ndoc, use_shorter) if use_shorter is not None else item["docs"][:ndoc]
+            text = "".join([make_doc_prompt(doc, doc_id, doc_prompt, use_shorter=use_shorter) for doc_id, doc in enumerate(doc_list)])
+            prompt = prompt.replace("{D}", text)
+    if cot_text is not None and "{COT}" in prompt:
+        prompt = prompt.replace("{COT}", cot_text)
+
+    if not test:
+        assert answer_suffix is not None
+        prompt = prompt.replace("{A}", "").rstrip() + answer_suffix
+    else:
+        prompt = prompt.replace("{A}", "").rstrip()
+
+    return prompt
+
+
+def _make_demo_cot(
+    item,
+    prompt,
+    ndoc,
+    doc_prompt,
+    instructions,
+    use_shorter,
+    test,
+    demo_prompt_round2,
+    cot_demo_inner_sep,
+    cot_round,
+    prior_cot,
+):
+    inst0, inst1 = instructions[0], instructions[1]
+    round2_template = demo_prompt_round2 or DEFAULT_DEMO_PROMPT_ROUND2
+
+    if not test:
+        ans = item["answer"]
+        if not (isinstance(ans, list) and len(ans) == 2 and all(isinstance(x, str) for x in ans)):
+            raise ValueError(
+                "Chain-of-thought mode (multiple instructions) expects each demo's 'answer' to be "
+                "a list of two strings: [prior_analysis, final_answer]."
+            )
+        cot_s, final_s = ans[0], ans[1]
+        r1 = _apply_demo_template(
+            item,
+            prompt,
+            ndoc,
+            doc_prompt,
+            inst0,
+            use_shorter,
+            test=False,
+            answer_suffix="\n" + cot_s,
+        )
+        r2 = _apply_demo_template(
+            item,
+            round2_template,
+            ndoc,
+            doc_prompt,
+            inst1,
+            use_shorter,
+            test=False,
+            answer_suffix="\n" + final_s,
+            cot_text=cot_s,
+        )
+        return r1 + cot_demo_inner_sep + r2
+
+    if cot_round == 1:
+        return _apply_demo_template(
+            item, prompt, ndoc, doc_prompt, inst0, use_shorter, test=True
+        )
+    if cot_round == 2:
+        if prior_cot is None:
+            raise ValueError("cot_round=2 requires prior_cot (model output from round 1)")
+        return _apply_demo_template(
+            item,
+            round2_template,
+            ndoc,
+            doc_prompt,
+            inst1,
+            use_shorter,
+            test=True,
+            cot_text=prior_cot,
+        )
+    raise ValueError("cot_round must be 1 or 2 when using chain-of-thought prompts")
+
+
+def make_demo(
+    item,
+    prompt,
+    ndoc=None,
+    doc_prompt=None,
+    instruction=None,
+    use_shorter=None,
+    test=False,
+    demo_prompt_round2=None,
+    cot_demo_inner_sep="\n\n\n",
+    cot_round=1,
+    prior_cot=None,
+):
+    # For demo prompt
+    # - {INST}: the instruction
+    # - {D}: the documents
+    # - {Q}: the question
+    # - {A}: the answers
+    # ndoc: number of documents to put in context
+    # use_shorter: None, "summary", or "extraction"
+    # Multiple instructions: two-round chain-of-thought (pass instruction as list of 2+ strings; first two are used).
+
+    instructions = _coerce_instruction_list(instruction)
+    if len(instructions) == 1:
+        return _make_demo_single(
+            item, prompt, ndoc, doc_prompt, instructions[0], use_shorter, test
+        )
+
+    return _make_demo_cot(
+        item,
+        prompt,
+        ndoc,
+        doc_prompt,
+        instructions,
+        use_shorter,
+        test,
+        demo_prompt_round2,
+        cot_demo_inner_sep,
+        cot_round,
+        prior_cot,
+    )
 
 
 def load_model(model_name_or_path, dtype=torch.float16, int8=False, reserve_memory=10):

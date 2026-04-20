@@ -1,5 +1,4 @@
 {
-    "instruction": "Instruction: Provide a list of accurate answers for the given question. Separate answers by commas. For questions that have more than 5 answers, write at least 5 answers.",
     "demo_sep": "\n\n\n",
     "demo_prompt": "{INST}\n\nQuestion: {Q}\n\nAnswer: {A}",
     "doc_prompt": "Document [{ID}](Title: {T}): {P}\n",
@@ -108,5 +107,8 @@
                 }
             ]
         }
+    ],
+    "instructions": [
+        "Instruction: Provide a list of accurate answers for the given question. Separate answers by commas. For questions that have more than 5 answers, write at least 5 answers."
     ]
 }

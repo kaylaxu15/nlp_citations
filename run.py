@@ -252,7 +252,10 @@ def main():
     parser.add_argument("--config", type=str, default=None, help="Path to the config file")
 
     # Prompt file is a json file that contains the following fields:
-    # - instruction: the instruction, which will appear at the beginning of each demo and the test example
+    # - instructions: list of instruction strings (or a single string, normalized to a one-element list).
+    #     Legacy key "instruction" is still accepted. For chain-of-thought, use two strings: prior analysis, then final answer.
+    # - demo_prompt_round2 (optional): template for the second round when len(instructions) > 1; uses {INST},{Q},{D},{COT},{A}
+    # - cot_demo_inner_sep (optional): separator between round 1 and round 2 within each few-shot demo (default "\\n\\n\\n")
     # - demo_sep: the separator between each demo, for example, "\n\n\n"
     # - demo_prompt: the prompt for the demo, for example, "Instruction: {INST}\n\nQuestion: {Q}\n\n{D}\nAnswer: {A}"
     #     - {INST}: the instruction
@@ -353,6 +356,15 @@ def main():
     prompt_data = json.load(open(args.prompt_file))
     eval_data = json.load(open(args.eval_file))
 
+    instructions = normalize_instructions(prompt_data)
+    if args.interactive and len(instructions) > 1:
+        raise ValueError(
+            "Chain-of-thought prompts (multiple instructions) are not supported with --interactive."
+        )
+
+    demo_prompt_round2 = prompt_data.get("demo_prompt_round2")
+    cot_demo_inner_sep = prompt_data.get("cot_demo_inner_sep", "\n\n\n")
+
     # Generate the demonstration part
     head_prompt = ""
     train_ids = np.random.choice(len(prompt_data["demos"]), args.shot, replace=False)
@@ -365,8 +377,14 @@ def main():
             assert args.ndoc_in_demo is not None
             ndoc = args.ndoc_in_demo
         head_prompt += make_demo(
-            train_item, prompt=prompt_data["demo_prompt"], ndoc=ndoc, doc_prompt=prompt_data["doc_prompt"], 
-            instruction=prompt_data["instruction"], use_shorter=args.use_shorter 
+            train_item,
+            prompt=prompt_data["demo_prompt"],
+            ndoc=ndoc,
+            doc_prompt=prompt_data["doc_prompt"],
+            instruction=instructions,
+            use_shorter=args.use_shorter,
+            demo_prompt_round2=demo_prompt_round2,
+            cot_demo_inner_sep=cot_demo_inner_sep,
         )
         head_prompt += prompt_data["demo_sep"]
 
@@ -378,11 +396,30 @@ def main():
     logger.info("Generating prompts...") 
     incomplete_doc_list = 0 # For some questions there might be fewer than ndoc documents
     for idx, eval_item in enumerate(tqdm(eval_data)):
-        eval_data[idx]['prompt'] = head_prompt + make_demo(
-            eval_item, prompt=prompt_data["demo_prompt"], ndoc=args.ndoc, doc_prompt=prompt_data["doc_prompt"],
-            instruction=prompt_data["instruction"], use_shorter=args.use_shorter, 
-            test=True
-        )
+        if len(instructions) == 1:
+            eval_data[idx]["prompt"] = head_prompt + make_demo(
+                eval_item,
+                prompt=prompt_data["demo_prompt"],
+                ndoc=args.ndoc,
+                doc_prompt=prompt_data["doc_prompt"],
+                instruction=instructions,
+                use_shorter=args.use_shorter,
+                test=True,
+            )
+        else:
+            eval_data[idx]["head_prompt"] = head_prompt
+            eval_data[idx]["prompt"] = head_prompt + make_demo(
+                eval_item,
+                prompt=prompt_data["demo_prompt"],
+                ndoc=args.ndoc,
+                doc_prompt=prompt_data["doc_prompt"],
+                instruction=instructions,
+                use_shorter=args.use_shorter,
+                test=True,
+                cot_round=1,
+                demo_prompt_round2=demo_prompt_round2,
+                cot_demo_inner_sep=cot_demo_inner_sep,
+            )
         doc_list = get_shorter_text(eval_item, eval_item["docs"], args.ndoc, args.use_shorter) if args.use_shorter is not None else eval_item["docs"][:args.ndoc]
         if not args.retrieve_in_all_docs:
             # If --retrieve_in_all_docs, we keep the original docs and do not trim them by ndoc
@@ -408,6 +445,7 @@ def main():
             print(prompt)
 
         output_array = []
+        cot_outputs = []
         for _ in range(args.num_samples):
             if args.interactive:
                 print("============ Interactive =============")
@@ -493,19 +531,53 @@ def main():
                 output_array.append(output_answer)
                 item['prompt'] = interactive_prompt
                 item['doc_history'] = doc_history
-            else: 
-                output_array.append(llm.generate(prompt, min(args.max_new_tokens, args.max_length-prompt_len)))
-                item['prompt'] = prompt
-            
-            output_array[-1] = output_array[-1].replace("<|im_end|>", "").rstrip()
-            if output_array[-1].endswith("End."):
-                output_array[-1] = output_array[-1][:-len("End.")]
+            elif len(instructions) == 1:
+                output_array.append(llm.generate(prompt, min(args.max_new_tokens, args.max_length - prompt_len)))
+                item["prompt"] = prompt
+            else:
+                cot_out = llm.generate(
+                    prompt, min(args.max_new_tokens, args.max_length - prompt_len)
+                )
+                cot_outputs.append(cot_out)
+                prompt_r2 = item["head_prompt"] + make_demo(
+                    item,
+                    prompt=prompt_data["demo_prompt"],
+                    ndoc=args.ndoc,
+                    doc_prompt=prompt_data["doc_prompt"],
+                    instruction=instructions,
+                    use_shorter=args.use_shorter,
+                    test=True,
+                    cot_round=2,
+                    prior_cot=cot_out,
+                    demo_prompt_round2=demo_prompt_round2,
+                    cot_demo_inner_sep=cot_demo_inner_sep,
+                )
+                prompt_len_r2 = len(llm.tokenizer.tokenize(prompt_r2))
+                final_out = llm.generate(
+                    prompt_r2,
+                    min(args.max_new_tokens, args.max_length - prompt_len_r2),
+                )
+                output_array.append(final_out)
+                item["prompt"] = prompt
+                item["prompt_round2"] = prompt_r2
+
+            if len(output_array) > 0:
+                output_array[-1] = (
+                    output_array[-1].replace("<|im_end|>", "").rstrip()
+                )
+                if output_array[-1].endswith("End."):
+                    output_array[-1] = output_array[-1][: -len("End.")]
 
             logger.info(f"Prompt length={prompt_len}")
             logger.info(f"Question: {item['question']}")
             logger.info(f"Gold answer: {item['answer']}")
-            logger.info(f"Final model output: {output_array[-1]}") 
-        
+            if len(instructions) > 1 and cot_outputs:
+                logger.info(f"CoT output: {cot_outputs[-1]}")
+            logger.info(f"Final model output: {output_array[-1]}")
+
+        if len(instructions) > 1 and cot_outputs:
+            item["cot_output"] = cot_outputs if args.num_samples > 1 else cot_outputs[0]
+
         item['output'] = output_array if len(output_array) > 1 else output_array[0]
         
     logger.info(f"#Cases when prompts exceed max length: {llm.prompt_exceed_max_length}")
