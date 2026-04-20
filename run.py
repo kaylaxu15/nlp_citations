@@ -5,6 +5,33 @@ logger.setLevel(logging.INFO)
 
 import argparse
 import os
+
+
+def load_project_dotenv():
+    """Load repo-root `.env` into os.environ if present (does not override existing vars)."""
+    root = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(root, ".env")
+    if not os.path.isfile(path):
+        return
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            for raw in f:
+                line = raw.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if line.startswith("export "):
+                    line = line[7:].strip()
+                if "=" not in line:
+                    continue
+                key, _, val = line.partition("=")
+                key = key.strip()
+                val = val.strip()
+                if len(val) >= 2 and val[0] == val[-1] and val[0] in "\"'":
+                    val = val[1:-1]
+                if key and key not in os.environ:
+                    os.environ[key] = val
+    except OSError:
+        pass
 import openai
 import requests
 import json
@@ -248,6 +275,7 @@ class LLM:
         return generation
 
 def main():
+    load_project_dotenv()
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default=None, help="Path to the config file")
 

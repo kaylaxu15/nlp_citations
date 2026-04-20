@@ -39,9 +39,23 @@ def get_max_memory():
     return max_memory
 
 
+def _doc_prompt_display_id(doc, doc_id):
+    """Prefer QASA passage index (id_suffix / id after '_') so CoT matches demo style 'Passage [23]'; else 1-based rank."""
+    suf = doc.get("id_suffix")
+    if suf is not None and str(suf).strip():
+        return str(suf).strip()
+    cid = doc.get("id")
+    if cid:
+        s = str(cid).strip()
+        if "_" in s:
+            return s.rsplit("_", 1)[-1]
+        return s
+    return str(doc_id + 1)
+
+
 def make_doc_prompt(doc, doc_id, doc_prompt, use_shorter=None):
     # For doc prompt:
-    # - {ID}: doc id (starting from 1)
+    # - {ID}: passage-level id when present on doc (QASA), else 1-based position in the shown list
     # - {T}: title
     # - {P}: text
     # use_shorter: None, "summary", or "extraction"
@@ -49,7 +63,8 @@ def make_doc_prompt(doc, doc_id, doc_prompt, use_shorter=None):
     text = doc['text']
     if use_shorter is not None:
         text = doc[use_shorter]
-    return doc_prompt.replace("{T}", doc["title"]).replace("{P}", text).replace("{ID}", str(doc_id+1))
+    disp = _doc_prompt_display_id(doc, doc_id)
+    return doc_prompt.replace("{T}", doc["title"]).replace("{P}", text).replace("{ID}", disp)
 
 
 def get_shorter_text(item, docs, ndoc, key):

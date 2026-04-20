@@ -5,7 +5,7 @@ shot: 2
 ndoc: 5
 dataset_name: qasa
 tag: openrouter
-model: google/gemma-4-26b-a4b-it:free
+model: google/gemma-4-31b-it:free
 openai_api: false
 openrouter_api: true
 openrouter_reasoning: false

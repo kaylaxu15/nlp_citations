@@ -1,0 +1,19 @@
+# One-shot CoT: only the 2nd demo from prompts/qasa_cot.json (ResNet shortcuts vs MLPs/highway).
+# Smaller ICL → prompts usually fit under max_length vs 3-shot.
+---
+prompt_file: prompts/qasa_cot_1shot_second_demo.json
+eval_file: data/qasa_eval_top5_n10.json
+shot: 1
+ndoc: 5
+dataset_name: qasa
+tag: cot_1shot_demo2_top5_eval10
+model: google/gemma-4-31b-it:free
+openai_api: false
+openrouter_api: true
+openrouter_reasoning: false
+temperature: 0.5
+top_p: 1.0
+max_new_tokens: 768
+max_length: 8192
+num_samples: 1
+seed: 42

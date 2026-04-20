@@ -1,0 +1,11 @@
+# Core ALCE / retrieval / QASA prep (install as needed)
+sentence-transformers>=2.2.0
+torch
+transformers
+datasets
+accelerate
+openai
+scikit-learn
+numpy
+tqdm
+nltk
