@@ -39,6 +39,7 @@ from tqdm import tqdm
 from transformers import AutoTokenizer
 import time
 import string
+import random
 import numpy as np
 import re
 from searcher import SearcherWithinDocs
@@ -53,6 +54,8 @@ class LLM:
 
     def __init__(self, args):
         self.args = args
+        self._last_openrouter_call_ts = 0.0
+        self._min_openrouter_interval_s = 3.2
 
         if args.openrouter_api:
             self.openrouter_api_key = os.environ.get("OPENROUTER_API_KEY")
@@ -98,6 +101,7 @@ class LLM:
 
     def generate(self, prompt, max_tokens, stop=None):
         args = self.args
+
         if max_tokens <= 0:
             self.prompt_exceed_max_length += 1
             logger.warning("Prompt exceeds max length and return an empty string as answer. If this happens too many times, it is suggested to make the prompt shorter")
@@ -106,7 +110,9 @@ class LLM:
             self.fewer_than_50 += 1
             logger.warning("The model can at most generate < 50 tokens. If this happens too many times, it is suggested to make the prompt shorter")
 
-        # -------- OpenRouter path --------
+        # ---------------------------
+        # OpenRouter API path
+        # ---------------------------
         if args.openrouter_api:
             headers = {
                 "Authorization": f"Bearer {self.openrouter_api_key}",
@@ -130,69 +136,92 @@ class LLM:
             if args.openrouter_reasoning:
                 payload["reasoning"] = {"enabled": True}
 
-            max_retries = 8
-            data = None
+            max_retries = 12
+            last_error = None
+
             for attempt in range(max_retries):
                 try:
+                    # ---- client-side rate limiting (~20 req/min) ----
+                    now = time.time()
+                    wait_s = self._min_openrouter_interval_s - (now - self._last_openrouter_call_ts)
+                    if wait_s > 0:
+                        time.sleep(wait_s)
+
                     resp = requests.post(
                         self.openrouter_url,
                         headers=headers,
                         data=json.dumps(payload),
-                        timeout=120,
+                        timeout=180,
                     )
+                    self._last_openrouter_call_ts = time.time()
 
-                    # Rate limit: respect Retry-After if present
+                    # 429 rate limited: respect Retry-After if present
                     if resp.status_code == 429:
                         retry_after = resp.headers.get("Retry-After")
                         if retry_after is not None:
-                            sleep_s = float(retry_after)
+                            try:
+                                sleep_s = float(retry_after)
+                            except ValueError:
+                                sleep_s = min(120, (2 ** attempt) + random.uniform(0, 1.5))
                         else:
-                            sleep_s = min(60, 2 ** attempt)
+                            sleep_s = min(120, (2 ** attempt) + random.uniform(0, 1.5))
                         logger.warning(f"OpenRouter retry {attempt + 1}/{max_retries} after 429, sleeping {sleep_s:.1f}s")
                         time.sleep(sleep_s)
                         continue
 
-                    # Retry transient server errors
+                    # transient server errors
                     if 500 <= resp.status_code < 600:
-                        sleep_s = min(60, 2 ** attempt)
-                        logger.warning(f"OpenRouter server error {resp.status_code}, retry {attempt + 1}/{max_retries} in {sleep_s:.1f}s")
+                        sleep_s = min(120, (2 ** attempt) + random.uniform(0, 1.5))
+                        logger.warning(f"OpenRouter retry {attempt + 1}/{max_retries} after {resp.status_code}, sleeping {sleep_s:.1f}s")
                         time.sleep(sleep_s)
                         continue
 
                     resp.raise_for_status()
-                    data = resp.json()
-                    break
 
-                except requests.RequestException as error:
+                    data = resp.json()
+
+                    usage = data.get("usage", {})
+                    self.prompt_tokens += usage.get("prompt_tokens", 0)
+                    self.completion_tokens += usage.get("completion_tokens", 0)
+
+                    choices = data.get("choices", [])
+                    if not choices:
+                        raise ValueError("OpenRouter response missing choices")
+
+                    message = choices[0].get("message", {})
+                    content = message.get("content", "")
+
+                    # Some providers return content as list of blocks
+                    if isinstance(content, list):
+                        content = "".join(
+                            block.get("text", "")
+                            for block in content
+                            if isinstance(block, dict)
+                        )
+
+                    content = str(content).strip()
+                    if not content:
+                        return "Insufficient evidence [1]."
+
+                    return content
+
+                except (requests.RequestException, ValueError, json.JSONDecodeError) as e:
+                    last_error = e
                     if attempt < max_retries - 1:
-                        sleep_s = min(60, 2 ** attempt)
-                        logger.warning(f"OpenRouter request retry {attempt + 1}/{max_retries} ({error}); sleeping {sleep_s:.1f}s")
+                        sleep_s = min(120, (2 ** attempt) + random.uniform(0, 1.5))
+                        logger.warning(
+                            f"OpenRouter request error attempt {attempt + 1}/{max_retries}: {e}; sleeping {sleep_s:.1f}s"
+                        )
                         time.sleep(sleep_s)
                         continue
-                    raise
+                    break
 
-            if data is None:
-                logger.error("OpenRouter retries exhausted; returning empty output.")
-                return ""
+            logger.error(f"OpenRouter retries exhausted; returning fallback output. Last error: {last_error}")
+            return "Insufficient evidence due to API rate limits [1]."
 
-            usage = data.get("usage", {})
-            self.prompt_tokens += usage.get("prompt_tokens", 0)
-            self.completion_tokens += usage.get("completion_tokens", 0)
-
-            message = data["choices"][0]["message"]
-            content = message.get("content", "")
-
-            # Some providers may return content blocks
-            if isinstance(content, list):
-                content = "".join(
-                    block.get("text", "")
-                    for block in content
-                    if isinstance(block, dict)
-                )
-
-            return str(content).strip()
-
-        # -------- OpenAI path --------
+        # ---------------------------
+        # OpenAI API path
+        # ---------------------------
         if args.openai_api:
             use_chat_api = ("turbo" in args.model and not args.azure) or ("gpt-4" in args.model and args.azure)
             if use_chat_api:
@@ -225,9 +254,11 @@ class LLM:
                             continue
                         print(error)
                         import pdb; pdb.set_trace()
+
                 self.prompt_tokens += response['usage']['prompt_tokens']
                 self.completion_tokens += response['usage']['completion_tokens']
                 return response['choices'][0]['message']['content']
+
             else:
                 is_ok = False
                 retry_count = 0
@@ -253,20 +284,29 @@ class LLM:
                             continue
                         print(error)
                         import pdb; pdb.set_trace()
+
                 self.prompt_tokens += response['usage']['prompt_tokens']
                 self.completion_tokens += response['usage']['completion_tokens']
                 return response['choices'][0]['text']
 
-        # -------- Local model path --------
+        # ---------------------------
+        # Local HuggingFace model path
+        # ---------------------------
         inputs = self.tokenizer([prompt], return_tensors="pt").to(self.model.device)
         stop = [] if stop is None else stop
-        stop = list(set(stop + ["\n", "Ċ", "ĊĊ", "<0x0A>"]))
-        stop_token_ids = list(set([self.tokenizer._convert_token_to_id(stop_token) for stop_token in stop] + [self.model.config.eos_token_id]))
-        if "llama" in args.model.lower():
+        stop = list(set(stop + ["\n", "Ċ", "ĊĊ", "<0x0A>"]))  # In Llama \n is <0x0A>; in OPT \n is Ċ
+        stop_token_ids = list(set(
+            [self.tokenizer._convert_token_to_id(stop_token) for stop_token in stop] +
+            [self.model.config.eos_token_id]
+        ))
+        if "llama" in args.model.lower() and self.tokenizer.unk_token_id in stop_token_ids:
             stop_token_ids.remove(self.tokenizer.unk_token_id)
+
         outputs = self.model.generate(
             **inputs,
-            do_sample=True, temperature=args.temperature, top_p=args.top_p,
+            do_sample=True,
+            temperature=args.temperature,
+            top_p=args.top_p,
             max_new_tokens=max_tokens,
             num_return_sequences=1,
             eos_token_id=stop_token_ids
