@@ -25,17 +25,14 @@ DEFAULT_INSTRUCTION = (
     "Use at least one citation per sentence and at most three citations per sentence."
 )
 
+def has_too_many_citations(answer: str, max_citations: int = 3) -> bool:
+    return len(re.findall(r"\[\d+\]", answer)) > max_citations
 
 def normalize_answer_text(
     text: str, ctxs: Optional[List[Dict[str, Any]]] = None, docs: Optional[List[Dict[str, Any]]] = None
 ) -> str:
-    """
-    Remaps [k] citations to match document order in `docs`.
-    Prefer position-based mapping via ``source_idx`` on each doc (correct when titles repeat).
-    Falls back to legacy title matching if ``source_idx`` is absent.
-    """
     if ctxs is None or docs is None:
-        return re.sub(r"\[\d+\]", "", text).replace("  ", " ").strip()
+        return re.sub(r"\[\d+\]", "[NA]", text).replace("  ", " ").strip()
 
     if docs and isinstance(docs[0], dict) and "source_idx" in docs[0]:
         index_map: Dict[int, int] = {}
@@ -47,11 +44,11 @@ def normalize_answer_text(
         def remap(match: re.Match) -> str:
             old_idx = int(match.group(1))
             new_idx = index_map.get(old_idx)
-            return f"[{new_idx}]" if new_idx is not None else ""
+            return f"[{new_idx}]" if new_idx is not None else "[NA]"
 
         return re.sub(r"\[(\d+)\]", remap, text).replace("  ", " ").strip()
 
-    # Legacy: match by title (wrong if duplicate titles in one paper).
+    # Legacy: match by title
     original_titles = [str(c.get("title", "")).strip() or "Untitled" for c in ctxs]
     new_titles = [d["title"] for d in docs]
 
@@ -64,7 +61,7 @@ def normalize_answer_text(
     def remap(match: re.Match) -> str:
         old_idx = int(match.group(1))
         new_idx = index_map.get(old_idx)
-        return f"[{new_idx}]" if new_idx is not None else ""
+        return f"[{new_idx}]" if new_idx is not None else "[NA]"
 
     return re.sub(r"\[(\d+)\]", remap, text).replace("  ", " ").strip()
 
@@ -355,6 +352,8 @@ def main() -> None:
             gtr_model=gtr_model,
         )
         if not item["question"] or not item["answer"] or len(item["docs"]) == 0:
+            continue
+        if has_too_many_citations(item["answer"]):
             continue
         items.append(item)
 
