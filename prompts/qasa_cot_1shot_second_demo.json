@@ -8,37 +8,47 @@
     {
       "question": "How does the use of shortcut connections in this paper compare to previous practices and theories, such as those used in MLPs and highway networks?",
       "answer": [
-        "Passage [5]: Medium relevance - Introduces residual blocks built from identity shortcuts that perform identity mapping with no extra parameters or added computational complexity, framing how this paper defines shortcuts before contrasting with older work.\nPassage [11]: High relevance - Surveys prior shortcut-connection practices tied to MLPs and deeper nets (linear skips to outputs, auxiliary classifiers, layering tricks), which directly addresses how earlier theory and practice used shortcuts differently from this formulation.\nPassage [12]: High relevance - Contrasts highway networks\u2019 gated, parameterized shortcuts with this paper\u2019s identity shortcuts that always carry information and learn residual functions, spelling out the highway comparison asked in the question.\nPassage [36]: Low relevance - Reports ablations on shortcut variants on CIFAR (\u2264100 layers); useful for residual vs projection design but peripheral to historical MLP vs highway narratives.\nPassage [38]: Medium relevance - Stresses efficiency of identity shortcuts for bottleneck architectures; reinforces the parameter-free shortcut story that supports claims cited to [11] but is secondary to the explicit MLP/highway comparisons.\n\nMost critical documents (most to least): [11], [12], [5].",
-        "The shortcut connections presented in this paper are parameter free and always learn residual functions [11]. All information is always passed through additional residual functions to be learned [12]."
+        "Passage [1]: Medium relevance - Introduces residual blocks built from identity shortcuts that perform identity mapping with no extra parameters or added computational complexity, framing how this paper defines shortcuts before contrasting with older work.\nPassage [2]: High relevance - Surveys prior shortcut-connection practices tied to MLPs and deeper nets (linear skips to outputs, auxiliary classifiers, layering tricks), which directly addresses how earlier theory and practice used shortcuts differently from this formulation.\nPassage [3]: High relevance - Contrasts highway networks\u2019 gated, parameterized shortcuts with this paper\u2019s identity shortcuts that always carry information and learn residual functions, spelling out the highway comparison asked in the question.\nPassage [4]: Low relevance - Reports ablations on shortcut variants on CIFAR (\u2264100 layers); useful for residual vs projection design but peripheral to historical MLP vs highway narratives.\nPassage [5]: Medium relevance - Stresses efficiency of identity shortcuts for bottleneck architectures; reinforces the parameter-free shortcut story that supports claims cited to [2] but is secondary to the explicit MLP/highway comparisons.\n\nMost critical documents (most to least): [2], [3], [1].",
+        "The shortcut connections presented in this paper are parameter free and always learn residual functions [2]. All information is always passed through additional residual functions to be learned [3]."
       ],
       "docs": [
         {
           "id": "1512.03385_all_5",
+          "id_suffix": "1",
           "text": " The formulation of \u2131\u200b(\ud835\udc31)+\ud835\udc31\u2131\ud835\udc31\ud835\udc31\\mathcal{F}(\\mathbf{x})+\\mathbf{x} can be realized by feedforward neural networks with \u201cshortcut connections\u201d (Fig.\u00a02). Shortcut connections (2, 34, 49) are those skipping one or more layers. In our case, the shortcut connections simply perform identity mapping, and their outputs are added to the outputs of the stacked layers (Fig.\u00a02). Identity shortcut connections add neither extra parameter nor computational complexity. The entire network can still be trained end-to-end by SGD with backpropagation, and can be easily implemented using common libraries (e.g., Caffe ) without modifying the solvers. ",
           "title": "Deep Residual Learning for Image Recognition"
         },
         {
           "id": "1512.03385_all_11",
+          "id_suffix": "2",
           "text": " Shortcut Connections. Practices and theories that lead to shortcut connections (2, 34, 49) have been studied for a long time. An early practice of training multi-layer perceptrons (MLPs) is to add a linear layer connected from the network input to the output (34, 49). In (44, 24), a few intermediate layers are directly connected to auxiliary classifiers for addressing vanishing/exploding gradients. The papers of (39, 38, 31, 47) propose methods for centering layer responses, gradients, and propagated errors, implemented by shortcut connections. In , an \u201cinception\u201d layer is composed of a shortcut branch and a few deeper branches. ",
           "title": "Deep Residual Learning for Image Recognition"
         },
         {
           "id": "1512.03385_all_12",
+          "id_suffix": "3",
           "text": " Concurrent with our work, \u201chighway networks\u201d (42, 43) present shortcut connections with gating functions . These gates are data-dependent and have parameters, in contrast to our identity shortcuts that are parameter-free. When a gated shortcut is \u201cclosed\u201d (approaching zero), the layers in highway networks represent non-residual functions. On the contrary, our formulation always learns residual functions; our identity shortcuts are never closed, and all information is always passed through, with additional residual functions to be learned. In addition, highway networks have not demonstrated accuracy gains with extremely increased depth (e.g., over 100 layers). ",
           "title": "Deep Residual Learning for Image Recognition"
         },
         {
           "id": "1512.03385_all_36",
+          "id_suffix": "4",
           "text": " Table\u00a03 shows that all three options are considerably better than the plain counterpart. B is slightly better than A. We argue that this is because the zero-padded dimensions in A indeed have no residual learning. C is marginally better than B, and we attribute this to the extra parameters introduced by many (thirteen) projection shortcuts. But the small differences among A/B/C indicate that projection shortcuts are not essential for addressing the degradation problem. So we do not use option C in the rest of this paper, to reduce memory/time complexity and model sizes. Identity shortcuts are particularly important for not increasing the complexity of the bottleneck architectures that are introduced below. ",
           "title": "Deep Residual Learning for Image Recognition"
         },
         {
-          "id": "1512.03385_all_38",
+          "id": "1512.03385_all_38",  
+          "id_suffix": "5",
           "text": " The parameter-free identity shortcuts are particularly important for the bottleneck architectures. If the identity shortcut in Fig.\u00a05 (right) is replaced with projection, one can show that the time complexity and model size are doubled, as the shortcut is connected to the two high-dimensional ends. So identity shortcuts lead to more efficient models for the bottleneck designs. ",
           "title": "Deep Residual Learning for Image Recognition"
         }
       ]
     }
+    
+  ],
+  "gold_ctxs": [
+    "1",
+    "2"
   ],
   "instructions": [
     "Instruction: You are given a question and a list of passages from their respective documents that may be helpful in answering that question. Before generating an answer, first reason through the passages. For each passage, identify its document, and briefly note whether it is relevant to the question and why. Then identify which 2-3 passages are most critical to answer the question in order of relevance. Format this as: \"Passage [ID]: {RELEVANCE} - {REASON}\".",
