@@ -2,7 +2,7 @@
 prompt_file: data/qasa_prompt.json
 eval_file: data/qasa_eval.json
 shot: 2
-ndoc: 5
+ndoc: 3
 dataset_name: qasa
 tag: openrouter
 model: google/gemma-4-31b-it:free
