@@ -347,6 +347,16 @@ def main():
     # - docs: the documents, each of which contains "title", "text"
     parser.add_argument("--eval_file", type=str, help="Path to the eval file")
     parser.add_argument("--quick_test", type=int, default=None, help="Quickly test a few examples")
+    parser.add_argument(
+        "--quick_test_indices_file",
+        type=str,
+        default=None,
+        help=(
+            "JSON with {\"indices\": [0-based row ids into eval_file]} or a bare JSON list. "
+            "Used only when --quick_test is also set; must equal len(indices). "
+            "QASA configs point at configs/qasa_eval_quick200_seed42_indices.json for a shared 200-example dev set."
+        ),
+    )
 
     # ICL setting
     parser.add_argument("--ndoc", type=int, help="Number of documents")
@@ -420,9 +430,47 @@ def main():
     # Generate prompts
     np.random.seed(args.seed)
 
-    # Load data
-    prompt_data = json.load(open(args.prompt_file))
+    # Load eval first so subsampling runs before any other np.random draws (e.g. ICL demos).
+    # Prefer --quick_test_indices_file (see configs/qasa_eval_quick200_seed42_indices.json) so
+    # every QASA run uses the same rows; otherwise --quick_test uses Generator(seed) only.
     eval_data = json.load(open(args.eval_file))
+    if args.quick_test_indices_file and args.quick_test is None:
+        logger.info(
+            "quick_test_indices_file=%s ignored (--quick_test not set); using full eval.",
+            args.quick_test_indices_file,
+        )
+    if args.quick_test_indices_file and args.quick_test is not None:
+        spec = json.load(open(args.quick_test_indices_file))
+        indices = spec["indices"] if isinstance(spec, dict) else spec
+        if not isinstance(indices, list) or not indices:
+            raise ValueError(
+                f"{args.quick_test_indices_file}: expected a non-empty JSON list or object with key 'indices'"
+            )
+        indices = [int(i) for i in indices]
+        if isinstance(spec, dict) and spec.get("eval_file"):
+            if os.path.normpath(spec["eval_file"]) != os.path.normpath(args.eval_file):
+                logger.warning(
+                    "quick_test_indices_file eval_file %s differs from --eval_file %s (using args.eval_file as pool)",
+                    spec["eval_file"],
+                    args.eval_file,
+                )
+        n_eval = len(eval_data)
+        for i in indices:
+            if i < 0 or i >= n_eval:
+                raise ValueError(
+                    f"quick_test index {i} out of range for eval pool (len={n_eval}): {args.quick_test_indices_file}"
+                )
+        if args.quick_test != len(indices):
+            raise ValueError(
+                f"--quick_test {args.quick_test} must equal len(indices)={len(indices)} when using --quick_test_indices_file"
+            )
+        eval_data = [eval_data[i] for i in indices]
+    elif args.quick_test is not None:
+        rng_eval = np.random.default_rng(args.seed)
+        eval_ids = rng_eval.choice(len(eval_data), args.quick_test, replace=False)
+        eval_data = [eval_data[int(idx)] for idx in eval_ids]
+
+    prompt_data = json.load(open(args.prompt_file))
 
     instructions = normalize_instructions(prompt_data)
     if args.interactive and len(instructions) > 1:
@@ -455,11 +503,6 @@ def main():
             cot_demo_inner_sep=cot_demo_inner_sep,
         )
         head_prompt += prompt_data["demo_sep"]
-
-    # Sample quick test
-    if args.quick_test is not None:
-        eval_ids = np.random.choice(len(eval_data), args.quick_test, replace=False)
-        eval_data = [eval_data[int(idx)] for idx in eval_ids]
 
     logger.info("Generating prompts...") 
     incomplete_doc_list = 0 # For some questions there might be fewer than ndoc documents

@@ -1,0 +1,25 @@
+# Two-round CoT: same templates as prompts/qasa_cot_1shot_second_demo.json (relevance pass,
+# then long cited answer). Eval rows come from data/qasa_eval.json; run.py does not strip
+# id, id_suffix, or gold_ctxs — doc headers use id_suffix when set (GTR retrieval rank).
+#
+# This prompt file defines only ONE in-context demo; use shot: 1 (shot > 1 will error).
+# For multi-shot + same Passage/Document style, use prompts/qasa_cot.json (multiple demos).
+---
+prompt_file: prompts/qasa_cot_1shot_second_demo.json
+eval_file: data/qasa_eval.json
+quick_test: 200
+quick_test_indices_file: configs/qasa_eval_quick200_seed42_indices.json
+shot: 1
+ndoc: 3
+dataset_name: qasa
+tag: cot_1shot_second_demo_eval
+model: meta-llama/llama-3.3-70b-instruct:free
+openai_api: false
+openrouter_api: true
+openrouter_reasoning: false
+temperature: 0.5
+top_p: 1.0
+max_new_tokens: 768
+max_length: 8192
+num_samples: 1
+seed: 42
