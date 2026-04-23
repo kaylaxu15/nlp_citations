@@ -28,23 +28,42 @@ DEFAULT_INSTRUCTION = (
 def has_too_many_citations(answer: str, max_citations: int = 3) -> bool:
     return len(re.findall(r"\[\d+\]", answer)) > max_citations
 
+
 def normalize_answer_text(
     text: str, ctxs: Optional[List[Dict[str, Any]]] = None, docs: Optional[List[Dict[str, Any]]] = None
 ) -> str:
+    """
+    Remap [k] citations to 1..len(docs) in **display order**.
+    QASA references may use either (a) 1-based index into full ctxs ``source_idx`` space,
+    or (b) passage id suffix (e.g. ``..._all_12`` → ``12``). Try source_idx first, then suffix.
+    """
     if ctxs is None or docs is None:
         return re.sub(r"\[\d+\]", "[NA]", text).replace("  ", " ").strip()
 
     if docs and isinstance(docs[0], dict) and "source_idx" in docs[0]:
-        index_map: Dict[int, int] = {}
+        by_source_idx: Dict[int, int] = {}
+        by_suffix: Dict[str, int] = {}
         for new_i, doc in enumerate(docs, start=1):
             si = doc.get("source_idx")
             if si is not None:
-                index_map[int(si)] = new_i
+                by_source_idx[int(si)] = new_i
+            suf = doc.get("id_suffix")
+            if suf is not None and str(suf).strip():
+                by_suffix[str(suf).strip()] = new_i
 
         def remap(match: re.Match) -> str:
-            old_idx = int(match.group(1))
-            new_idx = index_map.get(old_idx)
-            return f"[{new_idx}]" if new_idx is not None else "[NA]"
+            raw = match.group(1)
+            old_idx = int(raw)
+            new_idx = by_source_idx.get(old_idx)
+            if new_idx is not None:
+                return f"[{new_idx}]"
+            new_idx = by_suffix.get(str(old_idx))
+            if new_idx is not None:
+                return f"[{new_idx}]"
+            new_idx = by_suffix.get(raw)
+            if new_idx is not None:
+                return f"[{new_idx}]"
+            return "[NA]"
 
         return re.sub(r"\[(\d+)\]", remap, text).replace("  ", " ").strip()
 
@@ -64,6 +83,80 @@ def normalize_answer_text(
         return f"[{new_idx}]" if new_idx is not None else "[NA]"
 
     return re.sub(r"\[(\d+)\]", remap, text).replace("  ", " ").strip()
+
+
+def _doc_row_from_cleaned(c: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "title": c["title"],
+        "text": c["text"],
+        "source_idx": c["source_idx"],
+        "id": c["id"],
+        "id_suffix": c["id_suffix"],
+        "is_gold": c["is_gold"],
+    }
+
+
+def _pad_docs_to_k(cur: List[Dict[str, Any]], cleaned: List[Dict[str, Any]], k: int) -> None:
+    """Append unused passages from ``cleaned`` until ``cur`` has length ``k`` (small paper / short rank)."""
+    present = {d["source_idx"] for d in cur}
+    for c in cleaned:
+        if len(cur) >= k:
+            return
+        if c["source_idx"] not in present:
+            cur.append(_doc_row_from_cleaned(c))
+            present.add(c["source_idx"])
+
+
+def ensure_gold_passages_in_topk(
+    docs: List[Dict[str, Any]],
+    cleaned: List[Dict[str, Any]],
+    k: int,
+) -> List[Dict[str, Any]]:
+    """
+    After dense retrieval, gold passages cited in ``gold_ctxs`` may fall outside the top-k.
+    Swap in any missing gold passages by evicting non-gold from the tail (worst-ranked slots).
+    Keeps list length at most k.
+    """
+    if not docs or k <= 0:
+        return docs
+
+    gold_rows = [c for c in cleaned if c["is_gold"]]
+    if not gold_rows:
+        out = [dict(d) for d in docs[:k]]
+        _pad_docs_to_k(out, cleaned, k)
+        return out
+
+    cur: List[Dict[str, Any]] = [dict(d) for d in docs[:k]]
+    _pad_docs_to_k(cur, cleaned, k)
+    present = {d["source_idx"] for d in cur}
+
+    def add_missing(g: Dict[str, Any]) -> None:
+        nonlocal cur, present
+        row = _doc_row_from_cleaned(g)
+        if row["source_idx"] in present:
+            return
+        if len(cur) < k:
+            cur.append(row)
+            present.add(row["source_idx"])
+            return
+        for j in range(len(cur) - 1, -1, -1):
+            if not cur[j].get("is_gold", False):
+                old_sid = cur[j]["source_idx"]
+                cur[j] = row
+                present.discard(old_sid)
+                present.add(row["source_idx"])
+                return
+
+    for g in gold_rows:
+        add_missing(g)
+
+    return cur[:k]
+
+
+def apply_display_rank_suffixes(docs: List[Dict[str, Any]]) -> None:
+    """Set ``id_suffix`` to 1..n (display/citation rank); keep stable ``id`` unchanged."""
+    for i, d in enumerate(docs, start=1):
+        d["id_suffix"] = str(i)
 
 
 def token_len(tokenizer, text: str) -> int:
@@ -132,7 +225,7 @@ def rank_select_topk(
 ) -> List[Dict[str, Any]]:
     """Sort all passages by relevance to ``question``; keep the top-``topk`` (with metadata)."""
     if len(cleaned) <= topk:
-        return cleaned
+        return [_doc_row_from_cleaned(c) for c in cleaned]
 
     chunks = [{"title": c["title"], "text": c["text"]} for c in cleaned]
 
@@ -145,7 +238,7 @@ def rank_select_topk(
     else:
         raise ValueError(f"Unknown ranker: {ranker}")
 
-    return [cleaned[i] for i in order[:topk]]
+    return [_doc_row_from_cleaned(cleaned[i]) for i in order[:topk]]
 
 
 def build_docs_ordered(
@@ -165,16 +258,7 @@ def build_docs_ordered(
         ordered = cleaned
 
     selected = ordered[:ndoc_total]
-    return [
-        {
-            "title": c["title"],
-            "text": c["text"],
-            "source_idx": c["source_idx"],
-            "id": c["id"],
-            "id_suffix": c["id_suffix"],
-        }
-        for c in selected
-    ]
+    return [_doc_row_from_cleaned(c) for c in selected]
 
 
 def build_item(
@@ -191,6 +275,7 @@ def build_item(
     gtr_model_name: str,
     gtr_device: Optional[str],
     gtr_model=None,
+    ensure_gold_in_topk: bool = True,
 ) -> Dict[str, Any]:
     question = str(row.get("input", "")).strip()
     raw_ctxs = row.get("ctxs") or []
@@ -216,11 +301,16 @@ def build_item(
             put_gold_first,
         )
 
+    if ensure_gold_in_topk:
+        docs_full = ensure_gold_passages_in_topk(docs_full, cleaned, ndoc_total)
+
     answer = normalize_answer_text(
         str(row.get("answer", "")).strip(),
         ctxs=raw_ctxs,
         docs=docs_full,
     )
+
+    apply_display_rank_suffixes(docs_full)
 
     docs_out = strip_internal_doc_fields(docs_full)
 
@@ -254,15 +344,36 @@ def main() -> None:
     parser.add_argument("--split", type=str, default="test")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--num_demos", type=int, default=8)
-    parser.add_argument("--max_eval_examples", type=int, default=None)
+    parser.add_argument(
+        "--max_eval_examples",
+        type=int,
+        default=None,
+        help=(
+            "Cap eval JSON size (non-eval_only: keeps first num_demos shuffle slots for demos). "
+            "Also stops scanning the HF split early once enough valid rows are collected "
+            "(num_demos + max_eval_examples in prompt+eval mode; max_eval_examples in --eval_only)."
+        ),
+    )
 
     parser.add_argument(
         "--topk",
         type=int,
-        default=5,
-        help="How many passages to keep per example after ranking (same role as former ndoc_total).",
+        default=3,
+        help="How many passages to keep per example after ranking (same role as former ndoc_total). Default 3.",
     )
     parser.add_argument("--ndoc_total", type=int, default=None, help="Alias for --topk (backward compat).")
+    parser.add_argument(
+        "--max_gold_ctxs",
+        type=int,
+        default=3,
+        help="Skip HF rows whose gold_ctxs list has more than this many passage ids (default 3).",
+    )
+    parser.add_argument(
+        "--ensure_gold_in_topk",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="After ranking, swap in missing gold passages by dropping non-gold tail slots (default: on).",
+    )
     parser.add_argument("--doc_token_budget", type=int, default=320, help="Reserved for future truncation.")
     parser.add_argument("--max_tokens_per_doc", type=int, default=140, help="Reserved for future truncation.")
     parser.add_argument("--tokenizer_name", type=str, default="gpt2")
@@ -335,8 +446,18 @@ def main() -> None:
         print(f"Loading GTR encoder {args.gtr_model} on {dev}...")
         gtr_model = SentenceTransformer(args.gtr_model, device=dev)
 
+    collect_cap: Optional[int] = None
+    if args.eval_only:
+        if args.max_eval_examples is not None:
+            collect_cap = args.max_eval_examples
+    elif args.max_eval_examples is not None:
+        collect_cap = args.num_demos + args.max_eval_examples
+
     items = []
     for row in dataset:
+        gcs = row.get("gold_ctxs") or []
+        if len(gcs) > args.max_gold_ctxs:
+            continue
         item = build_item(
             row=row,
             ndoc_total=topk,
@@ -350,12 +471,19 @@ def main() -> None:
             gtr_model_name=args.gtr_model,
             gtr_device=args.gtr_device,
             gtr_model=gtr_model,
+            ensure_gold_in_topk=args.ensure_gold_in_topk,
         )
         if not item["question"] or not item["answer"] or len(item["docs"]) == 0:
             continue
         if has_too_many_citations(item["answer"]):
             continue
         items.append(item)
+        if collect_cap is not None and len(items) >= collect_cap:
+            print(
+                f"Reached --max_eval_examples pipeline cap ({collect_cap} valid rows); stopping HF scan early.",
+                file=sys.stderr,
+            )
+            break
 
     if args.eval_only:
         n_eval = args.max_eval_examples if args.max_eval_examples is not None else 10
@@ -367,7 +495,14 @@ def main() -> None:
         eval_data = items[:n_eval]
         demos = []
     else:
-        if len(items) <= args.num_demos:
+        if args.max_eval_examples is not None:
+            needed = args.num_demos + args.max_eval_examples
+            if len(items) < needed:
+                raise ValueError(
+                    f"--max_eval_examples={args.max_eval_examples} requires at least "
+                    f"{needed} valid items (num_demos={args.num_demos} + eval cap), found {len(items)}."
+                )
+        elif len(items) <= args.num_demos:
             raise ValueError(f"Need more than {args.num_demos} valid items, found {len(items)}")
 
         rng.shuffle(items)
