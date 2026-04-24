@@ -8,7 +8,7 @@ shot: 2
 ndoc: 3
 dataset_name: qasa
 tag: openrouter
-model: meta-llama/llama-3.3-70b-instruct:free
+model: meta-llama/llama-3.3-70b-instruct
 openai_api: false
 openrouter_api: true
 openrouter_reasoning: false
