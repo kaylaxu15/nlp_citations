@@ -11,4 +11,4 @@ model: google/gemma-4-26b-a4b-it
 openai_api: false
 openrouter_api: true
 openrouter_reasoning: false
-max_new_tokens: 768
+max_new_tokens: 500
