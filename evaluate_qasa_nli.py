@@ -10,7 +10,7 @@ from transformers import pipeline
 # -----------------------------
 # CONFIG
 # -----------------------------
-RESULTS_DIR = "results"
+RESULTS_DIR = "/content/drive/MyDrive/results"
 
 # -----------------------------
 # LOAD NLI MODEL
@@ -137,7 +137,8 @@ def main():
         path = os.path.join(RESULTS_DIR, filename)
 
         with open(path) as f:
-            data = json.load(f)
+            raw = json.load(f)
+            data = raw["data"] if isinstance(raw, dict) else raw
 
         print(f"\nEvaluating {filename}...")
 
@@ -146,7 +147,7 @@ def main():
 
         print(scores)
 
-    with open("citation_scores.json", "w") as f:
+    with open("/content/drive/MyDrive/citation_scores.json", "w") as f:
         json.dump(results, f, indent=2)
 
     print("\nSaved to citation_scores.json")
