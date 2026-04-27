@@ -17,7 +17,7 @@ RESULTS_DIR = "/content/drive/MyDrive/results"
 # -----------------------------
 nli = pipeline(
     "text-classification",
-    model="microsoft/deberta-v3-large-mnli",
+    model="cross-encoder/nli-deberta-v3-large",
     device=0
 )
 
