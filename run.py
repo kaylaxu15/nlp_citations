@@ -390,7 +390,7 @@ def main():
     parser.add_argument(
         "--max_new_tokens",
         type=int,
-        default=768,
+        default=500,
         help="Max new tokens for single-shot runs. For CoT, round 1 defaults to this unless --max_new_tokens_round1 is set.",
     )
     parser.add_argument(

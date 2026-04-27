@@ -12,4 +12,4 @@ model: meta-llama/llama-3.3-70b-instruct
 openai_api: false
 openrouter_api: true
 openrouter_reasoning: false
-max_new_tokens: 768
+max_new_tokens: 500
