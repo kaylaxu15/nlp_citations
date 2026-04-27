@@ -143,6 +143,12 @@ def _coerce_instruction_list(instruction):
 
 def _make_demo_single(item, prompt, ndoc, doc_prompt, inst_text, use_shorter, test):
     prompt = prompt.replace("{INST}", inst_text).replace("{Q}", item["question"])
+    if "{GOLD}" in prompt:
+        g = item.get("gold_answer")
+        if g is None:
+            g = item.get("answer", "")
+        g = g if isinstance(g, str) else ""
+        prompt = prompt.replace("{GOLD}", g)
     if "{D}" in prompt:
         if ndoc == 0:
             prompt = prompt.replace("{D}\n", "")
@@ -165,6 +171,12 @@ def _apply_demo_template(
 ):
     """Fill {INST},{Q},{D},{A}; optionally {COT} when cot_text is set."""
     prompt = template.replace("{INST}", inst_text).replace("{Q}", item["question"])
+    if "{GOLD}" in prompt:
+        g = item.get("gold_answer")
+        if g is None:
+            g = item.get("answer", "")
+        g = g if isinstance(g, str) else ""
+        prompt = prompt.replace("{GOLD}", g)
     if "{D}" in prompt:
         if ndoc == 0:
             prompt = prompt.replace("{D}\n", "")

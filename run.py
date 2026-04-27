@@ -439,6 +439,16 @@ def main():
             "Default is off (smaller files); prompts are still constructed and sent to the model during the run."
         ),
     )
+    parser.add_argument(
+        "--extracted_json",
+        type=str,
+        default=None,
+        help=(
+            "If set, after the main save, write a slim JSON array to this path: each object has "
+            "question, gold_answer (eval answer field), subclaims_output (model output), and any of "
+            "id, gold_ctxs present on the row. Omits docs, prompts, and other heavy fields."
+        ),
+    )
 
     # Load config
     args = parser.parse_args()
@@ -865,6 +875,30 @@ def main():
     if not os.path.exists("result"):
         os.makedirs("result")
     json.dump(eval_data, open("result/" + name + ".json", "w"), indent=4)
+
+    if args.extracted_json:
+        slim = []
+        for r in result_rows:
+            if not isinstance(r, dict):
+                continue
+            row = {
+                "question": r.get("question"),
+                "gold_answer": r.get("answer"),
+                "subclaims_output": r.get("output"),
+            }
+            if r.get("cot_output") is not None:
+                row["cot_output"] = r.get("cot_output")
+            for k in ("id", "gold_ctxs"):
+                if r.get(k) is not None:
+                    row[k] = r[k]
+            slim.append(row)
+        out_path = args.extracted_json
+        parent = os.path.dirname(os.path.abspath(out_path))
+        if parent:
+            os.makedirs(parent, exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(slim, f, indent=2, ensure_ascii=False)
+        logger.info("Wrote extracted %d rows to %s", len(slim), out_path)
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,27 @@
+# Subclaim generation over data/gold_questions.json via OpenRouter (openai/gpt-5.4-mini).
+# Prompt: prompts/gpt5.4_mini_subclaim_gen.json — uses {GOLD} from each row's gold answer
+# (item["gold_answer"] if set, else item["answer"]) so eval rows need not duplicate text in question.
+#
+# Run:
+#   .venv/bin/python run.py --config configs/gold_subclaims_gpt54_mini_openrouter.yaml
+# Quick slice (optional): add e.g. quick_test: 50 (no indices file → random seed rows).
+#
+# extracted_json: slim list-only export (question, gold_answer, subclaims_output, …) after each run.
+---
+prompt_file: prompts/gpt5.4_mini_subclaim_gen.json
+eval_file: data/gold_questions.json
+shot: 3
+ndoc: 0
+dataset_name: gold_subclaims
+tag: gpt54_mini_openrouter
+model: openai/gpt-5.4-mini
+openai_api: false
+openrouter_api: true
+openrouter_reasoning: false
+temperature: 0.3
+top_p: 1.0
+max_new_tokens: 512
+max_length: 8192
+num_samples: 1
+seed: 42
+extracted_json: result/gold_subclaims_gpt54_mini_extracted.json

@@ -1,0 +1,22 @@
+# Two-round CoT, 1-shot demo — same as qasa_cot_1shot_second_demo_openrouter_qasa_eval.yaml but Gemma 4 26B (OpenRouter).
+---
+prompt_file: prompts/qasa_cot_1shot_second_demo.json
+eval_file: data/qasa_eval.json
+quick_test: 200
+quick_test_indices_file: configs/qasa_eval_quick200_seed42_indices.json
+shot: 1
+ndoc: 3
+dataset_name: qasa
+tag: cot_1shot_second_demo_eval_gemma26
+model: google/gemma-4-26b-a4b-it
+openai_api: false
+openrouter_api: true
+openrouter_reasoning: false
+temperature: 0.5
+top_p: 1.0
+max_new_tokens: 768
+max_new_tokens_round1: 500
+max_new_tokens_round2: 500
+max_length: 8192
+num_samples: 1
+seed: 42
