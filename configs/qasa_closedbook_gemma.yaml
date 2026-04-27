@@ -1,12 +1,12 @@
-# For the same 200 dev examples as other QASA configs: run with --quick_test 200 (indices file is applied then).
 ---
-prompt_file: data/qasa_prompt.json
-eval_file: data/qasa_eval.json
+prompt_file: data/qasa_closedbook_prompt.json
+eval_file: data/qasa_closedbook_eval.json
 quick_test_indices_file: configs/qasa_eval_quick200_seed42_indices.json
 seed: 42
 shot: 2
-ndoc: 3
+ndoc: 0
 dataset_name: qasa
+tag: openrouter
 model: google/gemma-4-26b-a4b-it
 openai_api: false
 openrouter_api: true
