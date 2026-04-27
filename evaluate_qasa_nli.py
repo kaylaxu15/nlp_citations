@@ -6,6 +6,8 @@ import numpy as np
 from tqdm import tqdm
 from nltk.tokenize import sent_tokenize
 from transformers import pipeline
+import nltk
+nltk.download('punkt_tab')
 
 # -----------------------------
 # CONFIG
@@ -26,7 +28,7 @@ nli = pipeline(
 # -----------------------------
 def run_nli(premise, hypothesis, threshold=0.5):
     result = nli(f"{premise} </s> {hypothesis}")[0]
-    return 1 if (result["label"] == "ENTAILMENT" and result["score"] >= threshold) else 0
+    return 1 if (result["label"].lower() == "entailment" and result["score"] >= threshold) else 0
 
 
 def extract_citations(sentence):
