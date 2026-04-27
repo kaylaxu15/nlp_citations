@@ -1,4 +1,4 @@
-# For the same 200 dev examples as other QASA configs: run with --quick_test 200 (indices file is applied then).
+# Same fixed row order as other QASA configs; set --quick_test N (1..200) to use the first N indices from the file.
 ---
 prompt_file: data/qasa_prompt.json
 eval_file: data/qasa_eval.json
@@ -12,3 +12,4 @@ model: meta-llama/llama-3.3-70b-instruct
 openai_api: false
 openrouter_api: true
 openrouter_reasoning: false
+max_new_tokens: 768

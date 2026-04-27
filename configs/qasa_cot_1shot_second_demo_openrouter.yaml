@@ -14,6 +14,8 @@ openrouter_reasoning: false
 temperature: 0.5
 top_p: 1.0
 max_new_tokens: 768
+max_new_tokens_round1: 500
+max_new_tokens_round2: 500
 max_length: 8192
 num_samples: 1
 seed: 42
