@@ -17,6 +17,12 @@
       "question": "How many different types of experiments are performed to test the proposed models?",
       "gold_answer": "5 different types of experiments are performed to test the proposed models [2]. They are Generalization over time scales, Experiments on MNIST, Experiments on Natural Image Patches, Out-of-domain Inputs, and Visualizing Features [3].",
       "answer": "Subclaim 1: 5 different types of experiments are performed to test the proposed models.\nSubclaim 2: Generalization over time scales, Experiments on MNIST, Experiments on Natural Image Patches, Out-of-domain Inputs, and Visualizing Features are the different types of experiments performed to test the proposed models."
+    },
+    {
+      "question": "Can the number of frames be extended to more than 16? If exists, what is the upper bound for the number of frames?",
+      "gold_answer": "They train a new masked frame interpolation and extrapolation network \u2191F , capable of increasing the number of frames of the generated video either by frame interpolation for a smoother generated video, or by pre/post frame extrapolation for extending the video length [2]. Additionally, the spatial super-resolution models enable to increase a higher (controllable) frame rate [3]. Therefore, using the extrapolation network \u2191F, it can possible to extend the video length from 16 frames to 76 frames [3].",
+      "answer": "Subclaim 1: A new masked frame interpolation and extrapolation network \u2191F can increase the number of frames of the generated video either by frame interpolation for a smoother generated video, or by pre/post frame extrapolation for extending the video length.\nSubclaim 2: The spatial super-resolution models also enable an increase in frame rate.\nSubclaim 3: The extrapolation network \u2191F can extend the video length from 16 frames to 76 frames."
+     
     }
   ],
   "instructions": [
