@@ -6,6 +6,7 @@ matches the gold_ctxs list.
 
 import json
 import random
+import numpy as np
 
 INPUT_FILE = "data/qasa_eval.json"
 OUTPUT_FILE = "gold_questions.json"
@@ -15,8 +16,9 @@ SEED = 42
 with open(INPUT_FILE) as f:
     data = json.load(f)
 
-rng = random.Random(SEED)
-sample = rng.sample(data, min(N, len(data)))
+rng_eval = np.random.default_rng(SEED)
+eval_ids = rng_eval.choice(len(data), N, replace=False)
+sample = [data[int(idx)] for idx in eval_ids]
 
 for item in sample:
     gold_suffixes = {str(g) for g in item.get("gold_ctxs", [])}
