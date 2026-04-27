@@ -4,22 +4,26 @@
 #
 # This prompt file defines only ONE in-context demo; use shot: 1 (shot > 1 will error).
 # For multi-shot + same Passage/Document style, use prompts/qasa_cot.json (multiple demos).
+# Model matches configs/qasa_openrouter_shot2_ndoc3_llama.yaml (use :free suffix on CLI if needed).
 ---
 prompt_file: prompts/qasa_cot_1shot_second_demo.json
 eval_file: data/qasa_eval.json
-quick_test: 200
+# First N rows of the fixed list in qasa_eval_quick200_seed42_indices.json (use 200 for full dev slice).
+quick_test: 10
 quick_test_indices_file: configs/qasa_eval_quick200_seed42_indices.json
 shot: 1
 ndoc: 3
 dataset_name: qasa
-tag: cot_1shot_second_demo_eval
-model: meta-llama/llama-3.3-70b-instruct:free
+tag: cot_1shot_second_demo_eval_llama
+model: meta-llama/llama-3.3-70b-instruct
 openai_api: false
 openrouter_api: true
 openrouter_reasoning: false
 temperature: 0.5
 top_p: 1.0
 max_new_tokens: 768
+max_new_tokens_round1: 500
+max_new_tokens_round2: 500
 max_length: 8192
 num_samples: 1
 seed: 42

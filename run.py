@@ -331,7 +331,8 @@ def main():
     #     - {Q}: the question
     #     - {A}: the answers
     # - doc_prompt, the prompt for each document, for example, "Document [{ID}](Title: {T}): {P}", where
-    #     - {ID}: the document id, staring from 1
+    #     - {ID}: display rank for citations (QASA id_suffix when set)
+    #     - {RAW}: optional stable passage id from eval JSON (e.g. 1512.02325_all_36)
     #     - {T}: the document title
     #     - {P}: the document text
     # - demos: a list of demo examples, each of which should have
@@ -346,15 +347,25 @@ def main():
     # - answer: the answer
     # - docs: the documents, each of which contains "title", "text"
     parser.add_argument("--eval_file", type=str, help="Path to the eval file")
-    parser.add_argument("--quick_test", type=int, default=None, help="Quickly test a few examples")
+    parser.add_argument(
+        "--quick_test",
+        type=int,
+        default=None,
+        help=(
+            "Subsample eval to this many examples. With --quick_test_indices_file, uses the first "
+            "N rows of that file's index list (N must be <= len(indices)); without it, samples N "
+            "random rows using --seed."
+        ),
+    )
     parser.add_argument(
         "--quick_test_indices_file",
         type=str,
         default=None,
         help=(
             "JSON with {\"indices\": [0-based row ids into eval_file]} or a bare JSON list. "
-            "Used only when --quick_test is also set; must equal len(indices). "
-            "QASA configs point at configs/qasa_eval_quick200_seed42_indices.json for a shared 200-example dev set."
+            "Used only when --quick_test is also set; --quick_test may be any N from 1 up to "
+            "len(indices), and the first N indices from the file are used (same prefix as a full run). "
+            "Example: configs/qasa_eval_quick200_seed42_indices.json (200 fixed dev rows)."
         ),
     )
 
@@ -376,7 +387,30 @@ def main():
     # Decoding
     parser.add_argument("--temperature", type=float, default=0.5, help="Temperature for decoding")
     parser.add_argument("--top_p", type=float, default=1.0, help="Nucleus sampling top-p")
-    parser.add_argument("--max_new_tokens", type=int, default=300, help="Max number of new tokens to generate in one step")
+    parser.add_argument(
+        "--max_new_tokens",
+        type=int,
+        default=500,
+        help="Max new tokens for single-shot runs. For CoT, round 1 defaults to this unless --max_new_tokens_round1 is set.",
+    )
+    parser.add_argument(
+        "--max_new_tokens_round1",
+        type=int,
+        default=None,
+        help=(
+            "CoT only (2+ instructions): max new tokens for the first call (relevance / prior analysis). "
+            "If unset, defaults to --max_new_tokens."
+        ),
+    )
+    parser.add_argument(
+        "--max_new_tokens_round2",
+        type=int,
+        default=None,
+        help=(
+            "CoT only (2+ instructions): max new tokens for the second call (final answer). "
+            "If unset, defaults to --max_new_tokens."
+        ),
+    )
     parser.add_argument("--max_length", type=int, default=2048, help="Max length the model can take. Should set properly wrt the model to avoid position overflow.")
     parser.add_argument("--num_samples", type=int, default=1, help="Sample multiple answers.")
 
@@ -396,6 +430,15 @@ def main():
     # for qasa openrouter
     parser.add_argument("--openrouter_api", action="store_true", default=False, help="Use OpenRouter chat completions API")
     parser.add_argument("--openrouter_reasoning", action="store_true", default=False, help="Enable OpenRouter reasoning")
+    parser.add_argument(
+        "--save_prompts",
+        action="store_true",
+        default=False,
+        help=(
+            "If set, write prompt, prompt_round2, and shared head prompts into the result JSON. "
+            "Default is off (smaller files); prompts are still constructed and sent to the model during the run."
+        ),
+    )
 
     # Load config
     args = parser.parse_args()
@@ -404,6 +447,11 @@ def main():
     args = parser.parse_args()
     for k in args.__dict__:
         print(f"{k}: {args.__dict__[k]}")
+
+    if args.max_new_tokens_round1 is None:
+        args.max_new_tokens_round1 = args.max_new_tokens
+    if args.max_new_tokens_round2 is None:
+        args.max_new_tokens_round2 = args.max_new_tokens
 
     if "turbo" in args.model:
         # ChatGPT has a longer max length
@@ -432,7 +480,7 @@ def main():
 
     # Load eval first so subsampling runs before any other np.random draws (e.g. ICL demos).
     # Prefer --quick_test_indices_file (see configs/qasa_eval_quick200_seed42_indices.json) so
-    # every QASA run uses the same rows; otherwise --quick_test uses Generator(seed) only.
+    # QASA runs share the same row order; --quick_test then takes the first N indices from that list.
     eval_data = json.load(open(args.eval_file))
     if args.quick_test_indices_file and args.quick_test is None:
         logger.info(
@@ -447,6 +495,21 @@ def main():
                 f"{args.quick_test_indices_file}: expected a non-empty JSON list or object with key 'indices'"
             )
         indices = [int(i) for i in indices]
+        n_list = len(indices)
+        if args.quick_test > n_list:
+            raise ValueError(
+                f"--quick_test {args.quick_test} cannot exceed len(indices)={n_list} in {args.quick_test_indices_file}"
+            )
+        if args.quick_test < 1:
+            raise ValueError("--quick_test must be at least 1 when using --quick_test_indices_file")
+        if args.quick_test < n_list:
+            logger.info(
+                "Using first %d of %d indices from %s",
+                args.quick_test,
+                n_list,
+                args.quick_test_indices_file,
+            )
+        indices = indices[: args.quick_test]
         if isinstance(spec, dict) and spec.get("eval_file"):
             if os.path.normpath(spec["eval_file"]) != os.path.normpath(args.eval_file):
                 logger.warning(
@@ -460,10 +523,6 @@ def main():
                 raise ValueError(
                     f"quick_test index {i} out of range for eval pool (len={n_eval}): {args.quick_test_indices_file}"
                 )
-        if args.quick_test != len(indices):
-            raise ValueError(
-                f"--quick_test {args.quick_test} must equal len(indices)={len(indices)} when using --quick_test_indices_file"
-            )
         eval_data = [eval_data[i] for i in indices]
     elif args.quick_test is not None:
         rng_eval = np.random.default_rng(args.seed)
@@ -483,6 +542,11 @@ def main():
 
     # Generate the demonstration part
     head_prompt = ""
+    # For CoT round-2 API calls only: omit each demo's round-2 block (instruction 2 + passages +
+    # prior + final answer). That block duplicates long context; many providers truncate the tail
+    # of the user message, which would drop the real eval round-2 and leave the model completing
+    # the demo's final answer instead.
+    head_prompt_round2 = ""
     train_ids = np.random.choice(len(prompt_data["demos"]), args.shot, replace=False)
     for train_id in train_ids:
         train_item = prompt_data["demos"][train_id]
@@ -502,7 +566,21 @@ def main():
             demo_prompt_round2=demo_prompt_round2,
             cot_demo_inner_sep=cot_demo_inner_sep,
         )
+        if len(instructions) > 1:
+            head_prompt_round2 += make_demo(
+                train_item,
+                prompt=prompt_data["demo_prompt"],
+                ndoc=ndoc,
+                doc_prompt=prompt_data["doc_prompt"],
+                instruction=instructions,
+                use_shorter=args.use_shorter,
+                demo_prompt_round2=demo_prompt_round2,
+                cot_demo_inner_sep=cot_demo_inner_sep,
+                cot_include_demo_round2=False,
+            )
         head_prompt += prompt_data["demo_sep"]
+        if len(instructions) > 1:
+            head_prompt_round2 += prompt_data["demo_sep"]
 
     logger.info("Generating prompts...") 
     incomplete_doc_list = 0 # For some questions there might be fewer than ndoc documents
@@ -519,6 +597,7 @@ def main():
             )
         else:
             eval_data[idx]["head_prompt"] = head_prompt
+            eval_data[idx]["head_prompt_round2"] = head_prompt_round2
             eval_data[idx]["prompt"] = head_prompt + make_demo(
                 eval_item,
                 prompt=prompt_data["demo_prompt"],
@@ -534,8 +613,13 @@ def main():
         doc_list = get_shorter_text(eval_item, eval_item["docs"], args.ndoc, args.use_shorter) if args.use_shorter is not None else eval_item["docs"][:args.ndoc]
         if not args.retrieve_in_all_docs:
             # If --retrieve_in_all_docs, we keep the original docs and do not trim them by ndoc
-            # Otherwise, take the new docs (truncated by ndoc and filtered if using summary/extraction)
-            eval_data[idx]['docs'] = doc_list
+            # Otherwise, take the new docs (truncated by ndoc and filtered if using summary/extraction).
+            # Closed-book (--ndoc 0) still omits passages from the prompt, but keep full retrieved
+            # docs in the saved JSON (id, id_suffix, text, …) for gold_ctxs / citation comparison.
+            if args.ndoc == 0:
+                eval_data[idx]["docs"] = list(eval_item["docs"])
+            else:
+                eval_data[idx]["docs"] = doc_list
         if len(doc_list) < args.ndoc:
             incomplete_doc_list += 1
     logger.info("Done.")
@@ -647,10 +731,11 @@ def main():
                 item["prompt"] = prompt
             else:
                 cot_out = llm.generate(
-                    prompt, min(args.max_new_tokens, args.max_length - prompt_len)
+                    prompt, min(args.max_new_tokens_round1, args.max_length - prompt_len)
                 )
+                cot_out = strip_cot_round1_echoed_final_answer(cot_out)
                 cot_outputs.append(cot_out)
-                prompt_r2 = item["head_prompt"] + make_demo(
+                prompt_r2 = item["head_prompt_round2"] + make_demo(
                     item,
                     prompt=prompt_data["demo_prompt"],
                     ndoc=args.ndoc,
@@ -666,7 +751,7 @@ def main():
                 prompt_len_r2 = len(llm.tokenizer.tokenize(prompt_r2))
                 final_out = llm.generate(
                     prompt_r2,
-                    min(args.max_new_tokens, args.max_length - prompt_len_r2),
+                    min(args.max_new_tokens_round2, args.max_length - prompt_len_r2),
                 )
                 output_array.append(final_out)
                 item["prompt"] = prompt
@@ -690,7 +775,25 @@ def main():
             item["cot_output"] = cot_outputs if args.num_samples > 1 else cot_outputs[0]
 
         item['output'] = output_array if len(output_array) > 1 else output_array[0]
-        
+
+        # CoT runs: bundle dataset gold passage ids with GTR display ranks (model cites [1][2][3] = rank).
+        if len(instructions) > 1:
+            docs = item.get("docs") or []
+            by_rank = []
+            for i, d in enumerate(docs):
+                if not isinstance(d, dict):
+                    continue
+                suf = d.get("id_suffix")
+                rank = str(suf).strip() if suf is not None and str(suf).strip() else str(i + 1)
+                by_rank.append({"rank": rank, "passage_id": d.get("id", "")})
+            item["cot_eval_refs"] = {
+                "gold_ctxs": list(item.get("gold_ctxs") or []),
+                "docs_by_rank": by_rank,
+            }
+
+        if item.get("gold_ctxs") is not None:
+            logger.info(f"Gold ctxs: {item['gold_ctxs']}")
+
     logger.info(f"#Cases when prompts exceed max length: {llm.prompt_exceed_max_length}")
     logger.info(f"#Cases when max new tokens < 50: {llm.fewer_than_50}")
 
@@ -712,11 +815,31 @@ def main():
     if args.force_cite_show:
         name += f"-forceciteshow"
 
-    
-    eval_data = {
-        "args": args.__dict__,
-        "data": eval_data,
-    }
+    # Shrink JSON: CoT rows share the same head_prompt (full few-shot) and head_prompt_round2
+    # (demos through round 1 only — used as prefix for the second API call).
+    # max_new_tokens_round1/2 only cap *completions*, not stored prompts.
+    result_rows = eval_data
+    save_obj: dict = {"args": args.__dict__, "data": result_rows}
+    if len(instructions) > 1 and result_rows:
+        hp0 = result_rows[0].get("head_prompt")
+        if hp0 is not None and all(r.get("head_prompt") == hp0 for r in result_rows):
+            save_obj["shared_head_prompt"] = hp0
+            for r in result_rows:
+                r.pop("head_prompt", None)
+        hp2 = result_rows[0].get("head_prompt_round2")
+        if hp2 is not None and all(r.get("head_prompt_round2") == hp2 for r in result_rows):
+            save_obj["shared_head_prompt_round2"] = hp2
+            for r in result_rows:
+                r.pop("head_prompt_round2", None)
+    if not args.save_prompts:
+        save_obj.pop("shared_head_prompt", None)
+        save_obj.pop("shared_head_prompt_round2", None)
+        for r in result_rows:
+            r.pop("prompt", None)
+            r.pop("prompt_round2", None)
+            r.pop("head_prompt", None)
+            r.pop("head_prompt_round2", None)
+    eval_data = save_obj
     if args.openai_api:
         logger.info(f"Token used: prompt {llm.prompt_tokens}; completion {llm.completion_tokens}")
         if "turbo" in args.model:

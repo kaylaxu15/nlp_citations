@@ -30,6 +30,25 @@ def remove_citations(sent):
     return re.sub(r"\[\d+", "", re.sub(r" \[\d+", "", sent)).replace(" |", "").replace("]", "")
 
 
+def strip_cot_round1_echoed_final_answer(s: str) -> str:
+    """Remove text after a second blank-line 'Answer:' block in round-1 CoT output.
+
+    The round-1 template ends with 'Answer:'; the model should write only passage
+    relevance lines and the 'Most critical documents' line, but often repeats
+    '\\n\\nAnswer:\\n' and emits round-2-style prose. That should not appear in
+    cot_output or in {COT} for round 2.
+    """
+    if not s:
+        return s
+    s = s.rstrip()
+    # Match a new paragraph starting with "Answer:" (not the line the model continues right after the prompt).
+    # We only strip when that header is set off by a blank line so we do not cut mid-sentence on rare "Answer:" in quotes.
+    m = re.search(r"(?i)\n\s*\n\s*Answer:\s*\n", s)
+    if m is not None:
+        return s[: m.start()].rstrip()
+    return s
+
+
 def get_max_memory():
     """Get the maximum memory available for the current GPU for loading models."""
     free_in_GB = int(torch.cuda.mem_get_info()[0]/1024**3)
@@ -58,7 +77,8 @@ def _doc_prompt_display_id(doc, doc_id):
 
 def make_doc_prompt(doc, doc_id, doc_prompt, use_shorter=None):
     # For doc prompt:
-    # - {ID}: passage-level id when present on doc (QASA), else 1-based position in the shown list
+    # - {ID}: display rank for citations (QASA id_suffix when set), else 1-based position in the shown list
+    # - {RAW}: stable passage key from eval JSON (e.g. 1512.02325_all_36); empty if missing
     # - {T}: title
     # - {P}: text
     # use_shorter: None, "summary", or "extraction"
@@ -67,7 +87,13 @@ def make_doc_prompt(doc, doc_id, doc_prompt, use_shorter=None):
     if use_shorter is not None:
         text = doc[use_shorter]
     disp = _doc_prompt_display_id(doc, doc_id)
-    return doc_prompt.replace("{T}", doc["title"]).replace("{P}", text).replace("{ID}", disp)
+    raw = str(doc.get("id", "")).strip()
+    return (
+        doc_prompt.replace("{T}", doc["title"])
+        .replace("{P}", text)
+        .replace("{ID}", disp)
+        .replace("{RAW}", raw)
+    )
 
 
 def get_shorter_text(item, docs, ndoc, key):
@@ -170,6 +196,7 @@ def _make_demo_cot(
     cot_demo_inner_sep,
     cot_round,
     prior_cot,
+    cot_include_demo_round2=True,
 ):
     inst0, inst1 = instructions[0], instructions[1]
     round2_template = demo_prompt_round2 or DEFAULT_DEMO_PROMPT_ROUND2
@@ -203,6 +230,8 @@ def _make_demo_cot(
             answer_suffix="\n" + final_s,
             cot_text=cot_s,
         )
+        if not cot_include_demo_round2:
+            return r1
         return r1 + cot_demo_inner_sep + r2
 
     if cot_round == 1:
@@ -237,6 +266,7 @@ def make_demo(
     cot_demo_inner_sep="\n\n\n",
     cot_round=1,
     prior_cot=None,
+    cot_include_demo_round2=True,
 ):
     # For demo prompt
     # - {INST}: the instruction
@@ -265,6 +295,7 @@ def make_demo(
         cot_demo_inner_sep,
         cot_round,
         prior_cot,
+        cot_include_demo_round2=cot_include_demo_round2,
     )
 
 
