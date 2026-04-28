@@ -13,21 +13,24 @@ nltk.download('punkt_tab')
 # CONFIG
 # -----------------------------
 RESULTS_DIR = "/content/drive/MyDrive/results"
+N_EXAMPLES = 5  # how many good/bad examples to save per file
 
 # -----------------------------
 # LOAD NLI MODEL
 # -----------------------------
 nli = pipeline(
     "text-classification",
-    model="cross-encoder/nli-deberta-v3-large",
-    device=0
+    model="facebook/bart-large-mnli",
+    device=-1,
+    truncation=True,
+    max_length=1024,
 )
 
 # -----------------------------
 # HELPERS
 # -----------------------------
 def run_nli(premise, hypothesis, threshold=0.5):
-    result = nli(f"{premise} </s> {hypothesis}")[0]
+    result = nli(f"{premise} {hypothesis}")[0]
     return 1 if (result["label"].lower() == "entailment" and result["score"] >= threshold) else 0
 
 
@@ -52,9 +55,14 @@ def evaluate_file(data):
 
     recall_scores = []
     precision_scores = []
+    per_item_scores = []  # track per-item for example extraction
 
     for item in tqdm(data):
         output = item["output"]
+
+        if not output or not output.strip():
+          continue 
+        
         docs = item.get("docs", [])
 
         sentences = sent_tokenize(output)
@@ -117,12 +125,29 @@ def evaluate_file(data):
 
         # Aggregate per example
         if len(sentences) > 0:
-            recall_scores.append(np.mean(sent_recalls))
-            precision_scores.append(np.mean(sent_precisions))
+            item_recall = float(np.mean(sent_recalls))
+            item_precision = float(np.mean(sent_precisions))
+            recall_scores.append(item_recall)
+            precision_scores.append(item_precision)
+            per_item_scores.append({
+                "question": item.get("question", ""),
+                "answer": item.get("answer", ""),
+                "output": output,
+                "docs": [{"title": d.get("title", ""), "text": d.get("text", "")} for d in docs],
+                "citation_recall": item_recall,
+                "citation_precision": item_precision,
+            })
+
+    # Sort by recall for good/bad examples
+    sorted_by_recall = sorted(per_item_scores, key=lambda x: x["citation_recall"])
+    bad_examples = sorted_by_recall[:N_EXAMPLES]
+    good_examples = sorted_by_recall[-N_EXAMPLES:][::-1]
 
     return {
         "citation_recall": 100 * np.mean(recall_scores),
-        "citation_precision": 100 * np.mean(precision_scores)
+        "citation_precision": 100 * np.mean(precision_scores),
+        "good_examples": good_examples,
+        "bad_examples": bad_examples,
     }
 
 
@@ -131,6 +156,7 @@ def evaluate_file(data):
 # -----------------------------
 def main():
     results = {}
+    examples_out = {}
 
     for filename in os.listdir(RESULTS_DIR):
         if not filename.endswith(".json"):
@@ -145,14 +171,30 @@ def main():
         print(f"\nEvaluating {filename}...")
 
         scores = evaluate_file(data)
-        results[filename] = scores
 
-        print(scores)
+        # Separate scores from examples for the scores file
+        results[filename] = {
+            "citation_recall": scores["citation_recall"],
+            "citation_precision": scores["citation_precision"],
+        }
+        examples_out[filename] = {
+            "good_examples": scores["good_examples"],
+            "bad_examples": scores["bad_examples"],
+        }
 
-    with open("/content/drive/MyDrive/citation_scores.json", "w") as f:
+        print({
+            "citation_recall": scores["citation_recall"],
+            "citation_precision": scores["citation_precision"],
+        })
+
+    with open("/content/drive/MyDrive/citation_scores_bart.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print("\nSaved to citation_scores.json")
+    with open("/content/drive/MyDrive/citation_examples_bart.json", "w") as f:
+        json.dump(examples_out, f, indent=2, ensure_ascii=False)
+
+    print("\nSaved scores to citation_scores_bart.json")
+    print("Saved examples to citation_examples_bart.json")
 
 
 if __name__ == "__main__":
