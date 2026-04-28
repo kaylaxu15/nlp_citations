@@ -1,0 +1,866 @@
+{
+  "vanilla_qasa-gemma-4-26b-a4b-it-openrouter-shot1-ndoc3-42-quick_test200.json": {
+    "good_examples": [
+      {
+        "question": "What does it mean for perception or feedback to be open loop?",
+        "answer": "The open-loop method observes the scene prior to the grasp, extracts image patches, chooses the patch with the highest probability of a successful grasp, and then uses a known camera calibration to move the gripper to that location [2].",
+        "output": "In the context of the authors' evaluation, an \"open loop\" approach refers to a method that does not make use of continuous visual feedback [2]. This method involves observing a scene prior to a grasp, extracting image patches, and selecting the patch with the highest probability of a successful grasp before using a known camera calibration to move the gripper to that location [2]. Because it lacks continuous feedback, the open-loop method is unable to react to object movement, perturbations, or variability in gripper shape and actuation [3].",
+        "docs": [
+          {
+            "title": "Learning hand-eye coordination for robotic grasping with deep learning and large-scale data collection",
+            "text": "When humans and animals engage in object manipulation behaviors, the interaction inherently involves a fast feedback loop between perception and action. Even complex manipulation tasks, such as extracting a single object from a cluttered bin, can be performed with hardly any advance planning, relying instead on feedback from touch and vision. In contrast, robotic manipulation often (though not always) relies more heavily on advance planning and analysis, with relatively simple feedback, such as trajectory following, to ensure stability during execution (Srinivasa et al., 2012). Part of the reason for this is that incorporating complex sensory inputs such as vision directly into a feedback controller is exceedingly challenging. Techniques such as visual servoing (Siciliano & Khatib, 2007) perform continuous feedback on visual features, but typically require the features to be specified by hand, and both open loop perception and feedback (e.g. via visual servoing) requires manual or automatic calibration to determine the precise geometric relationship between the camera and the robot’s end-effector."
+          },
+          {
+            "title": "Learning hand-eye coordination for robotic grasping with deep learning and large-scale data collection",
+            "text": "The goal of our evaluation was to answer the following questions: (1) does continuous servoing significantly improve grasping accuracy and success rate? (2) how well does our learning-based system perform when compared to alternative approaches? To answer question (1), we compared our approach to an open-loop method that observes the scene prior to the grasp, extracts image patches, chooses the patch with the highest probability of a successful grasp, and then uses a known camera calibration to move the gripper to that location. This method is analogous to the approach proposed by Pinto & Gupta (2015), but uses the same network architecture as our method and the same training set. We refer to this approach as “open loop,” since it does not make use of continuous visual feedback. To answer question (2), we also compared our approach to a random baseline method, as well as a hand-engineered grasping system that uses depth images and heuristic positioning of the fingers. This hand-engineered system is described in Appendix C. Note that our method requires fewer assumptions than either of the two alternative methods: unlike Pinto & Gupta (2015), we do not require knowledge of the camera to hand calibration, and unlike the hand-engineered system, we do not require either the calibration or depth images."
+          },
+          {
+            "title": "Learning hand-eye coordination for robotic grasping with deep learning and large-scale data collection",
+            "text": "The results are presented in Table 1. The success rate of our continuous servoing method exceeded the baseline and prior methods in all cases. For the evaluation without replacement, our method cleared the bin completely after 30 grasps on one of the 4 attempts, and had only one object left in the other 3 attempts (which was picked up on the 31stsuperscript31st31^{\\text{st}} grasp attempt in 2 of the three cases, thus clearing the bin). The hand-engineered baseline struggled to accurately resolve graspable objects in clutter, since the camera was positioned about a meter away from the table, and its performance also dropped in the non-replacement case as the bin was emptied, leaving only small, flat objects that could not be resolved by the depth camera. Many practical grasping systems use a wrist-mounted camera to address this issue (Leeper et al., 2014). In contrast, our approach did not require any special hardware modifications. The open-loop baseline was also substantially less successful. Although it benefited from the large dataset collected by our parallelized data collection setup, which was more than an order of magnitude larger than in prior work (Pinto & Gupta, 2015), it was unable to react to perturbations, movement of objects, and variability in actuation and gripper shape.333The absolute performance of the open-loop method is lower than reported by Pinto & Gupta (2015). This can be attributed to differences in the setup: different objects, grippers, and clutter."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "How black box attacks perform on larger and finite perturbation?",
+        "answer": "Black-box attacks can not be successful against a model that is robust to larger and finite perturbations [2].",
+        "output": "Black-box attacks can evade defenses that only make models robust to small and infinitesimal perturbations by using a substitute model [1][2]. While these attacks can evade gradient masking, they are not effective when a model is made robust to larger and finite perturbations [2].",
+        "docs": [
+          {
+            "title": "Practical Black-Box Attacks against Machine Learning",
+            "text": "Defenses which make models robust in a small neighborhood of the training manifold perform gradient masking: they smooth the decision surface and reduce gradients used by adversarial crafting in small neighborhoods. However, using a substitute and our black-box approach evades these defenses, as the substitute model is not trained to be robust to the said small perturbations. We conclude that defending against finite perturbations is a more promising avenue for future work than defending against infinitesimal perturbations."
+          },
+          {
+            "title": "Practical Black-Box Attacks against Machine Learning",
+            "text": "Adversarial training: It was shown that injecting adversarial examples throughout training increases the robustness of significantly descriptive models, such as DNNs (4, 14, 17). We implemented an approximation of this defense using the Google Prediction API. Since the API does not support the generation of adversarial examples at every step of training, as a correct implementation of adversarial training would do, we instead inject a large amount of adversarial examples infrequently. After training in this way, the model has a misclassification rate of 8.75%percent8.758.75\\% on the unperturbed test set, but the adversarial misclassification rate rises to 100%percent100100\\% when ρ=6𝜌6\\rho=6. To evaluate this defense strategy using a correct implementation, we resort to training the oracle locally, using our own codebase that includes support for generating adversarial examples at each step. After each training batch, we compute and train on adversarial examples generated with the fast gradient sign method before starting training on the next batch of the original training data. Results are given in Table 4. We observe that for ε=0.15𝜀0.15\\varepsilon=0.15, the defense can be evaded using the black-box attack with adversarial examples crafted on the substitute and misclassified by the oracle at rates up to 71.25%percent71.2571.25\\%. However, for ε=0.3𝜀0.3\\varepsilon=0.3, the black-box attack is not effective anymore. Therefore, making a machine learning model robust to small and infinitesimal perturbations of its inputs is an example of gradient masking and can be evaded using our substitute-based black-box approach. However, making the model robust to larger and finite perturbations prevents the black-box attack. To confirm this hypothesis, we now show that defensive distillation, which makes the model robust to infinitesimal perturbations, can be evaded by the black-box approach."
+          },
+          {
+            "title": "Practical Black-Box Attacks against Machine Learning",
+            "text": "In this paper, we introduce the first demonstration that black-box attacks against DNN classifiers are practical for real-world adversaries with no knowledge about the model. We assume the adversary (a) has no information about the structure or parameters of the DNN, and (b) does not have access to any large training dataset. The adversary’s only capability is to observe labels assigned by the DNN for chosen inputs, in a manner analog to a cryptographic oracle."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "How was the hyperparameters chosen for the baseline methods, and what were the chosen values for he experiments presented?",
+        "answer": "For baseline pooling methods, we perform grid search following previous work, and present best results [1].",
+        "output": "For baseline pooling methods that require cluster size as a hyperparameter, the authors performed a grid search across candidates following previous work [1]. The final pooling size was fixed to 10, a decision based on the fact that the average size of most common functional groups in bioactive molecules is 4.25, suggesting molecules can have up to 10 clusters [1]. Specific hyperparameter setups for these pooling baselines are located in the appendix [1].",
+        "docs": [
+          {
+            "title": "Grouping-matrix based Graph Pooling with Adaptive Number of Clusters",
+            "text": "For baseline pooling methods that require the cluster size as a hyperparameter, we perform grid search across candidates following previous work, and present best results. However, we fix the final pooling size to 10 as the average size of most common 404040 functional groups in bioactive molecules is 4.254.254.25 ertl2020most , indicating that molecules under concern (statistics shown in Table 1) can have up to 101010 clusters. The specific hyperparameter setups used for pooling baselines can be found in appendix."
+          },
+          {
+            "title": "Grouping-matrix based Graph Pooling with Adaptive Number of Clusters",
+            "text": "In most inductive settings, there is no single number of clusters that is suitable across all graphs in the dataset. Particularly in molecular graphs, the number of functional groups often determines useful characteristics and chemical behaviors, while varying significantly across different molecules. Nonetheless, existing pooling methods require the number of clusters as a hyperparameter, then operates under the assumption that all graphs share the same number of clusters ranjan2020asap . This is often undesirable as it not only requires additional hyperparameter tuning, but also imposes a strong inductive bias that deteriorates downstream performance."
+          },
+          {
+            "title": "Grouping-matrix based Graph Pooling with Adaptive Number of Clusters",
+            "text": "However, the pooling methods above all share a common limitation: the number of clusters must be predefined for each layer as hyperparameters. This limitation is especially detrimental in inductive settings such as molecular property prediction, where each graph can have varying numbers of useful sub-structures. https://doi.org/10.1111/cbdd.12952 ; doi:10.1021/acs.jmedchem.0c00754 ; GUVENCH20161928  Allowing the model to pool towards varying number of clusters based on data is expected to enhance performance, and our proposed GMPool allows such variation through the rank of the grouping matrix. To the best of our knowledge, GMPool is the first to achieve high performance without the need to manually adjust the number of clusters through additional hyperparameter tuning."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "What is kernel size used in each layer of SegNet?",
+        "answer": "The kernel size used in each layer of SegNet is 7*7 [2].",
+        "output": "A constant kernel size of 7×7 was chosen over all layers [1][2]. This specific size was selected to provide a wide context for smooth labelling [1].",
+        "docs": [
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "SegNet uses a “flat” architecture, i.e, the number of features in each layer remains the same (646464 in our case) but with full connectivity. This choice is motivated by two reasons. First, it avoids parameter explosion, unlike an expanding deep encoder network with full feature connectivity (same for decoder). Second, the training time remains the same (in our experiments it slightly decreases) for each additional/deeper encoder-decoder pair as the feature map resolution is smaller which makes convolutions faster. Note that the decoder corresponding to the first encoder (closest to the input image) produces a multi-channel feature map although the encoder input is either 3 or 4 channels (RGB or RGBD) (see Fig. 1). This high dimensional feature representation is fed to the soft-max classifier. This is unlike the other decoders which produce feature maps the same size as their encoder inputs. A fixed pooling window of 2×2222\\times 2 with a stride of non-overlapping 222 pixels is used. This small size preserves thin structures in the scene. Further, a constant kernel size of 7×7777\\times 7 over all the layers was chosen to provide a wide context for smooth labelling i.e. a pixel in the deepest layer feature map can be traced back to a context window in the input image of 106×106106106106\\times 106 pixels. The trade-off here is between the size of the context window and retaining thin structures. Smaller kernels decrease context and larger ones potentially destroy thin structures."
+          },
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "We draw inspiration of our encoder-decoder type architectures from probabilistic auto-encoders used to build generative models  and unsupervised learning of feature hierarchies . Our main contribution is to learn an encoder-decoder stack trained in a modular and fully supervised manner for pixel-wise labelling. The addition of each deeper encoder-decoder pair results in an increased spatial context i.e., a 444 layer SegNet with 7×7777\\times 7 kernels and 2×2222\\times 2 non-overlapping max pooling in each layer has a spatial context of 106×106106106106\\times 106 pixels when a feature-map is backtracked to the input image. The SegNet predictions get smoother as more layers are added and demonstrate high accuracy, comparable to or even exceeding methods which use CRFs . SegNet maintains a constant number of features per layer which is typically set to 646464. This has a practical advantage that the computational cost successively decreases for each additional/deeper encoder-decoder pair."
+          },
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "A four layer SegNet architecture used in our experiments is illustrated in Fig. 1. Each encoder performs dense convolutions, ReLU non-linearity, a non-overlapping max pooling with a 2×2222\\times 2 window and finally down-sampling. Each decoder upsamples its input using the memorized pooled indices and convolves it with a trainable filter bank. No ReLU non-linearity is used in the decoder unlike the deconvolution network (41, 42). This makes it easier to optimize the filters in each pair. The encoder and decoder filters are also untied to provide additional degrees of freedom to minimize the objective. The final layer is a soft-max classifier (with no bias term) which classifies each pixel independently. The output of the soft-max is a K channel image where K is the number of classes."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.75
+      },
+      {
+        "question": "What is the meaning of invariant to permutations?",
+        "answer": "[Point cloud is just a set of points and therefore invariant or indifferent to permutations of its members, necessitating certain symmetrizations in the net computation [2]. Point cloud is a set of points without a specific order, unlike pixel arrays in images or voxel arrays in volumetric grids [3].",
+        "output": "Being invariant to permutations means that a network consuming a set of $N$ 3D points must remain unaffected by the $N!$ possible permutations of the input set's data feeding order [2]. To achieve this invariance, one can sort the input into a canonical order, use an RNN with augmented training data consisting of various permutations, or utilize a simple symmetric function to aggregate information [1]. A symmetric function is defined as one that takes $n$ vectors as input and produces a new vector that is invariant to the input order [1].",
+        "docs": [
+          {
+            "title": "PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation",
+            "text": "In order to make a model invariant to input permutation, three strategies exist: 1) sort input into a canonical order; 2) treat the input as a sequence to train an RNN, but augment the training data by all kinds of permutations; 3) use a simple symmetric function to aggregate the information from each point. Here, a symmetric function takes n𝑛n vectors as input and outputs a new vector that is invariant to the input order. For example, ++ and ∗* operators are symmetric binary functions."
+          },
+          {
+            "title": "PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation",
+            "text": "•  Unordered. Unlike pixel arrays in images or voxel arrays in volumetric grids, point cloud is a set of points without specific order. In other words, a network that consumes N𝑁N 3D point sets needs to be invariant to N!𝑁N! permutations of the input set in data feeding order.    •  Interaction among points. The points are from a space with a distance metric. It means that points are not isolated, and neighboring points form a meaningful subset. Therefore, the model needs to be able to capture local structures from nearby points, and the combinatorial interactions among local structures.    •  Invariance under transformations. As a geometric object, the learned representation of the point set should be invariant to certain transformations. For example, rotating and translating points all together should not modify the global point cloud category nor the segmentation of the points."
+          },
+          {
+            "title": "PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation",
+            "text": "In this paper we explore deep learning architectures capable of reasoning about 3D geometric data such as point clouds or meshes. Typical convolutional architectures require highly regular input data formats, like those of image grids or 3D voxels, in order to perform weight sharing and other kernel optimizations. Since point clouds or meshes are not in a regular format, most researchers typically transform such data to regular 3D voxel grids or collections of images (e.g, views) before feeding them to a deep net architecture. This data representation transformation, however, renders the resulting data unnecessarily voluminous — while also introducing quantization artifacts that can obscure natural invariances of the data."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      }
+    ],
+    "bad_examples": [
+      {
+        "question": "Does codeBERT trained by natural language?",
+        "answer": "No, CodeBERT trained by code from six programming language [2].",
+        "output": "No, CodeBERT is pretrained on code from six programming languages [2]. While many pretrained language models are trained on natural language text, CodeBERT specifically utilizes programming language data [2].",
+        "docs": [
+          {
+            "title": "What do Large Language Models Learn beyond Language?",
+            "text": "In Table 2, we note that all three non-English pretrained LMs significantly outperformed non-pretrained models, with the best performance being comparable or marginally lower than English versions. In fact, Code-BERT surprisingly surpasses ROC by 5%. These findings strongly indicate that the advantages from pretraining have little to do with the format of the tasks, since they persist for scenarios with little shared linguistic structure."
+          },
+          {
+            "title": "What do Large Language Models Learn beyond Language?",
+            "text": "A possible rationale for explaining the beneficial effect of pretraining for non-linguistic tasks is that irrespective of whether the tasks require non-linguistic reasoning, their format is in language, and hence language models should be able to learn these tasks with fewer examples. To test this hypothesis, we also experiment with models pretrained on text from languages different from English, as well as models pretrained on computer code. These include the following models:  Multilingual BERT. Multilingual BERT is pretrained on text from 102 different languages. About 21% of the pretraining text is English. Chinese BERT. Chinese BERT is a BERT model pretrained on Chinese text.  Code BERT. CodeBERT Feng et al. (2020) is pretrained on code from six programming languages."
+          },
+          {
+            "title": "What do Large Language Models Learn beyond Language?",
+            "text": "Pretrained Language Models (LMs) have shown singular succcess on a range of natural language understandings tasks, to the extent that they have become foundational for contemporary NLP systems. Several works have investigated why pretraining works so well Warstadt et al. (2019); Zhao et al. (2020). In particular, studies have shown that the pretrained LMs like BERT capture linguistic knowledge about syntax Lin et al. (2019); Wu et al. (2020), semantics Vulić et al. (2020b, a) and morphology Hofmann et al. (2020, 2021). In fact, Tenney et al. (2019) demonstrated that learned representations in pretrained LMs even internally reflect the classical NLP pipeline. Since most NLP benchmarks such as SuperGLUE Wang et al. (2019) naturally are focused on tasks such as textual entailment and reading comprehension that require linguistic knowledge and reasoning, it is unsurprising that LMs have achieved strong results on these tasks. On the other hand, little work so far has explored the abilities of pretrained LMs for learning non-linguistic tasks."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Is hyperparameter optimization performed independently for the two dataset corpora?",
+        "answer": "Yes, it does appear that hyperparameter optimization for each dataset is performed independently [1].",
+        "output": "Yes, all model hyperparameters were tuned on the respective validation sets of the two corpora [1].",
+        "docs": [
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "All model hyperparameters were tuned on the respective validation sets of the two corpora.555For the Deep LSTM Reader, we consider hidden layer sizes (64,128,256¯)64128¯256{(64,128,\\underline{256})}, depths (1,2¯,4)1¯24{(1,\\underline{2},4)}, initial learning rates (1​e−3,5​e−4,1​e−4¯,5​e−5)1e35e4¯1e45e5{(1\\text{\\sc{e}}{-}3,5\\text{\\sc{e}}{-}4,\\underline{1\\text{\\sc{e}}{-}4},5\\text{\\sc{e}}{-}5)}, batch sizes (16,32¯)16¯32{(16,\\underline{32})} and dropout (0.0,0.1¯,0.2)0.0¯0.10.2(0.0,\\underline{0.1},0.2). We evaluate two types of feeds. In the cqa setup we feed first the context document and subsequently the question into the encoder, while the qca model starts by feeding in the question followed by the context document. We report results on the best model (underlined hyperparameters, qca setup). For the attention models we consider hidden layer sizes (64,128,256)64128256(64,128,256), single layer, initial learning rates (1​e−4,5​e−5,2.5​e−5,1​e−5)1e45e52.5e51e5(1\\text{\\sc{e}}{-}4,5\\text{\\sc{e}}{-}5,2.5\\text{\\sc{e}}{-}5,1\\text{\\sc{e}}{-}5), batch sizes (8,16,32)81632(8,16,32) and dropout (0,0.1,0.2,0.5)00.10.20.5(0,0.1,0.2,0.5). For all models we used asynchronous RmsProp  with a momentum of 0.90.90.9 and a decay of 0.950.950.95. See Appendix A for more details of the experimental setup. Our experimental results are in Table 5, with the Attentive and Impatient Readers performing best across both datasets."
+          },
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "Here we propose a methodology for creating real-world, large scale supervised training data for learning reading comprehension models. Inspired by work in summarisation (10, 11), we create two machine reading corpora by exploiting online newspaper articles and their matching summaries. We have collected 93k articles from the CNN111www.cnn.com and 220k articles from the Daily Mail222www.dailymail.co.uk websites. Both news providers supplement their articles with a number of bullet points, summarising aspects of the information contained in the article. Of key importance is that these summary points are abstractive and do not simply copy sentences from the documents. We construct a corpus of document–query–answer triples by turning these bullet points into Cloze  style questions by replacing one entity at a time with a placeholder. This results in a combined corpus of roughly 1M data points (Table 1). Code to replicate our datasets—and to apply this method to other sources—is available online333http://www.github.com/deepmind/rc-data/."
+          },
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "To prevent such degenerate solutions and create a focused task we anonymise and randomise our corpora with the following procedure,   a) use a coreference system to establish coreferents in each data point;  b) replace all entities with abstract entity markers according to coreference;  c) randomly permute these entity markers whenever a data point is loaded."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Why meta learning is better than transfer learning?",
+        "answer": "While transfer learning requires learned parameters, meta-learning does not require learned parameters [3].",
+        "output": "Based on the provided documents, there is no information comparing meta-learning to transfer learning or explaining why meta-learning is better than transfer learning [1][2][3]. The documents focus on describing the goals of few-shot meta-learning, which is to train a model that can quickly adapt to new tasks using only a few training iterations and datapoints [2]. The proposed MAML method specifically aims to produce a weight initialization that allows for adaptation using any amount of data and any number of gradient steps [3].",
+        "docs": [
+          {
+            "title": "Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks",
+            "text": "The method that we propose in this paper addresses the general problem of meta-learning (Thrun & Pratt, 1998; Schmidhuber, 1987; Naik & Mammone, 1992), which includes few-shot learning. A popular approach for meta-learning is to train a meta-learner that learns how to update the parameters of the learner’s model (Bengio et al., 1992; Schmidhuber, 1992; Bengio et al., 1990). This approach has been applied to learning to optimize deep networks (Hochreiter et al., 2001; Andrychowicz et al., 2016; Li & Malik, 2017), as well as for learning dynamically changing recurrent networks (Ha et al., 2017). One recent approach learns both the weight initialization and the optimizer, for few-shot image recognition (Ravi & Larochelle, 2017). Unlike these methods, the MAML learner’s weights are updated using the gradient, rather than a learned update; our method does not introduce additional parameters for meta-learning nor require a particular learner architecture."
+          },
+          {
+            "title": "Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks",
+            "text": "The goal of few-shot meta-learning is to train a model that can quickly adapt to a new task using only a few datapoints and training iterations. To accomplish this, the model or learner is trained during a meta-learning phase on a set of tasks, such that the trained model can quickly adapt to new tasks using only a small number of examples or trials. In effect, the meta-learning problem treats entire tasks as training examples. In this section, we formalize this meta-learning problem setting in a general manner, including brief examples of different learning domains. We will discuss two different learning domains in detail in Section 3."
+          },
+          {
+            "title": "Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks",
+            "text": "We introduced a meta-learning method based on learning easily adaptable model parameters through gradient descent. Our approach has a number of benefits. It is simple and does not introduce any learned parameters for meta-learning. It can be combined with any model representation that is amenable to gradient-based training, and any differentiable objective, including classification, regression, and reinforcement learning. Lastly, since our method merely produces a weight initialization, adaptation can be performed with any amount of data and any number of gradient steps, though we demonstrate state-of-the-art results on classification with only one or five examples per class. We also show that our method can adapt an RL agent using policy gradients and a very modest amount of experience."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "What is the full form of ILSVRC?",
+        "answer": "Since there are no information about the form of ILSVRC in this paper, this question cannot be answered and requires external knowledge [1].",
+        "output": "Based on the provided documents, the full form of ILSVRC is not",
+        "docs": [
+          {
+            "title": "Show and tell: A neural image caption generator",
+            "text": "It is natural to model p​(St|I,S0,…,St−1)𝑝conditionalsubscript𝑆𝑡𝐼subscript𝑆0…subscript𝑆𝑡1p(S_{t}|I,S_{0},\\ldots,S_{t-1}) with a Recurrent Neural Network (RNN), where the variable number of words we condition upon up to t−1𝑡1t-1 is expressed by a fixed length hidden state or memory htsubscriptℎ𝑡h_{t}. This memory is updated after seeing a new input xtsubscript𝑥𝑡x_{t} by using a non-linear function f𝑓f:    ht+1=f​(ht,xt).subscriptℎ𝑡1𝑓subscriptℎ𝑡subscript𝑥𝑡h_{t+1}=f(h_{t},x_{t})\\;.  (3)   To make the above RNN more concrete two crucial design choices are to be made: what is the exact form of f𝑓f and how are the images and words fed as inputs xtsubscript𝑥𝑡x_{t}. For f𝑓f we use a Long-Short Term Memory (LSTM) net, which has shown state-of-the art performance on sequence tasks such as translation. This model is outlined in the next section."
+          },
+          {
+            "title": "Show and tell: A neural image caption generator",
+            "text": "The LSTM model is trained to predict each word of the sentence after it has seen the image as well as all preceding words as defined by p​(St|I,S0,…,St−1)𝑝conditionalsubscript𝑆𝑡𝐼subscript𝑆0…subscript𝑆𝑡1p(S_{t}|I,S_{0},\\ldots,S_{t-1}). For this purpose, it is instructive to think of the LSTM in unrolled form – a copy of the LSTM memory is created for the image and each sentence word such that all LSTMs share the same parameters and the output mt−1subscript𝑚𝑡1m_{t-1} of the LSTM at time t−1𝑡1t-1 is fed to the LSTM at time t𝑡t (see Figure 3). All recurrent connections are transformed to feed-forward connections in the unrolled version. In more detail, if we denote by I𝐼I the input image and by S=(S0,…,SN)𝑆subscript𝑆0…subscript𝑆𝑁S=(S_{0},\\ldots,S_{N}) a true sentence describing this image, the unrolling procedure reads:    x−1subscript𝑥1\\displaystyle x_{-1} =\\displaystyle= CNN​(I)CNN𝐼\\displaystyle\\textrm{CNN}(I)  (10)    xtsubscript𝑥𝑡\\displaystyle x_{t} =\\displaystyle= We​St,t∈{0​…​N−1}subscript𝑊𝑒subscript𝑆𝑡𝑡0…𝑁1\\displaystyle W_{e}S_{t},\\quad t\\in\\{0\\ldots N-1\\}\\quad  (11)    pt+1subscript𝑝𝑡1\\displaystyle p_{t+1} =\\displaystyle= LSTM​(xt),t∈{0​…​N−1}LSTMsubscript𝑥𝑡𝑡0…𝑁1\\displaystyle\\textrm{LSTM}(x_{t}),\\quad t\\in\\{0\\ldots N-1\\}\\quad  (12)   where we represent each word as a one-hot vector Stsubscript𝑆𝑡S_{t} of dimension equal to the size of the dictionary. Note that we denote by S0subscript𝑆0S_{0} a special start word and by SNsubscript𝑆𝑁S_{N} a special stop word which designates the start and end of the sentence. In particular by emitting the stop word the LSTM signals that a complete sentence has been generated. Both the image and the words are mapped to the same space, the image by using a vision CNN, the words by using word embedding Wesubscript𝑊𝑒W_{e}. The image I𝐼I is only input once, at t=−1𝑡1t=-1, to inform the LSTM about the image contents. We empirically verified that feeding the image at each time step as an extra input yields inferior results, as the network can explicitly exploit noise in the image and overfits more easily."
+          },
+          {
+            "title": "Show and tell: A neural image caption generator",
+            "text": "For the representation of images, we use a Convolutional Neural Network (CNN). They have been widely used and studied for image tasks, and are currently state-of-the art for object recognition and detection. Our particular choice of CNN uses a novel approach to batch normalization and yields the current best performance on the ILSVRC 2014 classification competition . Furthermore, they have been shown to generalize to other tasks such as scene classification by means of transfer learning . The words are represented with an embedding model."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "How would the effectiveness of SqueezeNet's model compression be affected if a significantly smaller CNN is used instead of AlexNet?",
+        "answer": "by combining CNN architectural innovation (SqueezeNet) with state-of-the-art compression techniques (Deep Compression), we achieved a 510× reduction in model size with no decrease in accuracy compared\nto the baseline [1].",
+        "output": "The provided documents do not contain information regarding how the effectiveness of SqueezeNet's model compression would be affected if a significantly smaller CNN were used instead of AlexNet [1][2][3]. The documents only state that SqueezeNet is a CNN architecture with 50× fewer parameters than AlexNet that maintains AlexNet-level accuracy [2]. Additionally, the text notes that AlexNet is used as a basis for comparison when evaluating SqueezeNet's model compression results [3].",
+        "docs": [
+          {
+            "title": "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and<0.5MB model size",
+            "text": "In addition, these results demonstrate that Deep Compression Han et al. (2015a) not only works well on CNN architectures with many parameters (e.g. AlexNet and VGG), but it is also able to compress the already compact, fully convolutional SqueezeNet architecture. Deep Compression compressed SqueezeNet by 10×10\\times while preserving the baseline accuracy. In summary: by combining CNN architectural innovation (SqueezeNet) with state-of-the-art compression techniques (Deep Compression), we achieved a 510×510\\times reduction in model size with no decrease in accuracy compared to the baseline."
+          },
+          {
+            "title": "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and<0.5MB model size",
+            "text": "In this paper, we have proposed steps toward a more disciplined approach to the design-space exploration of convolutional neural networks. Toward this goal we have presented SqueezeNet, a CNN architecture that has 50×50\\times fewer parameters than AlexNet and maintains AlexNet-level accuracy on ImageNet. We also compressed SqueezeNet to less than 0.5MB, or 510×510\\times smaller than AlexNet without compression. Since we released this paper as a technical report in 2016, Song Han and his collaborators have experimented further with SqueezeNet and model compression. Using a new approach called Dense-Sparse-Dense (DSD) Han et al. (2016b), Han et al. use model compression during training as a regularizer to further improve accuracy, producing a compressed set of SqueezeNet parameters that is 1.2 percentage-points more accurate on ImageNet-1k, and also producing an uncompressed set of SqueezeNet parameters that is 4.3 percentage-points more accurate, compared to our results in Table 2."
+          },
+          {
+            "title": "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and<0.5MB model size",
+            "text": "We now turn our attention to evaluating SqueezeNet. In each of the CNN model compression papers reviewed in Section 2.1, the goal was to compress an AlexNet Krizhevsky et al. (2012) model that was trained to classify images using the ImageNet Deng et al. (2009) (ILSVRC 2012) dataset. Therefore, we use AlexNet555Our baseline is bvlc_alexnet from the Caffe codebase Jia et al. (2014). and the associated model compression results as a basis for comparison when evaluating SqueezeNet."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      }
+    ]
+  },
+  "vanilla_qasa-llama-3.3-70b-instruct-openrouter-shot1-ndoc3-42-quick_test200.json": {
+    "good_examples": [
+      {
+        "question": "How black box attacks perform on larger and finite perturbation?",
+        "answer": "Black-box attacks can not be successful against a model that is robust to larger and finite perturbations [2].",
+        "output": "Black box attacks are less effective against models that are robust to larger and finite perturbations [1][2]. In fact, making a machine learning model robust to larger and finite perturbations can prevent black box attacks [2]. On the other hand, defending against infinitesimal perturbations is not a promising avenue, as it can be evaded using a substitute-based black-box approach [1]. Specifically, for larger perturbations, such as ε=0.3, the black-box attack is not effective anymore [2].",
+        "docs": [
+          {
+            "title": "Practical Black-Box Attacks against Machine Learning",
+            "text": "Defenses which make models robust in a small neighborhood of the training manifold perform gradient masking: they smooth the decision surface and reduce gradients used by adversarial crafting in small neighborhoods. However, using a substitute and our black-box approach evades these defenses, as the substitute model is not trained to be robust to the said small perturbations. We conclude that defending against finite perturbations is a more promising avenue for future work than defending against infinitesimal perturbations."
+          },
+          {
+            "title": "Practical Black-Box Attacks against Machine Learning",
+            "text": "Adversarial training: It was shown that injecting adversarial examples throughout training increases the robustness of significantly descriptive models, such as DNNs (4, 14, 17). We implemented an approximation of this defense using the Google Prediction API. Since the API does not support the generation of adversarial examples at every step of training, as a correct implementation of adversarial training would do, we instead inject a large amount of adversarial examples infrequently. After training in this way, the model has a misclassification rate of 8.75%percent8.758.75\\% on the unperturbed test set, but the adversarial misclassification rate rises to 100%percent100100\\% when ρ=6𝜌6\\rho=6. To evaluate this defense strategy using a correct implementation, we resort to training the oracle locally, using our own codebase that includes support for generating adversarial examples at each step. After each training batch, we compute and train on adversarial examples generated with the fast gradient sign method before starting training on the next batch of the original training data. Results are given in Table 4. We observe that for ε=0.15𝜀0.15\\varepsilon=0.15, the defense can be evaded using the black-box attack with adversarial examples crafted on the substitute and misclassified by the oracle at rates up to 71.25%percent71.2571.25\\%. However, for ε=0.3𝜀0.3\\varepsilon=0.3, the black-box attack is not effective anymore. Therefore, making a machine learning model robust to small and infinitesimal perturbations of its inputs is an example of gradient masking and can be evaded using our substitute-based black-box approach. However, making the model robust to larger and finite perturbations prevents the black-box attack. To confirm this hypothesis, we now show that defensive distillation, which makes the model robust to infinitesimal perturbations, can be evaded by the black-box approach."
+          },
+          {
+            "title": "Practical Black-Box Attacks against Machine Learning",
+            "text": "In this paper, we introduce the first demonstration that black-box attacks against DNN classifiers are practical for real-world adversaries with no knowledge about the model. We assume the adversary (a) has no information about the structure or parameters of the DNN, and (b) does not have access to any large training dataset. The adversary’s only capability is to observe labels assigned by the DNN for chosen inputs, in a manner analog to a cryptographic oracle."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.875
+      },
+      {
+        "question": "What does STL stand for?",
+        "answer": "Single-Task Learning (STL): The model is pre-trained on a synthetic QA dataset generated from a single KG [1].",
+        "output": "STL stands for Single-Task Learning [1], which refers to a model pre-trained on a synthetic QA dataset generated from a single Knowledge Graph (KG) [1]. In the context of the documents, STL is compared to Multi-Task Learning (MTL), where the model is pre-trained on multiple synthetic QA datasets [1][2]. The performance of STL models is evaluated and used as a baseline for further analysis [1][3].",
+        "docs": [
+          {
+            "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+            "text": "For further analysis in §§\\S4.4 and §§\\S4.5, we set the following models that are pre-trained on the synthetic QA datasets from KGs as baselines:   •  Single-Task Learning (STL): The model is pre-trained on a synthetic QA dataset generated from a single KG. Specifically, we experiment two architectural choices: PLM (STL-PLM) and PLM with adapters (STL-Adapter). For each architecture, there are four STL models for each of synthetic QA datasets derived from ATOMIC, ConceptNet, WikiData, and WordNet. We note that the trained STL-Adapter is an expert adapter from a specific KG in our framework. The performance of each STL baseline is shown in Appendix I Table 9 and Table 10.    •  Multi-Task Learning (MTL): The model is pre-trained on multiple synthetic QA datasets, each of which is generated from a KG. We experiment with a PLM trained on all four aforementioned synthetic QA datasets. We note that the difference between STL-PLM and MTL is whether to use one synthetic QA dataset or multiple synthetic QA datasets for its training."
+          },
+          {
+            "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+            "text": "For MTL in Figure 6 (a), the color of the cell denotes the relative improvement of MTL with the combination of KGs over the best performance among the STL-PLM of KGs. Also, for our method in Figure 6 (b), the relative improvement is measured based on the best performance among the STL-Adapter of KGs, considering the difference of the base architecture for MTL (i.e. PLM) and zero-shot fusion (i.e. PLM with adapter). The green and red colors denote the increase and decrease of performance, respectively, when using multiple KGs together. The greener color on the cells indicates that the approach benefits from an increasing number of KGs, which implies aggregating knowledge successfully."
+          },
+          {
+            "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+            "text": "In this experiment, we compare the amount of interference in the MTL and zero-shot fusion with KG-C adapter. We propose a novel evaluation metric, the interference ratio, which is the percentage of the incorrectly predicted samples by the multi-KG models among the correctly predicted samples from the STL models in common."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.6666666666666666
+      },
+      {
+        "question": "What is kernel size used in each layer of SegNet?",
+        "answer": "The kernel size used in each layer of SegNet is 7*7 [2].",
+        "output": "A constant kernel size of 7×7 is used in each layer of SegNet [1]. This kernel size provides a wide context for smooth labeling, allowing a pixel in the deepest layer feature map to be traced back to a context window in the input image of 106×106 pixels [1]. The use of a fixed kernel size across all layers is a design choice that balances the trade-off between the size of the context window and retaining thin structures [1].",
+        "docs": [
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "SegNet uses a “flat” architecture, i.e, the number of features in each layer remains the same (646464 in our case) but with full connectivity. This choice is motivated by two reasons. First, it avoids parameter explosion, unlike an expanding deep encoder network with full feature connectivity (same for decoder). Second, the training time remains the same (in our experiments it slightly decreases) for each additional/deeper encoder-decoder pair as the feature map resolution is smaller which makes convolutions faster. Note that the decoder corresponding to the first encoder (closest to the input image) produces a multi-channel feature map although the encoder input is either 3 or 4 channels (RGB or RGBD) (see Fig. 1). This high dimensional feature representation is fed to the soft-max classifier. This is unlike the other decoders which produce feature maps the same size as their encoder inputs. A fixed pooling window of 2×2222\\times 2 with a stride of non-overlapping 222 pixels is used. This small size preserves thin structures in the scene. Further, a constant kernel size of 7×7777\\times 7 over all the layers was chosen to provide a wide context for smooth labelling i.e. a pixel in the deepest layer feature map can be traced back to a context window in the input image of 106×106106106106\\times 106 pixels. The trade-off here is between the size of the context window and retaining thin structures. Smaller kernels decrease context and larger ones potentially destroy thin structures."
+          },
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "We draw inspiration of our encoder-decoder type architectures from probabilistic auto-encoders used to build generative models  and unsupervised learning of feature hierarchies . Our main contribution is to learn an encoder-decoder stack trained in a modular and fully supervised manner for pixel-wise labelling. The addition of each deeper encoder-decoder pair results in an increased spatial context i.e., a 444 layer SegNet with 7×7777\\times 7 kernels and 2×2222\\times 2 non-overlapping max pooling in each layer has a spatial context of 106×106106106106\\times 106 pixels when a feature-map is backtracked to the input image. The SegNet predictions get smoother as more layers are added and demonstrate high accuracy, comparable to or even exceeding methods which use CRFs . SegNet maintains a constant number of features per layer which is typically set to 646464. This has a practical advantage that the computational cost successively decreases for each additional/deeper encoder-decoder pair."
+          },
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "A four layer SegNet architecture used in our experiments is illustrated in Fig. 1. Each encoder performs dense convolutions, ReLU non-linearity, a non-overlapping max pooling with a 2×2222\\times 2 window and finally down-sampling. Each decoder upsamples its input using the memorized pooled indices and convolves it with a trainable filter bank. No ReLU non-linearity is used in the decoder unlike the deconvolution network (41, 42). This makes it easier to optimize the filters in each pair. The encoder and decoder filters are also untied to provide additional degrees of freedom to minimize the objective. The final layer is a soft-max classifier (with no bias term) which classifies each pixel independently. The output of the soft-max is a K channel image where K is the number of classes."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "When does cross-encoder powerful? Give an example.",
+        "answer": "Cross-encoder exerts its power for the cases requiring disambiguation with the given context [3]. Table 8 shows some examples where the cross-encoder can accurately identify and linked entities through the context while the bi-encoder failed [3].",
+        "output": "The cross-encoder is powerful when it can utilize context information to disambiguate entities, such as in the example where it correctly links \"Ronaldo\" to the correct entity using the context word \"Juventus\" [1]. This is because the cross-encoder is able to consider the context and mention for entity linking, as shown in the examples presented in Table 8 [3], and is often better at utilizing context information than the bi-encoder [1]. For instance, in the second example, the cross-encoder is able to identify that the sentence is describing art instead of fiction, where the bi-encoder failed, demonstrating its ability to use context to make accurate predictions [1].",
+        "docs": [
+          {
+            "title": "Scalable Zero-shot Entity Linking with Dense Entity Retrieval",
+            "text": "In the first example, we see that the bi-encoder mistakenly links “Ronaldo” to the Brazilian football player, while the cross-encoder is able to use context word “Juventus” to disambiguate. In the second example, the cross-encoder is able to identify from context that the sentence is describing art instead of fiction, where the bi-encoder failed. In the third example, the bi-encoder is able to find the correct entity “Ancient Greek,”; where the cross-encoder mistakenly links it to the entity “Ancient Greek philosophy,” likely because that the word “philosophers” is in context. We observe that cross-encoder is often better at utilizing context information than bi-encoder, but can sometimes make mistakes because of misleading context cues."
+          },
+          {
+            "title": "Scalable Zero-shot Entity Linking with Dense Entity Retrieval",
+            "text": "Humeau et al. (2019) studied different architectures to use deep pre-trained bidirectional transformers and performed detailed comparison of three different architectures, namely bi-encoder, poly-encoder, cross-encoder on tasks of sentence selection in dialogues. Inspired by their work, we use similar architectures to the problem of entity linking, and in addition, demonstrate that bi-encoder can be a strong model for retrieval. Instead of using the poly-encoder as a trade-off between cross-encoder and bi-encoder, we propose to train a bi-encoder model with knowledge distillation Buciluundefined et al. (2006); Hinton et al. (2015) from a cross-encoder model to further improve the bi-encoder’s performances."
+          },
+          {
+            "title": "Scalable Zero-shot Entity Linking with Dense Entity Retrieval",
+            "text": "Table 8 presents some examples from our bi-encoder and cross-encoder model predictions, to provide intuition for how these two models consider context and mention for entity linking."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.8333333333333334
+      },
+      {
+        "question": "What is Majority in baselines?",
+        "answer": "Majority is the results when selecting with the most frequent label as an answer [2].",
+        "output": "In the context of baselines, Majority refers to the most frequent label [2]. This baseline is used for comparison, where the performance of the most frequent label is evaluated as a baseline [2]. The Majority baseline is used alongside other baselines, such as Random, to show the characteristics of each benchmark [2].",
+        "docs": [
+          {
+            "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+            "text": "MTL (Liu et al., 2019a; Zhang and Yang, 2017; Caruana, 1997) learns a shared representation while aggregating knowledge across multiple learning tasks, often leading to better generalization ability of a model. However, parametric aggregation of knowledge with MTL has following limitations: (1) retraining the full model when adding new tasks (Houlsby et al., 2019; Pfeiffer et al., 2021, 2020b) (2) catastrophic forgetting and interference between tasks leading to difficulties of solving each task equally well (Pilault et al., 2021; Wu et al., 2020; Yu et al., 2020) and (3) inconsistent effect (Lourie et al., 2021). To deal with these challenges, Mixture-of-Experts (MoE) is a parameterized generalization of ensembling techniques, which has been adapted for MTL with gating network trained to optimize each task (Ma et al., 2018). However, simple linear gating networks are too shallow and thus may destruct task knowledge for commonsense reasoning."
+          },
+          {
+            "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+            "text": "We compare our framework with the following baselines. First, to show the characteristics of each benchmark, we use the random or the most frequent label as Random and Majority baseline, respectively. RoBERTa-L and GPT2-L is the performance of each PLM without any fine-tuning. Also, as the baseline for the unsupervised learning model using KGs, we report the performance of Self-talk (Shwartz et al., 2020), COMET-DynaGen (Bosselut and Choi, 2019), SMLM (Banerjee and Baral, 2020) as presented in original papers."
+          },
+          {
+            "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+            "text": "In our setup, we repurpose synthetic QA generation (Ma et al., 2021) for the task of knowledge-driven zero-shot learning for commonsense reasoning, i.e., we transform a KG into multiple (Qi,Ai)subscript𝑄𝑖subscript𝐴𝑖(Q_{i},A_{i}) pairs where Qisubscript𝑄𝑖Q_{i} is a natural language question and Ai={Ai,1,…,Ai,m}subscript𝐴𝑖subscript𝐴𝑖1…subscript𝐴𝑖𝑚A_{i}=\\{A_{i,1},...,A_{i,m}\\} is the set of options with m𝑚m answer candidates. Specifically, given a triple (eh​e​a​d,r,et​a​i​l)superscript𝑒ℎ𝑒𝑎𝑑𝑟superscript𝑒𝑡𝑎𝑖𝑙(e^{head},r,e^{tail}) in a KG, where eh​e​a​dsuperscript𝑒ℎ𝑒𝑎𝑑e^{head}, et​a​i​lsuperscript𝑒𝑡𝑎𝑖𝑙e^{tail} and r𝑟r denote head/tail entity and relation respectively, we transform eh​e​a​dsuperscript𝑒ℎ𝑒𝑎𝑑e^{head} and r𝑟r into a natural language question Qisubscript𝑄𝑖Q_{i} using templates. For the option set Aisubscript𝐴𝑖A_{i}, we use the combination of the correct answer et​a​i​lsuperscript𝑒𝑡𝑎𝑖𝑙e^{tail} and m−1𝑚1m-1 distractors which are tail entities from other triples sampled randomly (Ma et al., 2021). Details are described in Appendix B."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      }
+    ],
+    "bad_examples": [
+      {
+        "question": "Does codeBERT trained by natural language?",
+        "answer": "No, CodeBERT trained by code from six programming language [2].",
+        "output": "CodeBERT is trained on code from six programming languages [2], not just natural language. This indicates that CodeBERT's training data includes non-linguistic tasks, specifically computer code, in addition to linguistic tasks [3]. The model's ability to learn from code suggests that it can acquire knowledge beyond linguistic structures [1].",
+        "docs": [
+          {
+            "title": "What do Large Language Models Learn beyond Language?",
+            "text": "In Table 2, we note that all three non-English pretrained LMs significantly outperformed non-pretrained models, with the best performance being comparable or marginally lower than English versions. In fact, Code-BERT surprisingly surpasses ROC by 5%. These findings strongly indicate that the advantages from pretraining have little to do with the format of the tasks, since they persist for scenarios with little shared linguistic structure."
+          },
+          {
+            "title": "What do Large Language Models Learn beyond Language?",
+            "text": "A possible rationale for explaining the beneficial effect of pretraining for non-linguistic tasks is that irrespective of whether the tasks require non-linguistic reasoning, their format is in language, and hence language models should be able to learn these tasks with fewer examples. To test this hypothesis, we also experiment with models pretrained on text from languages different from English, as well as models pretrained on computer code. These include the following models:  Multilingual BERT. Multilingual BERT is pretrained on text from 102 different languages. About 21% of the pretraining text is English. Chinese BERT. Chinese BERT is a BERT model pretrained on Chinese text.  Code BERT. CodeBERT Feng et al. (2020) is pretrained on code from six programming languages."
+          },
+          {
+            "title": "What do Large Language Models Learn beyond Language?",
+            "text": "Pretrained Language Models (LMs) have shown singular succcess on a range of natural language understandings tasks, to the extent that they have become foundational for contemporary NLP systems. Several works have investigated why pretraining works so well Warstadt et al. (2019); Zhao et al. (2020). In particular, studies have shown that the pretrained LMs like BERT capture linguistic knowledge about syntax Lin et al. (2019); Wu et al. (2020), semantics Vulić et al. (2020b, a) and morphology Hofmann et al. (2020, 2021). In fact, Tenney et al. (2019) demonstrated that learned representations in pretrained LMs even internally reflect the classical NLP pipeline. Since most NLP benchmarks such as SuperGLUE Wang et al. (2019) naturally are focused on tasks such as textual entailment and reading comprehension that require linguistic knowledge and reasoning, it is unsurprising that LMs have achieved strong results on these tasks. On the other hand, little work so far has explored the abilities of pretrained LMs for learning non-linguistic tasks."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Is hyperparameter optimization performed independently for the two dataset corpora?",
+        "answer": "Yes, it does appear that hyperparameter optimization for each dataset is performed independently [1].",
+        "output": "Hyperparameter optimization is performed independently for the two dataset corpora, as all model hyperparameters were tuned on the respective validation sets of the two corpora [1]. The hyperparameters considered for tuning include hidden layer sizes, depths, initial learning rates, batch sizes, and dropout, and the best model is selected based on the validation set performance [1]. This independent tuning process allows for the optimization of hyperparameters for each corpus separately, which can lead to better performance on each dataset [1].",
+        "docs": [
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "All model hyperparameters were tuned on the respective validation sets of the two corpora.555For the Deep LSTM Reader, we consider hidden layer sizes (64,128,256¯)64128¯256{(64,128,\\underline{256})}, depths (1,2¯,4)1¯24{(1,\\underline{2},4)}, initial learning rates (1​e−3,5​e−4,1​e−4¯,5​e−5)1e35e4¯1e45e5{(1\\text{\\sc{e}}{-}3,5\\text{\\sc{e}}{-}4,\\underline{1\\text{\\sc{e}}{-}4},5\\text{\\sc{e}}{-}5)}, batch sizes (16,32¯)16¯32{(16,\\underline{32})} and dropout (0.0,0.1¯,0.2)0.0¯0.10.2(0.0,\\underline{0.1},0.2). We evaluate two types of feeds. In the cqa setup we feed first the context document and subsequently the question into the encoder, while the qca model starts by feeding in the question followed by the context document. We report results on the best model (underlined hyperparameters, qca setup). For the attention models we consider hidden layer sizes (64,128,256)64128256(64,128,256), single layer, initial learning rates (1​e−4,5​e−5,2.5​e−5,1​e−5)1e45e52.5e51e5(1\\text{\\sc{e}}{-}4,5\\text{\\sc{e}}{-}5,2.5\\text{\\sc{e}}{-}5,1\\text{\\sc{e}}{-}5), batch sizes (8,16,32)81632(8,16,32) and dropout (0,0.1,0.2,0.5)00.10.20.5(0,0.1,0.2,0.5). For all models we used asynchronous RmsProp  with a momentum of 0.90.90.9 and a decay of 0.950.950.95. See Appendix A for more details of the experimental setup. Our experimental results are in Table 5, with the Attentive and Impatient Readers performing best across both datasets."
+          },
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "Here we propose a methodology for creating real-world, large scale supervised training data for learning reading comprehension models. Inspired by work in summarisation (10, 11), we create two machine reading corpora by exploiting online newspaper articles and their matching summaries. We have collected 93k articles from the CNN111www.cnn.com and 220k articles from the Daily Mail222www.dailymail.co.uk websites. Both news providers supplement their articles with a number of bullet points, summarising aspects of the information contained in the article. Of key importance is that these summary points are abstractive and do not simply copy sentences from the documents. We construct a corpus of document–query–answer triples by turning these bullet points into Cloze  style questions by replacing one entity at a time with a placeholder. This results in a combined corpus of roughly 1M data points (Table 1). Code to replicate our datasets—and to apply this method to other sources—is available online333http://www.github.com/deepmind/rc-data/."
+          },
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "To prevent such degenerate solutions and create a focused task we anonymise and randomise our corpora with the following procedure,   a) use a coreference system to establish coreferents in each data point;  b) replace all entities with abstract entity markers according to coreference;  c) randomly permute these entity markers whenever a data point is loaded."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "In language models, which method would be better for preventing overfitting from batch normalization and dropout?",
+        "answer": "According to this work, without dropout, a vanilla LM can run the risk of overfitting, which decreases performance [1].",
+        "output": "Dropout would be a better method for preventing overfitting from batch normalization in language models [1][3]. Using dropout with a value of 0.4 can help prevent overfitting, especially when training on smaller datasets [1][3], and it is often used in combination with other techniques such as tuned hyperparameters and a lower number of training epochs [3].",
+        "docs": [
+          {
+            "title": "Universal Language Model Fine-tuning for Text Classification",
+            "text": "In order to gauge the importance of choosing an appropriate LM, we compare a vanilla LM with the same hyperparameters without any dropout999To avoid overfitting, we only train the vanilla LM classifier for 555 epochs and keep dropout of 0.40.40.4 in the classifier. with the AWD-LSTM LM with tuned dropout parameters in Table 5. Using our fine-tuning techniques, even a regular LM reaches surprisingly good performance on the larger datasets. On the smaller TREC-6, a vanilla LM without dropout runs the risk of overfitting, which decreases performance."
+          },
+          {
+            "title": "Universal Language Model Fine-tuning for Text Classification",
+            "text": "Finally, for fine-tuning the classifier, we augment the pretrained language model with two additional linear blocks. Following standard practice for CV classifiers, each block uses batch normalization Ioffe and Szegedy (2015) and dropout, with ReLU activations for the intermediate layer and a softmax activation that outputs a probability distribution over target classes at the last layer. Note that the parameters in these task-specific classifier layers are the only ones that are learned from scratch. The first linear layer takes as the input the pooled last hidden layer states."
+          },
+          {
+            "title": "Universal Language Model Fine-tuning for Text Classification",
+            "text": "We are interested in a model that performs robustly across a diverse set of tasks. To this end, if not mentioned otherwise, we use the same set of hyperparameters across tasks, which we tune on the IMDb validation set. We use the AWD-LSTM language model Merity et al. (2017a) with an embedding size of 400400400, 333 layers, 115011501150 hidden activations per layer, and a BPTT batch size of 707070. We apply dropout of 0.40.40.4 to layers, 0.30.30.3 to RNN layers, 0.40.40.4 to input embedding layers, 0.050.050.05 to embedding layers, and weight dropout of 0.50.50.5 to the RNN hidden-to-hidden matrix. The classifier has a hidden layer of size 505050. We use Adam with β1=0.7subscript𝛽10.7\\beta_{1}=0.7 instead of the default β1=0.9subscript𝛽10.9\\beta_{1}=0.9 and β2=0.99subscript𝛽20.99\\beta_{2}=0.99, similar to Dozat and Manning (2017). We use a batch size of 646464, a base learning rate of 0.0040.0040.004 and 0.010.010.01 for fine-tuning the LM and the classifier respectively, and tune the number of epochs on the validation set of each task888On small datasets such as TREC-6, we fine-tune the LM only for 151515 epochs without overfitting, while we can fine-tune longer on larger datasets. We found 505050 epochs to be a good default for fine-tuning the classifier.. We otherwise use the same practices used in Merity et al. (2017a)."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Is there any benefit to using fader control instead of numbers (e.g., percentages)?",
+        "answer": "Fader control allows users to control the magnitude of the effect induced by specific words [1].",
+        "output": "Using fader control instead of numbers, such as percentages, allows users to control the magnitude of the effect induced by a specific word in a more intuitive way [1]. This is particularly useful when it is difficult to describe the desired amount of an effect through text, such as controlling the amount of snow on a mountain [1]. Fader control provides a more flexible and user-friendly way to achieve the desired outcome, compared to relying solely on numerical values [1].",
+        "docs": [
+          {
+            "title": "Prompt-to-Prompt Image Editing with Cross Attention Control",
+            "text": "Fader Control using Attention Re-weighting. While controlling the image by editing the prompt is very effective, we find that it still does not allow full control over the generated image. Consider the prompt “snowy mountain”. A user may want to control the amount of snow on the mountain. However, it is quite difficult to describe the desired amount of snow through text. Instead, we suggest a fader control , where the user controls the magnitude of the effect induced by a specific word, as depicted in fig. 9. As described in section 3, we achieve such control by re-scaling the attention of the specified word. Additional results are in the appendix (fig. 15)."
+          },
+          {
+            "title": "Prompt-to-Prompt Image Editing with Cross Attention Control",
+            "text": "As can be seen in fig. 6, our method is not confined to modifying only textures, and it can perform structural modifications, e.g., change a “bicycle” to a “car”. To analyze our attention injection, in the left column we show the results without cross-attention injection, where changing a single word leads to an entirely different outcome. From left to right, we then show the resulting generated image by injecting attention to an increasing number of diffusion steps. Note that the more diffusion steps in which we apply cross-attention injection, the higher the fidelity to the original image. However, the optimal result is not necessarily achieved by applying the injection throughout all diffusion steps. Therefore, we can provide the user with even better control over the fidelity to the original image by changing the number of injection steps."
+          },
+          {
+            "title": "Prompt-to-Prompt Image Editing with Cross Attention Control",
+            "text": "In another setting, the user adds new tokens to the prompt, e.g., 𝒫=𝒫absent\\mathcal{P}=“a castle next to a river” to 𝒫∗=superscript𝒫absent\\mathcal{P}^{*}=“children drawing of a castle next to a river”. To preserve the common details, we apply the attention injection only over the common tokens from both prompts. Formally, we use an alignment function A𝐴A that receives a token index from target prompt 𝒫∗superscript𝒫\\mathcal{P}^{*} and outputs the corresponding token index in 𝒫𝒫\\mathcal{P} or None if there isn’t a match. Then, the editing function is given by:"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Why does Yolo outperform R-CNN in other categories such as cat and train ?",
+        "answer": "The paper does not specifically discuss why YOLO is better for cat and train categories in VOC 2012 dataset and worse for the bottle, sheep, and tv/monitor [3]. Thus, it is difficult to answer this question with only the contents of the paper [2].",
+        "output": "Yolo outperforms R-CNN in categories such as cat and train because it reasons globally about the image when making predictions, implicitly encoding contextual information about classes and their appearance [3]. This global reasoning allows Yolo to make less than half the number of background errors compared to Fast R-CNN, a top detection method [3], which leads to higher performance in certain categories [2]. Additionally, Yolo's ability to see the entire image during training and test time enables it to better understand the context of objects, resulting in improved detection accuracy for categories like cat and train [2][3].",
+        "docs": [
+          {
+            "title": "You Only Look Once: Unified, Real-Time Object Detection",
+            "text": "First we compare YOLO with other real-time detection systems on Pascal VOC 2007. To understand the differences between YOLO and R-CNN variants we explore the errors on VOC 2007 made by YOLO and Fast R-CNN, one of the highest performing versions of R-CNN . Based on the different error profiles we show that YOLO can be used to rescore Fast R-CNN detections and reduce the errors from background false positives, giving a significant performance boost. We also present VOC 2012 results and compare mAP to current state-of-the-art methods. Finally, we show that YOLO generalizes to new domains better than other detectors on two artwork datasets."
+          },
+          {
+            "title": "You Only Look Once: Unified, Real-Time Object Detection",
+            "text": "On the VOC 2012 test set, YOLO scores 57.9% mAP. This is lower than the current state of the art, closer to the original R-CNN using VGG-16, see Table 3. Our system struggles with small objects compared to its closest competitors. On categories like bottle, sheep, and tv/monitor YOLO scores 8-10% lower than R-CNN or Feature Edit. However, on other categories like cat and train YOLO achieves higher performance."
+          },
+          {
+            "title": "You Only Look Once: Unified, Real-Time Object Detection",
+            "text": "Second, YOLO reasons globally about the image when making predictions. Unlike sliding window and region proposal-based techniques, YOLO sees the entire image during training and test time so it implicitly encodes contextual information about classes as well as their appearance. Fast R-CNN, a top detection method , mistakes background patches in an image for objects because it can’t see the larger context. YOLO makes less than half the number of background errors compared to Fast R-CNN."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      }
+    ]
+  },
+  "qasa-gemma-4-26b-a4b-it-cot_1shot_second_demo_eval_gemma26-shot1-ndoc3-42-quick_test200.json": {
+    "good_examples": [
+      {
+        "question": "Would the performance be improved if the PLM model is pre-trained or fine-tuned on bio-medical domain datasets?",
+        "answer": "In their experiments, the authors showed that all of the models performed poorly on the bio-medical domain due to the textual data of the domain not being covered widely in the PLMs’ pretraining dataset [3]. This lack of data can cause the PLM to struggle to reveal and capture knowledge specific to that domain [1].",
+        "output": "The current performance of Pre-trained Language Models (PLMs) in the bio-medical domain is often poor because textual data for this specialized field is not widely covered in general pre-training datasets [1]. Because specialized domains like bio-medical may only have a few training examples within a general corpus, domain-specific knowledge is difficult for models to reveal or capture [3]. This lack of coverage leads to a data scarcity scenario that can result in the inaccurate processing of domain-specific queries [1][3].",
+        "docs": [
+          {
+            "title": "Incorporating Explicit Knowledge in Pre-trained Language Models for Passage Re-ranking",
+            "text": "Results are obtained from Table 6. (1) Poor ranking performances of all models on bio-medical domain indicates that it is more challenging in the data scarcity scenario, where textual data is not covered widely in the PLMs’ pretraining datasets. (2) Compared with ERNIE, KERM has a higher relative improvement in bio-medical domain than general domain. This demonstrates that the incorporation of knowledge graph is more useful for a data scarcity domain. To verify this idea, we compare the size of knowledge meta graph used for different domains as follows."
+          },
+          {
+            "title": "Incorporating Explicit Knowledge in Pre-trained Language Models for Passage Re-ranking",
+            "text": "Existing PLMs based re-rankers typically improve ranking performance from two aspects: (1) By optimizing the ranking procedure: monoBERT (Nogueira and Cho, 2019) is the first work that re-purposed BERT as a passage re-ranker and achieves state-of-the-art results. duoBERT (Nogueira et al., 2019a) integrates monoBERT in a multistage ranking architecture and adopts a pairwise classification approach to passage relevance computation. UED (Yan et al., 2021) proposes a cascade pre-training manner that can jointly enhance the retrieval stage through passage expansion with a pre-trained query generator and thus elevate the re-ranking stage with a pre-trained transformer encoder. The two stages can facilitate each other in a unified pre-training framework. H-ERNIE (Chu et al., 2022) proposes a multi-granularity PLM for web search. (2) By designing rational distillation procedure: LM Distill + Fine-Tuning (Gao et al., 2020) explores a variety of distillation methods to equip a smaller re-ranker with both general-purpose language modeling knowledge learned in pre-training and search- s​p​e​c​i​f​i​c𝑠𝑝𝑒𝑐𝑖𝑓𝑖𝑐specific relevance modeling knowledge learned in fine-tuning, and produces a faster re-ranker with better ranking performance. CAKD (Hofstätter et al., 2020) proposes a cross-architecture knowledge distillation procedure with a Margin-MSE loss, which can distill knowledge from multiple teachers at the same time. RocketQAv1 (Qu et al., 2021) trains dual-encoder and cross-encoder in a cascade manner, which leverages the powerful cross-encoder to empower the dual-encoder. RocketQAv2 (Ren et al., 2021) proposes a novel approach that jointly trains the dense passage retriever and passage re-ranker. The parameters of RocketQAv2 are inherited from RocketQAv1. Besides, RocketQAv2 utilizes a large PLM for data augmentation and denoising, which can also be regarded as a distillation procedure. Notably, these two types of studies anticipate more insightful information to be captured by the advanced ranking and training procedures, while neglecting the limitations of implicit knowledge extracted from noisy and heterogeneous data. Therefore, in this paper, we proposed the first knowledge-enhanced PLM based re-ranker, which thoughtfully leverages explicit external knowledge that improve the effectiveness of the model."
+          },
+          {
+            "title": "Incorporating Explicit Knowledge in Pre-trained Language Models for Passage Re-ranking",
+            "text": "However, implicit knowledge still has some inherent weaknesses, which limits the applicability of PLMs based re-rankers. First, queries and passages are usually created by different persons and have different expression ways (Nogueira et al., 2019b), such as word usage and language style. Worse still, the data distributions of search queries and web contents are highly heterogeneous (Liu et al., 2021), where various specialized domains (e.g., bio-medical) may only have few training examples in a general corpus. Domain-specific knowledge can hardly be revealed and captured by the model, and thus the processing of domain-specific queries is often inaccurate."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.8333333333333334
+      },
+      {
+        "question": "What does it mean for perception or feedback to be open loop?",
+        "answer": "The open-loop method observes the scene prior to the grasp, extracts image patches, chooses the patch with the highest probability of a successful grasp, and then uses a known camera calibration to move the gripper to that location [2].",
+        "output": "In the context of robotic manipulation, an \"open loop\" approach is characterized by a system that does not utilize continuous visual feedback during an action [2]. Instead, this method involves observing a scene prior to a task—such as a grasp—and extracting information, like image patches, to determine an action based on initial observations [2].\n\nBecause these systems lack real-time adjustments, they are unable to react to environmental changes or inconsistencies, such as the movement of objects, external perturbations, or variability in gripper shape and actuation [3]. Furthermore, both open-loop perception and feedback typically require calibration to establish the precise geometric relationship between the camera and the robot's end-effector [1].",
+        "docs": [
+          {
+            "title": "Learning hand-eye coordination for robotic grasping with deep learning and large-scale data collection",
+            "text": "When humans and animals engage in object manipulation behaviors, the interaction inherently involves a fast feedback loop between perception and action. Even complex manipulation tasks, such as extracting a single object from a cluttered bin, can be performed with hardly any advance planning, relying instead on feedback from touch and vision. In contrast, robotic manipulation often (though not always) relies more heavily on advance planning and analysis, with relatively simple feedback, such as trajectory following, to ensure stability during execution (Srinivasa et al., 2012). Part of the reason for this is that incorporating complex sensory inputs such as vision directly into a feedback controller is exceedingly challenging. Techniques such as visual servoing (Siciliano & Khatib, 2007) perform continuous feedback on visual features, but typically require the features to be specified by hand, and both open loop perception and feedback (e.g. via visual servoing) requires manual or automatic calibration to determine the precise geometric relationship between the camera and the robot’s end-effector."
+          },
+          {
+            "title": "Learning hand-eye coordination for robotic grasping with deep learning and large-scale data collection",
+            "text": "The goal of our evaluation was to answer the following questions: (1) does continuous servoing significantly improve grasping accuracy and success rate? (2) how well does our learning-based system perform when compared to alternative approaches? To answer question (1), we compared our approach to an open-loop method that observes the scene prior to the grasp, extracts image patches, chooses the patch with the highest probability of a successful grasp, and then uses a known camera calibration to move the gripper to that location. This method is analogous to the approach proposed by Pinto & Gupta (2015), but uses the same network architecture as our method and the same training set. We refer to this approach as “open loop,” since it does not make use of continuous visual feedback. To answer question (2), we also compared our approach to a random baseline method, as well as a hand-engineered grasping system that uses depth images and heuristic positioning of the fingers. This hand-engineered system is described in Appendix C. Note that our method requires fewer assumptions than either of the two alternative methods: unlike Pinto & Gupta (2015), we do not require knowledge of the camera to hand calibration, and unlike the hand-engineered system, we do not require either the calibration or depth images."
+          },
+          {
+            "title": "Learning hand-eye coordination for robotic grasping with deep learning and large-scale data collection",
+            "text": "The results are presented in Table 1. The success rate of our continuous servoing method exceeded the baseline and prior methods in all cases. For the evaluation without replacement, our method cleared the bin completely after 30 grasps on one of the 4 attempts, and had only one object left in the other 3 attempts (which was picked up on the 31stsuperscript31st31^{\\text{st}} grasp attempt in 2 of the three cases, thus clearing the bin). The hand-engineered baseline struggled to accurately resolve graspable objects in clutter, since the camera was positioned about a meter away from the table, and its performance also dropped in the non-replacement case as the bin was emptied, leaving only small, flat objects that could not be resolved by the depth camera. Many practical grasping systems use a wrist-mounted camera to address this issue (Leeper et al., 2014). In contrast, our approach did not require any special hardware modifications. The open-loop baseline was also substantially less successful. Although it benefited from the large dataset collected by our parallelized data collection setup, which was more than an order of magnitude larger than in prior work (Pinto & Gupta, 2015), it was unable to react to perturbations, movement of objects, and variability in actuation and gripper shape.333The absolute performance of the open-loop method is lower than reported by Pinto & Gupta (2015). This can be attributed to differences in the setup: different objects, grippers, and clutter."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "How was the hyperparameters chosen for the baseline methods, and what were the chosen values for he experiments presented?",
+        "answer": "For baseline pooling methods, we perform grid search following previous work, and present best results [1].",
+        "output": "For baseline pooling methods that necessitate the cluster size as a hyperparameter, the researchers conducted a grid search across various candidates following established practices in previous work [1]. While the specific hyperparameter setups for these pooling baselines are detailed in the appendix, the final pooling size was fixed to a value of 10 [1]. This specific value was chosen because the average size of the most common functional groups in bioactive molecules is 4.25, suggesting that the molecules under consideration can have up to 10 clusters [1].",
+        "docs": [
+          {
+            "title": "Grouping-matrix based Graph Pooling with Adaptive Number of Clusters",
+            "text": "For baseline pooling methods that require the cluster size as a hyperparameter, we perform grid search across candidates following previous work, and present best results. However, we fix the final pooling size to 10 as the average size of most common 404040 functional groups in bioactive molecules is 4.254.254.25 ertl2020most , indicating that molecules under concern (statistics shown in Table 1) can have up to 101010 clusters. The specific hyperparameter setups used for pooling baselines can be found in appendix."
+          },
+          {
+            "title": "Grouping-matrix based Graph Pooling with Adaptive Number of Clusters",
+            "text": "In most inductive settings, there is no single number of clusters that is suitable across all graphs in the dataset. Particularly in molecular graphs, the number of functional groups often determines useful characteristics and chemical behaviors, while varying significantly across different molecules. Nonetheless, existing pooling methods require the number of clusters as a hyperparameter, then operates under the assumption that all graphs share the same number of clusters ranjan2020asap . This is often undesirable as it not only requires additional hyperparameter tuning, but also imposes a strong inductive bias that deteriorates downstream performance."
+          },
+          {
+            "title": "Grouping-matrix based Graph Pooling with Adaptive Number of Clusters",
+            "text": "However, the pooling methods above all share a common limitation: the number of clusters must be predefined for each layer as hyperparameters. This limitation is especially detrimental in inductive settings such as molecular property prediction, where each graph can have varying numbers of useful sub-structures. https://doi.org/10.1111/cbdd.12952 ; doi:10.1021/acs.jmedchem.0c00754 ; GUVENCH20161928  Allowing the model to pool towards varying number of clusters based on data is expected to enhance performance, and our proposed GMPool allows such variation through the rank of the grouping matrix. To the best of our knowledge, GMPool is the first to achieve high performance without the need to manually adjust the number of clusters through additional hyperparameter tuning."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "Instead of editing the prompt based on previous cases, did they test a simpler approach where previous cases are concatenated to the prompt?",
+        "answer": "Yes, they did [3].",
+        "output": "The researchers compared their memory-assisted prompt editing method against a baseline called \"grow-prompt\" [3]. In this approach, the prompt is continuously expanded by inserting a subset of memory that fits within the maximum limit of 2048 tokens [3]. Specifically, the most recent subset of memory is inserted into the prompt for this setup [3].",
+        "docs": [
+          {
+            "title": "MemPrompt: Memory-assisted Prompt Editing with User Feedback",
+            "text": "Given a new query, \\oursuses 𝐟𝐛𝐟𝐛\\mathbf{fb} from similar, prior queries to enrich the (few-shot) prompt 𝐩𝐩\\mathbf{p}. We use the principle that if two inputs xisubscript𝑥𝑖{x}_{i} and xjsubscript𝑥𝑗{x}_{j} are similar (i.e., xi∼xjsimilar-tosubscript𝑥𝑖subscript𝑥𝑗{x}_{i}\\sim{x}_{j}), then their feedback 𝐟𝐛isubscript𝐟𝐛𝑖\\mathbf{fb}_{i} and 𝐟𝐛jsubscript𝐟𝐛𝑗\\mathbf{fb}_{j} should be exchangeable (xi∼xj⇔f​bi∼f​bj)⇔similar-tosubscript𝑥𝑖subscript𝑥𝑗similar-to𝑓subscript𝑏𝑖𝑓subscript𝑏𝑗(x_{i}\\sim x_{j}\\Leftrightarrow fb_{i}\\sim fb_{j}). The underlying assumption here is that for a fixed model, similar inputs will incur similar errors, and thus can use the same feedback for correction. Fig. 2 gives an overview of \\ours, with the following components:"
+          },
+          {
+            "title": "MemPrompt: Memory-assisted Prompt Editing with User Feedback",
+            "text": "Recent work such as Liu et al. (2021a) investigate using dynamic prompts for better generation. For a given input 𝐱𝐱\\mathbf{x}, their method( kate) relies on retrieving examples from the training set that are similar to 𝐱𝐱\\mathbf{x} for dynamically creating the prompt 𝐩𝐩\\mathbf{p}. Note that our method edits 𝐱𝐱\\mathbf{x} with a feedback 𝐟𝐛𝐟𝐛\\mathbf{fb}, and is thus complementary to kate. To demonstrate this, we conduct experiments on ert-cat and ert-nl tasks, where dynamic prompts were created using kate, and \\ourswas used to attach feedback to the question. Our results show a consistent 10% improvement when using both kate and \\ours, indicating that the improvements are complementary."
+          },
+          {
+            "title": "MemPrompt: Memory-assisted Prompt Editing with User Feedback",
+            "text": "We compare \\ours(memory-assisted prompt editing) with two baselines:   ∙∙\\bullet  no-mem This is the standard gpt-3 444We use gpt-3-175b (davinci) for all experiments. in few-shot prompting mode (hyper-parameters listed in Appendix §C). Input is 𝐩​#​𝐱i𝐩#subscript𝐱𝑖\\mathbf{p}\\ \\#\\ \\mathbf{x}_{i} (i.e., question 𝐱isubscript𝐱𝑖\\mathbf{x}_{i} appended to prompt 𝐩𝐩\\mathbf{p}). It generates answer 𝐲isubscript𝐲𝑖\\mathbf{y}_{i} and its understanding of the user’s intent 𝐮isubscript𝐮𝑖\\mathbf{u}_{i}.    ∙∙\\bullet  grow-prompt: Similar to no-mem, but the 𝐩𝐩\\mathbf{p} is continuously grown with a subset of memory ℳℳ\\mathcal{M} that can fit within the prompt (max. 2048 tokens). The most recent subset of ℳℳ\\mathcal{M} of memory inserted is inserted in the prompt. The ethical reasoning tasks (ert) involve long examples, and the initial prompt itself takes close to the max allowed tokens. Thus, the grow-prompt setup is only provided for the lexical relations and word scrambling tasks."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "What is kernel size used in each layer of SegNet?",
+        "answer": "The kernel size used in each layer of SegNet is 7*7 [2].",
+        "output": "SegNet utilizes a constant kernel size of 7×7 across all layers [1][2]. This specific kernel size was selected to provide a wide context for smooth labeling, allowing a pixel in the deepest feature map to be traced back to a 106×106 pixel context window in the input image [1][2]. The choice of a 7×7 kernel represents a trade-off between maintaining a large context window and retaining thin structures, as smaller kernels decrease context while larger ones may potentially destroy thin structures [1].",
+        "docs": [
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "SegNet uses a “flat” architecture, i.e, the number of features in each layer remains the same (646464 in our case) but with full connectivity. This choice is motivated by two reasons. First, it avoids parameter explosion, unlike an expanding deep encoder network with full feature connectivity (same for decoder). Second, the training time remains the same (in our experiments it slightly decreases) for each additional/deeper encoder-decoder pair as the feature map resolution is smaller which makes convolutions faster. Note that the decoder corresponding to the first encoder (closest to the input image) produces a multi-channel feature map although the encoder input is either 3 or 4 channels (RGB or RGBD) (see Fig. 1). This high dimensional feature representation is fed to the soft-max classifier. This is unlike the other decoders which produce feature maps the same size as their encoder inputs. A fixed pooling window of 2×2222\\times 2 with a stride of non-overlapping 222 pixels is used. This small size preserves thin structures in the scene. Further, a constant kernel size of 7×7777\\times 7 over all the layers was chosen to provide a wide context for smooth labelling i.e. a pixel in the deepest layer feature map can be traced back to a context window in the input image of 106×106106106106\\times 106 pixels. The trade-off here is between the size of the context window and retaining thin structures. Smaller kernels decrease context and larger ones potentially destroy thin structures."
+          },
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "We draw inspiration of our encoder-decoder type architectures from probabilistic auto-encoders used to build generative models  and unsupervised learning of feature hierarchies . Our main contribution is to learn an encoder-decoder stack trained in a modular and fully supervised manner for pixel-wise labelling. The addition of each deeper encoder-decoder pair results in an increased spatial context i.e., a 444 layer SegNet with 7×7777\\times 7 kernels and 2×2222\\times 2 non-overlapping max pooling in each layer has a spatial context of 106×106106106106\\times 106 pixels when a feature-map is backtracked to the input image. The SegNet predictions get smoother as more layers are added and demonstrate high accuracy, comparable to or even exceeding methods which use CRFs . SegNet maintains a constant number of features per layer which is typically set to 646464. This has a practical advantage that the computational cost successively decreases for each additional/deeper encoder-decoder pair."
+          },
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "A four layer SegNet architecture used in our experiments is illustrated in Fig. 1. Each encoder performs dense convolutions, ReLU non-linearity, a non-overlapping max pooling with a 2×2222\\times 2 window and finally down-sampling. Each decoder upsamples its input using the memorized pooled indices and convolves it with a trainable filter bank. No ReLU non-linearity is used in the decoder unlike the deconvolution network (41, 42). This makes it easier to optimize the filters in each pair. The encoder and decoder filters are also untied to provide additional degrees of freedom to minimize the objective. The final layer is a soft-max classifier (with no bias term) which classifies each pixel independently. The output of the soft-max is a K channel image where K is the number of classes."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.8333333333333334
+      }
+    ],
+    "bad_examples": [
+      {
+        "question": "Is hyperparameter optimization performed independently for the two dataset corpora?",
+        "answer": "Yes, it does appear that hyperparameter optimization for each dataset is performed independently [1].",
+        "output": "Yes, hyperparameter optimization is performed independently for the two dataset corpora. All model hyperparameters were tuned using the respective validation sets of each corpus [1].",
+        "docs": [
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "All model hyperparameters were tuned on the respective validation sets of the two corpora.555For the Deep LSTM Reader, we consider hidden layer sizes (64,128,256¯)64128¯256{(64,128,\\underline{256})}, depths (1,2¯,4)1¯24{(1,\\underline{2},4)}, initial learning rates (1​e−3,5​e−4,1​e−4¯,5​e−5)1e35e4¯1e45e5{(1\\text{\\sc{e}}{-}3,5\\text{\\sc{e}}{-}4,\\underline{1\\text{\\sc{e}}{-}4},5\\text{\\sc{e}}{-}5)}, batch sizes (16,32¯)16¯32{(16,\\underline{32})} and dropout (0.0,0.1¯,0.2)0.0¯0.10.2(0.0,\\underline{0.1},0.2). We evaluate two types of feeds. In the cqa setup we feed first the context document and subsequently the question into the encoder, while the qca model starts by feeding in the question followed by the context document. We report results on the best model (underlined hyperparameters, qca setup). For the attention models we consider hidden layer sizes (64,128,256)64128256(64,128,256), single layer, initial learning rates (1​e−4,5​e−5,2.5​e−5,1​e−5)1e45e52.5e51e5(1\\text{\\sc{e}}{-}4,5\\text{\\sc{e}}{-}5,2.5\\text{\\sc{e}}{-}5,1\\text{\\sc{e}}{-}5), batch sizes (8,16,32)81632(8,16,32) and dropout (0,0.1,0.2,0.5)00.10.20.5(0,0.1,0.2,0.5). For all models we used asynchronous RmsProp  with a momentum of 0.90.90.9 and a decay of 0.950.950.95. See Appendix A for more details of the experimental setup. Our experimental results are in Table 5, with the Attentive and Impatient Readers performing best across both datasets."
+          },
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "Here we propose a methodology for creating real-world, large scale supervised training data for learning reading comprehension models. Inspired by work in summarisation (10, 11), we create two machine reading corpora by exploiting online newspaper articles and their matching summaries. We have collected 93k articles from the CNN111www.cnn.com and 220k articles from the Daily Mail222www.dailymail.co.uk websites. Both news providers supplement their articles with a number of bullet points, summarising aspects of the information contained in the article. Of key importance is that these summary points are abstractive and do not simply copy sentences from the documents. We construct a corpus of document–query–answer triples by turning these bullet points into Cloze  style questions by replacing one entity at a time with a placeholder. This results in a combined corpus of roughly 1M data points (Table 1). Code to replicate our datasets—and to apply this method to other sources—is available online333http://www.github.com/deepmind/rc-data/."
+          },
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "To prevent such degenerate solutions and create a focused task we anonymise and randomise our corpora with the following procedure,   a) use a coreference system to establish coreferents in each data point;  b) replace all entities with abstract entity markers according to coreference;  c) randomly permute these entity markers whenever a data point is loaded."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "What significance do the numbers like 51.3 and 30.0 have with respect to the One Billion Word benchmark?",
+        "answer": "As the average per-word log-probability, perplexity is a measure of how confused the language model is in predicting the next word [1].",
+        "output": "Based on the provided passages, there is no information regarding the significance of the numbers 51.3 or 30.0 in relation to the One Billion Word benchmark. The documents describe the One Billion Word Benchmark as a large-scale dataset used for measuring progress in statistical language modeling [1][2], noting that it contains approximately 0.8 billion words with a vocabulary of 793,471 words [1]. While the passages establish that perplexity is the standard measure for reporting progress on such benchmarks [3], they do not contain the specific numerical values mentioned in the question.",
+        "docs": [
+          {
+            "title": "Exploring the Limits of Language Modeling",
+            "text": "The experiments are performed on the 1B Word Benchmark data set introduced by (Chelba et al., 2013), which is a publicly available benchmark for measuring progress of statistical language modeling. The data set contains about 0.8B words with a vocabulary of 793471 words, including sentence boundary markers. All the sentences are shuffled and the duplicates are removed. The words that are out of vocabulary (OOV) are marked with a special UNK token (there are approximately 0.3% such words)."
+          },
+          {
+            "title": "Exploring the Limits of Language Modeling",
+            "text": "We focused on a well known, large scale LM benchmark: the One Billion Word Benchmark data set (Chelba et al., 2013). This data set is much larger than PTB (one thousand fold,  800k word vocabulary and  1B words training data) and far more challenging. Similar to Imagenet (Deng et al., 2009), which helped advance computer vision, we believe that releasing and working on large data sets and models with clear benchmarks will help advance Language Modeling."
+          },
+          {
+            "title": "Exploring the Limits of Language Modeling",
+            "text": "The typical measure used for reporting progress in language modeling is perplexity, which is the average per-word log-probability on the holdout data set: e−1N​∑iln⁡pwisuperscript𝑒1𝑁subscript𝑖subscript𝑝subscript𝑤𝑖e^{-\\frac{1}{N}\\sum_{i}\\ln{p_{w_{i}}}}. We follow the standard procedure and sum over all the words (including the end of sentence symbol)."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "What was Faster R-CNN developed to overcome in the Fast R-CNN?",
+        "answer": "Faster R-CNN uses a RPN component to predict bounding boxes of objects it detects instead of sliding windows, which is what Fast R-CNN uses [2].",
+        "output": "Based on the provided documents, there is no explicit information explaining the specific problem or limitation in Fast R-CNN that Faster R-CNN was developed to overcome. The passages primarily focus on comparing the performance and architecture of Faster R-CNN to other models like R-FCN and discussing the importance of specific architectural choices, such as the placement of the RoI pooling layer [1][3]. While the documents note that Faster R-CNN utilizes a fully convolutional Region Proposal Network (RPN) to predict bounding boxes [2], they do not detail the historical motivation for its development in relation to Fast R-CNN.",
+        "docs": [
+          {
+            "title": "R-FCN: Object Detection via Region-based Fully Convolutional Networks",
+            "text": "Next we compare with standard “Faster R-CNN + ResNet-101”  which is the strongest competitor and the top-performer on the PASCAL VOC, MS COCO, and ImageNet benchmarks. We use k×k=7×7𝑘𝑘77k\\times k=7\\times 7 in the following. Table 5 shows the comparisons. Faster R-CNN evaluates a 10-layer subnetwork for each region to achieve good accuracy, but R-FCN has negligible per-region cost. With 300 RoIs at test time, Faster R-CNN takes 0.42s per image, 2.5×\\times slower than our R-FCN that takes 0.17s per image (on a K40 GPU; this number is 0.11s on a Titan X GPU). R-FCN also trains faster than Faster R-CNN. Moreover, hard example mining  adds no cost to R-FCN training (Table 5). It is feasible to train R-FCN when mining from 2000 RoIs, in which case Faster R-CNN is 6×\\times slower (2.9s vs. 0.46s). But experiments show that mining from a larger set of candidates (e.g., 2000) has no benefit (Table 5). So we use 300 RoIs for both training and inference in other parts of this paper."
+          },
+          {
+            "title": "R-FCN: Object Detection via Region-based Fully Convolutional Networks",
+            "text": "There have been object detectors that can be thought of as “fully convolutional” models. OverFeat  detects objects by sliding multi-scale windows on the shared convolutional feature maps; similarly, in Fast R-CNN  and , sliding windows that replace region proposals are investigated. In these cases, one can recast a sliding window of a single scale as a single convolutional layer. The RPN component in Faster R-CNN  is a fully convolutional detector that predicts bounding boxes with respect to reference boxes (anchors) of multiple sizes. The original RPN is class-agnostic in , but its class-specific counterpart is applicable (see also ) as we evaluate in the following."
+          },
+          {
+            "title": "R-FCN: Object Detection via Region-based Fully Convolutional Networks",
+            "text": "Analysis. Table 2 shows the results. We note that the standard (not naïve) Faster R-CNN in the ResNet paper  achieves 76.4% mAP with ResNet-101 (see also Table 5), which inserts the RoI pooling layer between conv444 and conv555 . As a comparison, the naïve Faster R-CNN (that applies RoI pooling after conv555) has a drastically lower mAP of 68.9% (Table 2). This comparison empirically justifies the importance of respecting spatial information by inserting RoI pooling between layers for the Faster R-CNN system. Similar observations are reported in ."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "What is the full form of ILSVRC?",
+        "answer": "Since there are no information about the form of ILSVRC in this paper, this question cannot be answered and requires external knowledge [1].",
+        "output": "Based on the provided documents, the full form of ILSVRC is not mentioned. The term is referenced in relation to the \"ILSVRC 2014 classification competition,\" which was used to evaluate the performance of a specific Convolutional Neural Network (CNN) approach [3].",
+        "docs": [
+          {
+            "title": "Show and tell: A neural image caption generator",
+            "text": "It is natural to model p​(St|I,S0,…,St−1)𝑝conditionalsubscript𝑆𝑡𝐼subscript𝑆0…subscript𝑆𝑡1p(S_{t}|I,S_{0},\\ldots,S_{t-1}) with a Recurrent Neural Network (RNN), where the variable number of words we condition upon up to t−1𝑡1t-1 is expressed by a fixed length hidden state or memory htsubscriptℎ𝑡h_{t}. This memory is updated after seeing a new input xtsubscript𝑥𝑡x_{t} by using a non-linear function f𝑓f:    ht+1=f​(ht,xt).subscriptℎ𝑡1𝑓subscriptℎ𝑡subscript𝑥𝑡h_{t+1}=f(h_{t},x_{t})\\;.  (3)   To make the above RNN more concrete two crucial design choices are to be made: what is the exact form of f𝑓f and how are the images and words fed as inputs xtsubscript𝑥𝑡x_{t}. For f𝑓f we use a Long-Short Term Memory (LSTM) net, which has shown state-of-the art performance on sequence tasks such as translation. This model is outlined in the next section."
+          },
+          {
+            "title": "Show and tell: A neural image caption generator",
+            "text": "The LSTM model is trained to predict each word of the sentence after it has seen the image as well as all preceding words as defined by p​(St|I,S0,…,St−1)𝑝conditionalsubscript𝑆𝑡𝐼subscript𝑆0…subscript𝑆𝑡1p(S_{t}|I,S_{0},\\ldots,S_{t-1}). For this purpose, it is instructive to think of the LSTM in unrolled form – a copy of the LSTM memory is created for the image and each sentence word such that all LSTMs share the same parameters and the output mt−1subscript𝑚𝑡1m_{t-1} of the LSTM at time t−1𝑡1t-1 is fed to the LSTM at time t𝑡t (see Figure 3). All recurrent connections are transformed to feed-forward connections in the unrolled version. In more detail, if we denote by I𝐼I the input image and by S=(S0,…,SN)𝑆subscript𝑆0…subscript𝑆𝑁S=(S_{0},\\ldots,S_{N}) a true sentence describing this image, the unrolling procedure reads:    x−1subscript𝑥1\\displaystyle x_{-1} =\\displaystyle= CNN​(I)CNN𝐼\\displaystyle\\textrm{CNN}(I)  (10)    xtsubscript𝑥𝑡\\displaystyle x_{t} =\\displaystyle= We​St,t∈{0​…​N−1}subscript𝑊𝑒subscript𝑆𝑡𝑡0…𝑁1\\displaystyle W_{e}S_{t},\\quad t\\in\\{0\\ldots N-1\\}\\quad  (11)    pt+1subscript𝑝𝑡1\\displaystyle p_{t+1} =\\displaystyle= LSTM​(xt),t∈{0​…​N−1}LSTMsubscript𝑥𝑡𝑡0…𝑁1\\displaystyle\\textrm{LSTM}(x_{t}),\\quad t\\in\\{0\\ldots N-1\\}\\quad  (12)   where we represent each word as a one-hot vector Stsubscript𝑆𝑡S_{t} of dimension equal to the size of the dictionary. Note that we denote by S0subscript𝑆0S_{0} a special start word and by SNsubscript𝑆𝑁S_{N} a special stop word which designates the start and end of the sentence. In particular by emitting the stop word the LSTM signals that a complete sentence has been generated. Both the image and the words are mapped to the same space, the image by using a vision CNN, the words by using word embedding Wesubscript𝑊𝑒W_{e}. The image I𝐼I is only input once, at t=−1𝑡1t=-1, to inform the LSTM about the image contents. We empirically verified that feeding the image at each time step as an extra input yields inferior results, as the network can explicitly exploit noise in the image and overfits more easily."
+          },
+          {
+            "title": "Show and tell: A neural image caption generator",
+            "text": "For the representation of images, we use a Convolutional Neural Network (CNN). They have been widely used and studied for image tasks, and are currently state-of-the art for object recognition and detection. Our particular choice of CNN uses a novel approach to batch normalization and yields the current best performance on the ILSVRC 2014 classification competition . Furthermore, they have been shown to generalize to other tasks such as scene classification by means of transfer learning . The words are represented with an embedding model."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Is the last 1*1 convolutional layer used because the task requires to output a map of segmentation?",
+        "answer": "Yes 1*1 last convolution layer helps to get desired number of classes for the segmentation map [3].",
+        "output": "The final 1x1 convolution in the network architecture is utilized to map each 64-component feature vector to the desired number of classes [3]. While the provided text does not explicitly state that this choice is driven by the requirement to output a segmentation map, it confirms that this layer serves to transform the feature vectors into the final class-based output [3].",
+        "docs": [
+          {
+            "title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+            "text": "One important modification in our architecture is that in the upsampling part we have also a large number of feature channels, which allow the network to propagate context information to higher resolution layers. As a consequence, the expansive path is more or less symmetric to the contracting path, and yields a u-shaped architecture. The network does not have any fully connected layers and only uses the valid part of each convolution, i.e., the segmentation map only contains the pixels, for which the full context is available in the input image. This strategy allows the seamless segmentation of arbitrarily large images by an overlap-tile strategy (see Figure 2). To predict the pixels in the border region of the image, the missing context is extrapolated by mirroring the input image. This tiling strategy is important to apply the network to large images, since otherwise the resolution would be limited by the GPU memory."
+          },
+          {
+            "title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+            "text": "The input images and their corresponding segmentation maps are used to train the network with the stochastic gradient descent implementation of Caffe . Due to the unpadded convolutions, the output image is smaller than the input by a constant border width. To minimize the overhead and make maximum use of the GPU memory, we favor large input tiles over a large batch size and hence reduce the batch to a single image. Accordingly we use a high momentum (0.99) such that a large number of the previously seen training samples determine the update in the current optimization step."
+          },
+          {
+            "title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+            "text": "The network architecture is illustrated in Figure 1. It consists of a contracting path (left side) and an expansive path (right side). The contracting path follows the typical architecture of a convolutional network. It consists of the repeated application of two 3x3 convolutions (unpadded convolutions), each followed by a rectified linear unit (ReLU) and a 2x2 max pooling operation with stride 2 for downsampling. At each downsampling step we double the number of feature channels. Every step in the expansive path consists of an upsampling of the feature map followed by a 2x2 convolution (“up-convolution”) that halves the number of feature channels, a concatenation with the correspondingly cropped feature map from the contracting path, and two 3x3 convolutions, each followed by a ReLU. The cropping is necessary due to the loss of border pixels in every convolution. At the final layer a 1x1 convolution is used to map each 64-component feature vector to the desired number of classes. In total the network has 23 convolutional layers."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      }
+    ]
+  },
+  "qasa-llama-3.3-70b-instruct-cot_1shot_second_demo_eval_llama-shot1-ndoc3-42-quick_test200.json": {
+    "good_examples": [
+      {
+        "question": "In BUIR, how does the online encoder updated compared to the target encoder?",
+        "answer": "The online encoder is updated to minimize the error between the output and the target and updated by the gradients back-propagated from the loss, but target network is updated based on the momentum update and updated as the moving average of the online encoder [1].",
+        "output": "The online encoder in BUIR is updated to minimize the error between its output and the target, whereas the target encoder is slowly updated based on the momentum update [1]. The update rules for the online and target encoders are given by θ←θ−η⋅∇θℒθ,ξ and ξ←τ⋅ξ+(1−τ)⋅θ, respectively [3]. This means that the target encoder is updated as a moving average of the online encoder, with the momentum coefficient τ controlling the speed of the update [3]. The online encoder is effectively optimized by the gradients back-propagated from the loss, while the target encoder evolves more slowly than the online encoder due to the momentum-based update [1][3]. By taking a large value of τ, the target encoder slowly approximates the online encoder, enabling the bootstrapping of representations by providing enhanced but consistent targets to the online encoders [3].",
+        "docs": [
+          {
+            "title": "Bootstrapping User and Item Representations for One-Class Collaborative Filtering",
+            "text": "BUIR makes use of two distinct encoder networks that have the same structure: online encoder fθsubscript𝑓𝜃f_{\\theta} and target encoder fξsubscript𝑓𝜉f_{\\xi}. They are parameterized by θ𝜃\\theta and ξ𝜉\\xi, respectively. The key idea of BUIR is to train the online encoder by using outputs of the target encoder as its target, while gradually improving the target encoder as well. The main difference of BUIR from existing end-to-end learning frameworks is that fθsubscript𝑓𝜃f_{\\theta} and fξsubscript𝑓𝜉f_{\\xi} are updated in different ways. The online encoder is trained to minimize the error between its output and the target, whereas the target network is slowly updated based on the momentum update (He et al., 2020b) so as to keep its output consistent."
+          },
+          {
+            "title": "Bootstrapping User and Item Representations for One-Class Collaborative Filtering",
+            "text": "Figure 6 clearly shows that the performance is hardly affected by τ𝜏\\tau in the range of (0.9, 1.0). In other words, any values of τ𝜏\\tau larger than 0.9 allow the target encoder to successfully provide the target representations to the online encoder, by slowly approximating the online encoder; on the contrary, BUIR cannot learn the effective representations at all in case that the target encoder is fixed (i.e., τ=1𝜏1\\tau=1). This observation is consistent with previous work on momentum-based moving average (Tarvainen and Valpola, 2017; He et al., 2020b; Grill et al., 2020) that showed all values of τ𝜏\\tau between 0.9 and 0.999 can yield the best performance. Furthermore, BUIR performs the best with a single-layer predictor, because a multi-layer predictor makes it difficult to optimize the relationship between outputs of the two encoder networks. In conclusion, BUIR is more powerful even with fewer hyperparameters, compared to existing OCCF methods that include a variety of regularization terms or modeling components."
+          },
+          {
+            "title": "Bootstrapping User and Item Representations for One-Class Collaborative Filtering",
+            "text": "To sum up, the parameters of the online encoder and target encoder are optimized by   (4)  θ←θ−η⋅∇θℒθ,ξξ←τ⋅ξ+(1−τ)⋅θ.←𝜃𝜃⋅𝜂subscript∇𝜃subscriptℒ𝜃𝜉𝜉←⋅𝜏𝜉⋅1𝜏𝜃\\begin{split}\\theta&\\leftarrow\\theta-\\eta\\cdot\\nabla_{\\theta}\\mathcal{L}_{\\theta,\\xi}\\\\ \\xi&\\leftarrow\\tau\\cdot\\xi+(1-\\tau)\\cdot\\theta.\\end{split}    η𝜂\\eta is the learning rate for stochastic optimization, and τ∈(0,1)𝜏01\\tau\\in(0,1) is a momentum coefficient (also called as target decay) for momentum-based moving average. The online encoder fθsubscript𝑓𝜃f_{\\theta} (and the predictor qθsubscript𝑞𝜃q_{\\theta}) is effectively optimized by the gradients back-propagated from the loss (Equation (3)), while the target encoder fξsubscript𝑓𝜉f_{\\xi} is updated as the moving average of the online encoder. By taking a large value of τ𝜏\\tau, the target encoder slowly approximates the online encoder. This momentum-based update makes ξ𝜉\\xi evolve more slowly than θ𝜃\\theta, which enables to bootstrap the representations by providing enhanced but consistent targets to the online encoders (He et al., 2020b; Grill et al., 2020). Figure 1 illustrates the overall framework of BUIR with the simple one-hot encoders."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.9
+      },
+      {
+        "question": "What is kernel size used in each layer of SegNet?",
+        "answer": "The kernel size used in each layer of SegNet is 7*7 [2].",
+        "output": "The kernel size used in each layer of SegNet is a constant size of 7×7 [1][2]. This choice is made to provide a wide context for smooth labeling, with a trade-off between the size of the context window and retaining thin structures [1]. The use of a constant kernel size across all layers allows for a consistent spatial context, which is important for pixel-wise labeling tasks [2]. By using a 7×7 kernel size, SegNet can capture a wide context window of 106×106 pixels when a feature-map is backtracked to the input image [1][2]. Overall, the choice of kernel size in SegNet is designed to balance the need for spatial context with the need to preserve thin structures in the scene [1].",
+        "docs": [
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "SegNet uses a “flat” architecture, i.e, the number of features in each layer remains the same (646464 in our case) but with full connectivity. This choice is motivated by two reasons. First, it avoids parameter explosion, unlike an expanding deep encoder network with full feature connectivity (same for decoder). Second, the training time remains the same (in our experiments it slightly decreases) for each additional/deeper encoder-decoder pair as the feature map resolution is smaller which makes convolutions faster. Note that the decoder corresponding to the first encoder (closest to the input image) produces a multi-channel feature map although the encoder input is either 3 or 4 channels (RGB or RGBD) (see Fig. 1). This high dimensional feature representation is fed to the soft-max classifier. This is unlike the other decoders which produce feature maps the same size as their encoder inputs. A fixed pooling window of 2×2222\\times 2 with a stride of non-overlapping 222 pixels is used. This small size preserves thin structures in the scene. Further, a constant kernel size of 7×7777\\times 7 over all the layers was chosen to provide a wide context for smooth labelling i.e. a pixel in the deepest layer feature map can be traced back to a context window in the input image of 106×106106106106\\times 106 pixels. The trade-off here is between the size of the context window and retaining thin structures. Smaller kernels decrease context and larger ones potentially destroy thin structures."
+          },
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "We draw inspiration of our encoder-decoder type architectures from probabilistic auto-encoders used to build generative models  and unsupervised learning of feature hierarchies . Our main contribution is to learn an encoder-decoder stack trained in a modular and fully supervised manner for pixel-wise labelling. The addition of each deeper encoder-decoder pair results in an increased spatial context i.e., a 444 layer SegNet with 7×7777\\times 7 kernels and 2×2222\\times 2 non-overlapping max pooling in each layer has a spatial context of 106×106106106106\\times 106 pixels when a feature-map is backtracked to the input image. The SegNet predictions get smoother as more layers are added and demonstrate high accuracy, comparable to or even exceeding methods which use CRFs . SegNet maintains a constant number of features per layer which is typically set to 646464. This has a practical advantage that the computational cost successively decreases for each additional/deeper encoder-decoder pair."
+          },
+          {
+            "title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+            "text": "A four layer SegNet architecture used in our experiments is illustrated in Fig. 1. Each encoder performs dense convolutions, ReLU non-linearity, a non-overlapping max pooling with a 2×2222\\times 2 window and finally down-sampling. Each decoder upsamples its input using the memorized pooled indices and convolves it with a trainable filter bank. No ReLU non-linearity is used in the decoder unlike the deconvolution network (41, 42). This makes it easier to optimize the filters in each pair. The encoder and decoder filters are also untied to provide additional degrees of freedom to minimize the objective. The final layer is a soft-max classifier (with no bias term) which classifies each pixel independently. The output of the soft-max is a K channel image where K is the number of classes."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.9
+      },
+      {
+        "question": "How did the performance of the proposed model differ on shorter vs longer audio sequences?",
+        "answer": "While the proposed model showed good performance on shorter audio sequences (~200 phones), it failed to align most of phones on longer audio sequences [3].",
+        "output": "The proposed model's performance differed on shorter vs longer audio sequences, with the baseline model able to decode sequences up to about 120-150 phones when a single utterance was repeated or concatenated [3]. However, the model's performance was affected by the sharpening methods, which helped with long utterances but negatively impacted performance on short utterances [2]. The model with the hybrid attention mechanism and convolutional features was able to align sequences up to 200 phones long, but failed to align almost all phones once it began to fail [3]. The creation of datasets with long utterances, either by repeating each test utterance or concatenating randomly chosen utterances, allowed for the evaluation of the model's performance on longer sequences [1]. Overall, the model's performance varied depending on the sequence length and the specific model architecture used [2][3]. The use of smoothing techniques, such as replacing the unbounded exponential function of the softmax function with the bounded logistic sigmoid, helped to improve the model's performance on long utterances [2].",
+        "docs": [
+          {
+            "title": "Attention-Based Models for Speech Recognition",
+            "text": "The good performance of the baseline model led us to the question of how it distinguishes between repetitions of similar phoneme sequences and how reliably it decodes longer sequences with more repetitions. We created two datasets of long utterances; one by repeating each test utterance, and the other by concatenating randomly chosen utterances. In both cases, the waveforms were cross-faded with a 0.05s silence inserted as the “pau” phone. We concatenated up to 151515 utterances."
+          },
+          {
+            "title": "Attention-Based Models for Speech Recognition",
+            "text": "We observed that the proposed sharpening methods indeed helped with long utterances. However, all of them, and especially selecting the frame with the highest score, negatively affected the model’s performance on the standard development set which mostly consists of short utterances. This observations let us hypothesize that it is helpful for the model to aggregate selections from multiple top-scored frames. In a sense this brings more diversity, i.e., more effective training examples, to the output part of the model, as more input locations are considered. To facilitate this effect, we replace the unbounded exponential function of the softmax function in Eq. (6) with the bounded logistic sigmoid σ𝜎\\sigma such that    ai,j=σ​(ei,j)/∑j=1Lσ​(ei,j).subscript𝑎𝑖𝑗/𝜎subscript𝑒𝑖𝑗superscriptsubscript𝑗1𝐿𝜎subscript𝑒𝑖𝑗a_{i,j}=\\sigma(e_{i,j})\\left/\\sum_{j=1}^{L}\\sigma(e_{i,j})\\right..    This has the effect of smoothing the focus found by the attention mechanism."
+          },
+          {
+            "title": "Attention-Based Models for Speech Recognition",
+            "text": "The first column of Fig. 4 shows the number of correctly aligned frames w.r.t. the utterance length (in frames) for some of the considered models. One can see that the baseline model was able to decode sequences up to about 120 phones when a single utterance was repeated, and up to about 150 phones when different utterances were concatenated. Even when it failed, it correctly aligned about 50 phones. On the other hand, the model with the hybrid attention mechanism with convolutional features was able to align sequences up to 200 phones long. However, once it began to fail, the model was not able to align almost all phones. The model with the smoothing behaved similarly to the one with convolutional features only."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "Which evaluation criteria was used to compare the performance of action recognition models?",
+        "answer": "Evaluation criteria are measure on RGB data(single or multiple frames) and flow features [2].",
+        "output": "The evaluation criteria used to compare the performance of action recognition models include comparing models that use only RGB data, models that use explicitly computed flow features only, and models that use both, as summarized in Table 4 [1]. Additionally, the performance on supervised tasks, such as action recognition, was evaluated using datasets like UCF-101 and HMDB-51 [2]. The comparison of models was also based on their performance on these datasets, with the results showing that all unsupervised models improved over the baseline LSTM [2]. Furthermore, the performance of different models, including the Composite Model, Autoencoder model, and Future Predictor, was compared and analyzed [2]. Overall, the evaluation criteria used to compare the performance of action recognition models involved a combination of dataset-based evaluation and comparison of model performance on supervised tasks [1][2].",
+        "docs": [
+          {
+            "title": "Unsupervised Learning of Video Representations using LSTMs",
+            "text": "Finally, we compare our models to the state-of-the-art action recognition results. The performance is summarized in Table 4. The table is divided into three sets. The first set compares models that use only RGB data (single or multiple frames). The second set compares models that use explicitly computed flow features only. Models in the third set use both."
+          },
+          {
+            "title": "Unsupervised Learning of Video Representations using LSTMs",
+            "text": "Next, we compare the models using performance on a supervised task. Table 3 shows the performance on action recognition achieved by finetuning different unsupervised learning models. Besides running the experiments on the full UCF-101 and HMDB-51 datasets, we also ran the experiments on small subsets of these to better highlight the case where we have very few training examples. We find that all unsupervised models improve over the baseline LSTM which is itself well-regularized by using dropout. The Autoencoder model seems to perform consistently better than the Future Predictor. The Composite model which combines the two does better than either one alone. Conditioning on the generated inputs does not seem to give a clear advantage over not doing so. The Composite Model with a conditional future predictor works the best, although its performance is almost same as that of the Composite Model."
+          },
+          {
+            "title": "Unsupervised Learning of Video Representations using LSTMs",
+            "text": "We proposed models based on LSTMs that can learn good video representations. We compared them and analyzed their properties through visualizations. Moreover, we managed to get an improvement on supervised tasks. The best performing model was the Composite Model that combined an autoencoder and a future predictor. Conditioning on generated outputs did not have a significant impact on the performance for supervised tasks, however it made the future predictions look slightly better. The model was able to persistently generate motion well beyond the time scales it was trained for. However, it lost the precise object features rapidly after the training time scale. The features at the input and output layers were found to have some interesting properties."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 0.9
+      },
+      {
+        "question": "If the same information from the latent vector is being added during decoding, why did the Memory scheme yield higher performance?",
+        "answer": "The authors theorize that the memory scheme is better since the latent information is accessible to every layer in the neural network, instead of being available to only two layers (input, output) in the embedding approach [3].",
+        "output": "The Memory scheme yields higher performance compared to the Embedding scheme because it enables the decoder to attend to the latent information at every layer of the network directly [3]. This is in contrast to the Embedding method, which only allows the decoder to access the latent information at the input and output layers [3]. The ability of the Memory scheme to provide direct access to latent information across multiple layers is hypothesized to be the primary reason for its superior performance [3]. This hypothesis is supported by the empirical results, which show that the Memory scheme is significantly more effective than the Embedding scheme, and that combining both schemes leads to slightly better results [3]. Overall, the Memory scheme's advantage can be attributed to its capacity to facilitate more comprehensive and layer-wise utilization of the latent vector during the decoding process [3].",
+        "docs": [
+          {
+            "title": "Optimus: Organizing Sentences via Pre-trained Modeling of a Latent Space",
+            "text": "Variational Autoencoders (VAEs) Kingma and Welling (2013); Rezende et al. (2014) provide a tractable method to train latent-variable generative models. In NLP, latent variables may assume the role of higher-level sentence representations, which govern a lower-level word-by-word generation process, thus facilitating controlled text generation Bowman et al. (2016); Hu et al. (2017). By representing sentences in a low-dimensional latent space, VAEs allow easy manipulation of sentences using the corresponding compact vector representations, such as feature regularization specified by prior distributions, and guided sentence generation with interpretable vector operators. Despite the attractive theoretical strengths, the current language VAEs are often built with shallow network architectures, such as two-layer LSTMs Hochreiter and Schmidhuber (1997). This limits the model’s capacity and leads to sub-optimal performance."
+          },
+          {
+            "title": "Optimus: Organizing Sentences via Pre-trained Modeling of a Latent Space",
+            "text": "Fine-tuning LM on new datasets is straightforward. We load the pre-trained Optimus, and update the model with one additional β𝛽\\beta scheduling cycle for one epoch. The semantic latent vectors are first pre-trained off-the-shelf, and then easily leveraged to train the decoder on downstream datasets. From this perspective, our pre-training can be viewed as an effective approach to reduce KL vanishing."
+          },
+          {
+            "title": "Optimus: Organizing Sentences via Pre-trained Modeling of a Latent Space",
+            "text": "Similar to BERT, the first token of every sentence is always a special classification token ((CLS)). The last-layer hidden state 𝒉(CLS)∈ℝHsubscript𝒉(CLS)superscriptℝ𝐻{\\boldsymbol{h}}_{\\texttt{(CLS)}}\\in\\mathbb{R}^{H} corresponding to this token is used as the sentence-level representation. It further constructs the latent representation 𝒛=𝐖E​𝒉(CLS)𝒛subscript𝐖Esubscript𝒉(CLS)\\boldsymbol{z}={{\\bf W}}_{\\text{E}}{\\boldsymbol{h}}_{\\texttt{(CLS)}}, where 𝒛∈ℝP𝒛superscriptℝ𝑃\\boldsymbol{z}\\in\\mathbb{R}^{P} is a P𝑃P-dimensional vector and 𝐖E∈ℝP×Hsubscript𝐖Esuperscriptℝ𝑃𝐻{{\\bf W}}_{\\text{E}}\\in\\mathbb{R}^{P\\times H} is the weight matrix. To facilitate 𝒛𝒛\\boldsymbol{z} in GPT-2 decoding without re-training the weights, we consider two schemes, illustrated in Figure 2:   •  Memory: 𝒛𝒛\\boldsymbol{z} plays the role of an additional memory vector 𝒉Memsubscript𝒉Mem{\\boldsymbol{h}}_{\\texttt{Mem}} for GPT2 to attend. Specifically, 𝒉Mem=𝐖M​𝒛subscript𝒉Memsubscript𝐖M𝒛{\\boldsymbol{h}}_{\\texttt{Mem}}={{\\bf W}}_{\\text{M}}\\boldsymbol{z}, where 𝐖M∈ℝL​H×Psubscript𝐖Msuperscriptℝ𝐿𝐻𝑃{{\\bf W}}_{\\text{M}}\\in\\mathbb{R}^{LH\\times P} is the weight matrix. 𝒉Mem∈ℝL​Hsubscript𝒉Memsuperscriptℝ𝐿𝐻{\\boldsymbol{h}}_{\\texttt{Mem}}\\in\\mathbb{R}^{LH} is separated into L𝐿L vectors of length H𝐻H, each of which is attended by GPT-2 in one layer.    •  Embedding: 𝒛𝒛\\boldsymbol{z} is added on the original embedding layer, and directly used in every decoding step. The new embedding representation is 𝒉Emb′=𝒉Emb+𝐖D​𝒛superscriptsubscript𝒉Emb′subscript𝒉Embsubscript𝐖D𝒛{\\boldsymbol{h}}_{\\texttt{Emb}}^{\\prime}={\\boldsymbol{h}}_{\\texttt{Emb}}+{{\\bf W}}_{\\text{D}}\\boldsymbol{z}, where 𝐖D∈ℝH×Psubscript𝐖Dsuperscriptℝ𝐻𝑃{{\\bf W}}_{\\text{D}}\\in\\mathbb{R}^{H\\times P}.    We study their empirical performance in Section B.1 of Appendix, and observe that Memory is significantly more effective than Embedding, and the integration of both schemes yields slightly better results. We hypothesize that the reason why Memory is superior is because it allows the decoder to attend the latent information at every layer of the network directly, while the Embedding method only allows the decoder to see the latent information at the input and output layer. In our experiments, we use the integration scheme by default. In summary, the encoder parameters ϕ={ϕBERT,𝐖E}bold-italic-ϕsubscriptbold-italic-ϕBERTsubscript𝐖E\\boldsymbol{\\phi}=\\{\\boldsymbol{\\phi}_{\\text{BERT}},{{\\bf W}}_{\\text{E}}\\}, and decoder parameters 𝜽={𝜽GPT-2,𝐖M,𝐖D}𝜽subscript𝜽GPT-2subscript𝐖Msubscript𝐖D\\boldsymbol{\\theta}=\\{\\boldsymbol{\\theta}_{\\text{GPT-2}},{{\\bf W}}_{\\text{M}},{{\\bf W}}_{\\text{D}}\\}."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      }
+    ],
+    "bad_examples": [
+      {
+        "question": "Is hyperparameter optimization performed independently for the two dataset corpora?",
+        "answer": "Yes, it does appear that hyperparameter optimization for each dataset is performed independently [1].",
+        "output": "The hyperparameter optimization for the two dataset corpora is performed independently, with all model hyperparameters tuned on the respective validation sets of the two corpora [1]. This means that the hyperparameters were adjusted separately for each corpus to achieve the best performance, rather than using a single set of hyperparameters for both corpora [1]. The specific hyperparameters that were tuned include hidden layer sizes, depths, initial learning rates, batch sizes, and dropout rates, among others [1]. By tuning these hyperparameters independently for each corpus, the authors aimed to optimize the performance of their models on each dataset [1].",
+        "docs": [
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "All model hyperparameters were tuned on the respective validation sets of the two corpora.555For the Deep LSTM Reader, we consider hidden layer sizes (64,128,256¯)64128¯256{(64,128,\\underline{256})}, depths (1,2¯,4)1¯24{(1,\\underline{2},4)}, initial learning rates (1​e−3,5​e−4,1​e−4¯,5​e−5)1e35e4¯1e45e5{(1\\text{\\sc{e}}{-}3,5\\text{\\sc{e}}{-}4,\\underline{1\\text{\\sc{e}}{-}4},5\\text{\\sc{e}}{-}5)}, batch sizes (16,32¯)16¯32{(16,\\underline{32})} and dropout (0.0,0.1¯,0.2)0.0¯0.10.2(0.0,\\underline{0.1},0.2). We evaluate two types of feeds. In the cqa setup we feed first the context document and subsequently the question into the encoder, while the qca model starts by feeding in the question followed by the context document. We report results on the best model (underlined hyperparameters, qca setup). For the attention models we consider hidden layer sizes (64,128,256)64128256(64,128,256), single layer, initial learning rates (1​e−4,5​e−5,2.5​e−5,1​e−5)1e45e52.5e51e5(1\\text{\\sc{e}}{-}4,5\\text{\\sc{e}}{-}5,2.5\\text{\\sc{e}}{-}5,1\\text{\\sc{e}}{-}5), batch sizes (8,16,32)81632(8,16,32) and dropout (0,0.1,0.2,0.5)00.10.20.5(0,0.1,0.2,0.5). For all models we used asynchronous RmsProp  with a momentum of 0.90.90.9 and a decay of 0.950.950.95. See Appendix A for more details of the experimental setup. Our experimental results are in Table 5, with the Attentive and Impatient Readers performing best across both datasets."
+          },
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "Here we propose a methodology for creating real-world, large scale supervised training data for learning reading comprehension models. Inspired by work in summarisation (10, 11), we create two machine reading corpora by exploiting online newspaper articles and their matching summaries. We have collected 93k articles from the CNN111www.cnn.com and 220k articles from the Daily Mail222www.dailymail.co.uk websites. Both news providers supplement their articles with a number of bullet points, summarising aspects of the information contained in the article. Of key importance is that these summary points are abstractive and do not simply copy sentences from the documents. We construct a corpus of document–query–answer triples by turning these bullet points into Cloze  style questions by replacing one entity at a time with a placeholder. This results in a combined corpus of roughly 1M data points (Table 1). Code to replicate our datasets—and to apply this method to other sources—is available online333http://www.github.com/deepmind/rc-data/."
+          },
+          {
+            "title": "Teaching Machines to Read and Comprehend",
+            "text": "To prevent such degenerate solutions and create a focused task we anonymise and randomise our corpora with the following procedure,   a) use a coreference system to establish coreferents in each data point;  b) replace all entities with abstract entity markers according to coreference;  c) randomly permute these entity markers whenever a data point is loaded."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Is it inspired by transformer network?",
+        "answer": "The authors extend the spatial self-attention in the T2I model from one image to multiple images to maintain content consistency across frames [3]. It is useful in spatiotemporal domain like generating videos [2].",
+        "output": "The T2I diffusion model employed in the paper is indeed inspired by transformer networks, as it utilizes a U-Net architecture that includes transformer blocks [1]. These transformer blocks consist of a spatial self-attention layer, a cross-attention layer, and a feed-forward network (FFN), which are key components of transformer networks [1]. The use of self-attention layers in the T2I model, driven by spatial similarities rather than pixel positions, further supports the connection to transformer networks [1]. Although the other passages do not provide direct evidence of inspiration from transformer networks, they discuss the use of attention mechanisms and spatial self-attention in the T2I model, which is related to the transformer network architecture [3]. Overall, the T2I diffusion model's design and components, particularly the transformer blocks, indicate that it is inspired by transformer networks [1].",
+        "docs": [
+          {
+            "title": "Tune-A-Video: One-Shot Tuning of Image Diffusion Models for Text-to-Video Generation",
+            "text": "A T2I diffusion model (e.g., LDM ) typically employs a U-Net , which is a neural network architecture based on a spatial downsampling pass followed by an upsampling pass with skip connections. It is composed of stacked 2D convolutional residual blocks and transformer blocks. Each transformer block consists of a spatial self-attention layer, a cross-attention layer, and a feed-forward network (FFN). The spatial self-attention leverages pixel locations in feature maps for similar correlation, while the cross-attention considers correspondence between pixels and conditional inputs (e.g., text). Formally, given latent representation zvisubscript𝑧subscript𝑣𝑖z_{v_{i}} of video frame visubscript𝑣𝑖{v_{i}}, the spatial self-attention mechanism  implements Attention​(Q,K,V)=Softmax​(Q​KTd)⋅VAttention𝑄𝐾𝑉⋅Softmax𝑄superscript𝐾𝑇𝑑𝑉\\mathrm{Attention}(Q,K,V)=\\mathrm{Softmax}(\\frac{QK^{T}}{\\sqrt{d}})\\cdot V, with    Q=WQ​zvi,K=WK​zvi,V=WV​zvi,formulae-sequence𝑄superscript𝑊𝑄subscript𝑧subscript𝑣𝑖formulae-sequence𝐾superscript𝑊𝐾subscript𝑧subscript𝑣𝑖𝑉superscript𝑊𝑉subscript𝑧subscript𝑣𝑖Q=W^{Q}z_{v_{i}},K=W^{K}z_{v_{i}},V=W^{V}z_{v_{i}},    where WQsuperscript𝑊𝑄W^{Q}, WKsuperscript𝑊𝐾W^{K}, and WVsuperscript𝑊𝑉W^{V} are learnable matrices that project the inputs to query, key and value, respectively, and and d𝑑d is the output dimension of key and query features."
+          },
+          {
+            "title": "Tune-A-Video: One-Shot Tuning of Image Diffusion Models for Text-to-Video Generation",
+            "text": "In this paper, we introduce a new task for T2V generation called One-Shot Video Tuning. This task involves training a T2V generator using only a single text-video pair and pretrained T2I models. We present Tune-A-Video, a simple yet effective framework for text-driven video generation and editing. To generate continuous videos, we propose an efficient tuning strategy and structural inversion that enable generating temporally-coherent videos. Extensive experiments demonstrate the remarkable results of our method spanning a wide range of applications."
+          },
+          {
+            "title": "Tune-A-Video: One-Shot Tuning of Image Diffusion Models for Text-to-Video Generation",
+            "text": "Intuitively, the key to successful video generation lies in preserving the continuous motion of consistent objects. So we make the following observations on state-of-the-art T2I diffusion models  that motivate our method accordingly. (1) Regarding motion: T2I models are able to generate images that align well with the text, including the verb terms. For example, given the text prompt “a man is running on the beach”, the T2I models produce the snapshot where a man is running (not walking or jumping), albeit not necessarily in a continuous manner (the first row of Fig. 2). This serves as evidence that T2I models can properly attend to verbs via cross-modal attention for static motion generation. (2) Regarding consistent objects: Simply extending the spatial self-attention in the T2I model from one image to multiple images produces consistent content across frames. Taking the same example, when we generate consecutive frames in parallel with extended spatio-temporal attention, the same man and the same beach can be observed in the resultant sequence though the motion is still not continuous (the second row of Fig. 2). This implies that the self-attention layers in T2I models are only driven by spatial similarities rather than pixel positions."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Does the proposed approach in the paper require a labelled dataset?",
+        "answer": "ULMFiT first pretrains a language model on a large general-domain corpus, and does not require any additional in-domain documents or labels for this [2]. Then, the method will fine-tune the model on a target task using novel techniques [3].",
+        "output": "The proposed approach in the paper does require a labeled dataset, at least for the supervised setting [2]. However, it can also utilize unlabeled examples in a semi-supervised setting, and the approach has been shown to be effective with a small number of labeled examples [1]. The method is designed to be universal and does not require custom feature engineering or preprocessing, but it does require some labeled data for fine-tuning [2]. According to [1], the approach can achieve good performance with as few as 100 labeled examples, and it can even match the performance of training from scratch with 10× to 20× more data. Additionally, [2] evaluates the approach in both supervised and semi-supervised settings, further emphasizing the importance of labeled data. Overall, while the approach can leverage unlabeled data, a labeled dataset is necessary for the supervised setting and for achieving good performance [1][2].",
+        "docs": [
+          {
+            "title": "Universal Language Model Fine-tuning for Text Classification",
+            "text": "On IMDb and AG, supervised ULMFiT with only 100100100 labeled examples matches the performance of training from scratch with 10×10\\times and 20×20\\times more data respectively, clearly demonstrating the benefit of general-domain LM pretraining. If we allow ULMFiT to also utilize unlabeled examples (505050k for IMDb, 100100100k for AG), at 100100100 labeled examples, we match the performance of training from scratch with 50×50\\times and 100×100\\times more data on AG and IMDb respectively. On TREC-6, ULMFiT significantly improves upon training from scratch; as examples are shorter and fewer, supervised and semi-supervised ULMFiT achieve similar results."
+          },
+          {
+            "title": "Universal Language Model Fine-tuning for Text Classification",
+            "text": "One of the main benefits of transfer learning is being able to train a model for a task with a small number of labels. We evaluate ULMFiT on different numbers of labeled examples in two settings: only labeled examples are used for LM fine-tuning (‘supervised’); and all task data is available and can be used to fine-tune the LM (‘semi-supervised’). We compare ULMFiT to training from scratch—which is necessary for hypercolumn-based approaches. We split off balanced fractions of the training data, keep the validation set fixed, and use the same hyperparameters as before. We show the results in Figure 3."
+          },
+          {
+            "title": "Universal Language Model Fine-tuning for Text Classification",
+            "text": "We propose Universal Language Model Fine-tuning (ULMFiT), which pretrains a language model (LM) on a large general-domain corpus and fine-tunes it on the target task using novel techniques. The method is universal in the sense that it meets these practical criteria: 1) It works across tasks varying in document size, number, and label type; 2) it uses a single architecture and training process; 3) it requires no custom feature engineering or preprocessing; and 4) it does not require additional in-domain documents or labels."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Why was the random edge exploration technique used during training of SBM-Transformer?",
+        "answer": "The random edge exploration technique allows SBM-Transformer to avoid the problem of having edge probabilities accidentally collapsing to zero and to explore new edges and resuscitate their sampling probabilities if necessary [2].",
+        "output": "Unfortunately, the provided passages do not contain sufficient information to answer the question about the random edge exploration technique used during training of SBM-Transformer [1]. The passages introduce the SBM-Transformer and its attention mechanism, which uses a mixed-membership Stochastic Block Model to sample a bipartite graph connecting queries to keys [1], but do not explicitly mention the random edge exploration technique or its purpose during training. The other passages discuss the Stochastic Block Model and its variants [2], as well as the full attention mechanism and masked attention [3], but do not provide any information about the random edge exploration technique. Therefore, it is not possible to determine why the random edge exploration technique was used during training of SBM-Transformer based on the provided passages [1][2][3].",
+        "docs": [
+          {
+            "title": "Transformers meet Stochastic Block Models: Attention with Data-Adaptive Sparsity and Cost",
+            "text": "To contribute to the efficient Transformers lineage, we propose SBM-Transformer, capable of adjusting its attention sparsity data-adaptively based without fully computing the attention score matrix (Figure 1). Leveraging a mixed-membership Stochastic Block Model (SBM) , each attention head samples a bipartite graph connecting queries to keys. Then, the adjacency of the sampled graph is used as an attention mask so that only attention scores corresponding to sampled edges are computed. The overall computational cost is linear in the number of edges, which can range from linear to quadratic in sequence length depending on the data and task under concern. Each attention head is equipped with its own underlying SBM, enabling the model to diversify the attention sparsity across heads and layers. By incorporating a straight-through estimator  in the discrete graph-sampling step, SBM-Transformer enjoys end-to-end differentiability and can find the proper attention sparsity based solely upon minimizing the predictive loss. The model can also easily be further regularized by penalizing the number of sampled edges, which results in a lighter model using less computational resources during inference. To the best of our knowledge, our method is the first Transformer architecture that can data-adaptively choose between linear to full attention with respective computational costs. To summarize, our main contributions are as follows:"
+          },
+          {
+            "title": "Transformers meet Stochastic Block Models: Attention with Data-Adaptive Sparsity and Cost",
+            "text": "The Stochastic Block Model (SBM) is a generative model that encodes the latent structure of graphs by grouping nodes into clusters. By modeling the cluster-membership of each node as well as inter-cluster relationships, SBMs can represent a wide variety of graph structures, which is a feature especially useful for generating new graphs or predicting missing edges in noisy data . The standard SBM assigns each node to a single cluster, and the probability of an edge between two nodes strictly depends on the corresponding clusters. Several structural extensions include overlapping SBM  and mixed-membership SBM , which allow each node to be assigned to multiple clusters. The underlying SBM used by our framework mostly resembles these two variants, while the edge probability is modeled by a nonlinear function of two node embeddings rather than a bilinear one. There exist many other extensions including degree-corrected SBM  for multi-graphs and hierarchical SBM  for multiplex-graphs. Further details can be found in a recent survey ."
+          },
+          {
+            "title": "Transformers meet Stochastic Block Models: Attention with Data-Adaptive Sparsity and Cost",
+            "text": "We first introduce the full attention mechanism used in the original Transformer  as well as masked attention which will serve as a backbone of our approach."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "How do the authors come to the conclusion that the thinness is what is causing regions to be masked improperly?",
+        "answer": "The simultaneous estimation of structure and motion is a well studied problem where traditional methods suffer from thin structures [3].",
+        "output": "The authors conclude that the thinness of structures is what causes regions to be masked improperly because the depth CNN has low confidence in predicting thin structures well, as evidenced by the visualization of example explainability masks predicted by the network [1]. This suggests that the network's inability to accurately predict the depth of thin structures leads to them being masked as unexplainable. The use of an explainability prediction network, which outputs a per-pixel soft mask, allows the network to identify regions where the view synthesis will be successfully modeled, but the low confidence in predicting thin structures still results in them being masked [2]. While the general problem of simultaneous estimation of structure and motion is a well-studied topic [3], the specific issue of thinness affecting the masking of regions is primarily addressed through the visualization and explanation provided in [1], with additional context on the network's functionality provided by [2]. Overall, the conclusion that thinness is the cause of improper masking is supported by the network's behavior and design, as described in [1] and [2].",
+        "docs": [
+          {
+            "title": "Unsupervised Learning of Depth and Ego-Motion from Video",
+            "text": "We visualize example explainability masks predicted by our network in Figure 10. The first three rows suggest that the network has learned to identify dynamic objects in the scene as unexplainable by our model, and similarly, rows 4–5 are examples of objects that disappear from the frame in subsequent views. The last two rows demonstrate the potential downside of explainability-weighted loss: the depth CNN has low confidence in predicting thin structures well, and tends to mask them as unexplainable."
+          },
+          {
+            "title": "Unsupervised Learning of Depth and Ego-Motion from Video",
+            "text": "Note that when applied to monocular videos the above view synthesis formulation implicitly assumes 1) the scene is static without moving objects; 2) there is no occlusion/disocclusion between the target view and the source views; 3) the surface is Lambertian so that the photo-consistency error is meaningful. If any of these assumptions are violated in a training sequence, the gradients could be corrupted and potentially inhibit training. To improve the robustness of our learning pipeline to these factors, we additionally train a explainability prediction network (jointly and simultaneously with the depth and pose networks) that outputs a per-pixel soft mask E^ssubscript^𝐸𝑠\\hat{E}_{s} for each target-source pair, indicating the network’s belief in where direct view synthesis will be successfully modeled for each target pixel. Based on the predicted E^ssubscript^𝐸𝑠\\hat{E}_{s}, the view synthesis objective is weighted correspondingly by    ℒv​s=∑<I1,…,IN⁣>⁣∈𝒮∑pE^s​(p)​|It​(p)−I^s​(p)|.subscriptℒ𝑣𝑠subscriptabsentsubscript𝐼1…subscript𝐼𝑁absent𝒮subscript𝑝subscript^𝐸𝑠𝑝subscript𝐼𝑡𝑝subscript^𝐼𝑠𝑝\\mathcal{L}_{vs}=\\sum_{<I_{1},\\ldots,I_{N}>\\in\\mathcal{S}}\\sum_{p}\\hat{E}_{s}(p)|I_{t}(p)-\\hat{I}_{s}(p)|~{}.  (3)   Since we do not have direct supervision for E^ssubscript^𝐸𝑠\\hat{E}_{s}, training with the above loss would result in a trivial solution of the network always predicting E^ssubscript^𝐸𝑠\\hat{E}_{s} to be zero, which perfectly minimizes the loss. To resolve this, we add a regularization term ℒr​e​g​(E^s)subscriptℒ𝑟𝑒𝑔subscript^𝐸𝑠\\mathcal{L}_{reg}(\\hat{E}_{s}) that encourages nonzero predictions by minimizing the cross-entropy loss with constant label 111 at each pixel location. In other words, the network is encouraged to minimize the view synthesis objective, but allowed a certain amount of slack for discounting the factors not considered by the model."
+          },
+          {
+            "title": "Unsupervised Learning of Depth and Ego-Motion from Video",
+            "text": "The simultaneous estimation of structure and motion is a well studied problem with an established toolchain of techniques (12, 50, 38). Whilst the traditional toolchain is effective and efficient in many cases, its reliance on accurate image correspondence can cause problems in areas of low texture, complex geometry/photometry, thin structures, and occlusions. To address these issues, several of the pipeline stages have been recently tackled using deep learning, e.g., feature matching , pose estimation , and stereo (10, 27, 53). These learning-based techniques are attractive in that they are able to leverage external supervision during training, and potentially overcome the above issues when applied to test data."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      }
+    ]
+  }
+}
