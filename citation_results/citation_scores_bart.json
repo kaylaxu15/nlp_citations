@@ -1,18 +1,26 @@
 {
-  "vanilla_qasa-gemma-4-26b-a4b-it-openrouter-shot1-ndoc3-42-quick_test200.json": {
-    "citation_recall": 72.63965623081646,
-    "citation_precision": 70.0
+  "AutoAIS_scores_bart": {
+    "vanilla_qasa-gemma-4-26b-a4b-it-openrouter-shot1-ndoc3-42-quick_test200.json": {
+      "citation_recall": 72.63965623081646,
+      "citation_precision": 70.0
+    },
+    "vanilla_qasa-llama-3.3-70b-instruct-openrouter-shot1-ndoc3-42-quick_test200.json": {
+      "citation_recall": 60.49723756906077,
+      "citation_precision": 56.898403928790664
+    },
+    "qasa-gemma-4-26b-a4b-it-cot_1shot_second_demo_eval_gemma26-shot1-ndoc3-42-quick_test200.json": {
+      "citation_recall": 77.30753968253968,
+      "citation_precision": 75.62073412698413
+    },
+    "qasa-llama-3.3-70b-instruct-cot_1shot_second_demo_eval_llama-shot1-ndoc3-42-quick_test200.json": {
+      "citation_recall": 47.38234126984127,
+      "citation_precision": 45.036772486772485
+    }
   },
-  "vanilla_qasa-llama-3.3-70b-instruct-openrouter-shot1-ndoc3-42-quick_test200.json": {
-    "citation_recall": 60.49723756906077,
-    "citation_precision": 56.898403928790664
-  },
-  "qasa-gemma-4-26b-a4b-it-cot_1shot_second_demo_eval_gemma26-shot1-ndoc3-42-quick_test200.json": {
-    "citation_recall": 77.30753968253968,
-    "citation_precision": 75.62073412698413
-  },
-  "qasa-llama-3.3-70b-instruct-cot_1shot_second_demo_eval_llama-shot1-ndoc3-42-quick_test200.json": {
-    "citation_recall": 47.38234126984127,
-    "citation_precision": 45.036772486772485
+  "Human evaluation scores": {
+    "qasa-gemma-4-26b-a4b-it-cot_1shot_second_demo_eval_gemma26-shot1-ndoc3-42-quick_test200.json": {
+      "citation_recall": 100,
+      "citation_precision": null
+    }
   }
 }

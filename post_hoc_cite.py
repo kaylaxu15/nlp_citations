@@ -1,88 +1,165 @@
+"""
+Post-hoc citation for generations that were produced without citing passages (e.g. closed-book).
+
+ALCE (Gao et al.) defines closed-book + post-hoc as: generate without retrieval, then attach citations.
+They report strong correctness but weaker citation quality vs retrieval-augmented generation.
+
+This script follows the repo pattern: segment the answer into sentences; for each sentence without
+citations, score it against each candidate passage with GTR (or TF-IDF) and prefix the argmax passage as [k].
+
+Closed-book result JSON rows often have docs=[]. Pass the corresponding retrieval-augmented run
+(same eval order / questions), or any JSON with aligned rows and non-empty docs, via --external_docs / --docs_from.
+"""
+
 import json
 import argparse
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+import sys
 from tqdm import tqdm
 from nltk import sent_tokenize
 import re
-import numpy as np
-import string
 import torch
 from searcher import SearcherWithinDocs
+
+
+def _effective_retriever_device(requested: str) -> str:
+    """Use cuda only when PyTorch was built with CUDA and a device is available."""
+    req = (requested or "cpu").strip().lower()
+    if req.startswith("cuda") and not torch.cuda.is_available():
+        print(
+            "post_hoc_cite: CUDA requested but unavailable (CPU-only PyTorch or no GPU); using cpu.",
+            file=sys.stderr,
+        )
+        return "cpu"
+    return requested if requested else "cpu"
+
 
 def remove_citations(sent):
     return re.sub(r"\[\d+", "", re.sub(r" \[\d+", "", sent)).replace(" |", "").replace("]", "")
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--f", type=str, help="Output data file")
-    parser.add_argument("--retriever", type=str, default="gtr-t5-large", help="Retriever to use. Options: `tfidf`, `gtr-t5-large`")
-    parser.add_argument("--retriever_device", type=str, default="cuda", help="Where to put the dense retriever if using. Options: `cuda`, `cpu`")
-    parser.add_argument("--overwrite", action="store_true", help="Overwrite existing citations")
-    parser.add_argument("--external_docs", type=str, default=None, help="Use external documents")
-    
-    args = parser.parse_args()
 
-    data = json.load(open(args.f))
-    new_data = []
-    if args.external_docs is not None:
-        external = json.load(open(args.external_docs))
-    
-    # Load retrieval model
+def _load_data_rows(path):
+    raw = json.load(open(path))
+    if isinstance(raw, dict) and "data" in raw:
+        return raw["data"]
+    if isinstance(raw, list):
+        return raw
+    raise ValueError(f"{path}: expected JSON list or object with 'data' array")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description=(
+            "Add citations to model outputs by sentence-level similarity to passages in doc_list. "
+            "For closed-book runs with empty docs, pass --docs_from path to an aligned JSON that "
+            "contains the same questions in the same order with retrieved passages (e.g. vanilla ndoc=3)."
+        )
+    )
+    parser.add_argument("--f", type=str, required=True, help="Result JSON from run.py (list or {data: [...]})")
+    parser.add_argument("--retriever", type=str, default="gtr-t5-large", help="`tfidf` or `gtr-t5-large`")
+    parser.add_argument(
+        "--retriever_device",
+        type=str,
+        default="cpu",
+        help="Where to run GTR (dense retriever). Options: `cpu` (default), `cuda`",
+    )
+    parser.add_argument("--overwrite", action="store_true", help="Replace existing [n] citations per sentence")
+    parser.add_argument(
+        "--external_docs",
+        "--docs_from",
+        dest="external_docs",
+        default=None,
+        help="Aligned JSON with same rows as --f; each row's docs used as the passage pool (required if docs empty)",
+    )
+
+    args = parser.parse_args()
+    device = _effective_retriever_device(args.retriever_device)
+
+    raw_file = json.load(open(args.f))
+    if isinstance(raw_file, dict) and "data" in raw_file:
+        data_rows = raw_file["data"]
+        preserve_wrapper = True
+    elif isinstance(raw_file, list):
+        data_rows = raw_file
+        preserve_wrapper = False
+    else:
+        raise ValueError(f"{args.f}: expected JSON list or object with 'data' array")
+
+    external_rows = _load_data_rows(args.external_docs) if args.external_docs else None
+    if external_rows is not None and len(external_rows) != len(data_rows):
+        raise ValueError(
+            f"external_docs has {len(external_rows)} rows but --f has {len(data_rows)}; must align"
+        )
+
+    gtr_model = None
     if "gtr" in args.retriever:
         from sentence_transformers import SentenceTransformer
-        gtr_model = SentenceTransformer(f'sentence-transformers/{args.retriever}', device=args.retriever_device)
-    
-    for idx, item in enumerate(tqdm(data['data'])):
-        doc_list = item['docs']
-        if args.external_docs is not None:
-            assert external[idx]['question'] == item['question']
-            doc_list = external[idx]['docs']
-        searcher = SearcherWithinDocs(doc_list, args.retriever, model=gtr_model, device=args.retriever_device)
-        
-        output = item["output"].strip().split("\n")[0] # Remove new lines and content after
+
+        gtr_model = SentenceTransformer(f"sentence-transformers/{args.retriever}", device=device)
+
+    new_data = []
+    for idx, item in enumerate(tqdm(data_rows)):
+        doc_list = item.get("docs") or []
+        if external_rows is not None:
+            ext = external_rows[idx]
+            if ext["question"] != item["question"]:
+                raise ValueError(
+                    f"Row {idx}: question mismatch between --f and external_docs:\n"
+                    f"  {item['question'][:120]!r}\nvs\n  {ext['question'][:120]!r}"
+                )
+            doc_list = ext.get("docs") or []
+        if not doc_list:
+            raise ValueError(
+                f"Row {idx}: no passages to cite (docs empty). "
+                "Pass --docs_from / --external_docs to a JSON with aligned retrieved passages "
+                "(e.g. vanilla shot1 ndoc3 run on the same quick_test indices)."
+            )
+
+        searcher = SearcherWithinDocs(doc_list, args.retriever, model=gtr_model, device=device)
+
         output = item["output"].replace("<|im_end|>", "")
         if "qampari" in args.f:
-            sents = [item['question'] + ' ' + x.strip() for x in item['output'].rstrip(".").split(",")]
+            sents = [item["question"] + " " + x.strip() for x in item["output"].rstrip(".").split(",")]
         else:
             sents = sent_tokenize(output)
-    
+
         new_output = ""
         for sent in sents:
-            original_ref = [int(r[1:])-1 for r in re.findall(r"\[\d+", sent)] 
+            original_ref = [int(r[1:]) - 1 for r in re.findall(r"\[\d+", sent)]
 
             if len(original_ref) == 0 or args.overwrite:
-                print("\n-----")
-                print("Original sentence:", sent)
-                print("Original ref:", original_ref)
-                sent = remove_citations(sent)
-                best_doc_id = searcher.search(sent)
-                print("New ref:", best_doc_id)
-                sent = f"[{best_doc_id+1}] " + sent
-                print("New sentence:", sent)
+                sent_clean = remove_citations(sent)
+                best_doc_id = searcher.search(sent_clean)
+                sent = f"[{best_doc_id + 1}] " + sent_clean
                 if "qampari" in args.f:
-                    new_output += sent.replace(item['question'], '').strip() + ", "
+                    new_output += sent.replace(item["question"], "").strip() + ", "
                 else:
                     new_output += sent + " "
             else:
                 if "qampari" in args.f:
-                    new_output += sent.replace(item['question'], '').strip() + ", "
+                    new_output += sent.replace(item["question"], "").strip() + ", "
                 else:
                     new_output += sent + " "
-   
-        item['output'] = new_output.rstrip().rstrip(",")
-        print("Final output: " + item['output'])
-        item['docs'] = doc_list
+
+        item["output"] = new_output.rstrip().rstrip(",")
+        item["docs"] = doc_list
         new_data.append(item)
 
-    data['data'] = new_data 
-    tag = f".{args.retriever}" 
+    if preserve_wrapper:
+        raw_file["data"] = new_data
+        out_obj = raw_file
+    else:
+        out_obj = new_data
+
+    tag = f".{args.retriever}"
     if args.overwrite:
         tag += "-overwrite"
     if args.external_docs is not None:
         tag += "-external"
 
-    json.dump(data, open(args.f + f".post_hoc_cite{tag}", 'w'), indent=4)
+    out_path = args.f + f".post_hoc_cite{tag}"
+    json.dump(out_obj, open(out_path, "w"), indent=4)
+    print(f"Wrote {out_path}")
+
 
 if __name__ == "__main__":
     main()

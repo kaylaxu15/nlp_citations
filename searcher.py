@@ -17,7 +17,10 @@ class SearcherWithinDocs:
     def __init__(self, docs, retriever, model=None, device="cuda"):
         self.retriever = retriever
         self.docs = docs
-        self.device = device
+        dev = device
+        if isinstance(dev, str) and dev.strip().lower().startswith("cuda") and not torch.cuda.is_available():
+            dev = "cpu"
+        self.device = dev
         if retriever == "tfidf":
             self.tfidf = TfidfVectorizer()
             self.tfidf_docs = self.tfidf.fit_transform([doc_to_text_tfidf(doc) for doc in docs])
