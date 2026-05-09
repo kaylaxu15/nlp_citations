@@ -1,0 +1,17 @@
+---
+prompt_file: prompts/eli5_default.json
+eval_file: data/eli5_eval_bm25_top100.json
+shot: 1
+ndoc: 3
+quick_test: 200
+seed: 42
+dataset_name: eli5
+tag: openrouter
+model: google/gemma-4-26b-a4b-it
+openai_api: false
+openrouter_api: true
+openrouter_reasoning: false
+temperature: 0.5
+top_p: 1.0
+max_new_tokens: 768
+max_length: 8192

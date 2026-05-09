@@ -327,7 +327,7 @@ def build_prompt_data(demos: List[Dict[str, Any]]) -> Dict[str, Any]:
         "instructions": [DEFAULT_INSTRUCTION],
         "instruction": DEFAULT_INSTRUCTION,
         "demo_sep": "\n\n\n",
-        "demo_prompt": "{INST}\n\nQuestion: {Q}\n\n{D}\nAnswer: {A}",
+        "demo_prompt": "Question: {Q}\n\n{D}\nAnswer: {A}",
         "doc_prompt": "Document [{ID}](Title: {T}): {P}\n",
         "demos": demos,
     }

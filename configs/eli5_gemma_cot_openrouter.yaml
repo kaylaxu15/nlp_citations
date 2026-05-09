@@ -1,0 +1,21 @@
+# Two-round CoT, 1-shot demo — ELI5 with Gemma 4 26B (OpenRouter).
+---
+prompt_file: prompts/eli5_cot.json
+eval_file: data/eli5_eval_bm25_top100.json
+quick_test: 200
+seed: 42
+shot: 1
+ndoc: 3
+dataset_name: eli5
+tag: cot_gemma26
+model: google/gemma-4-26b-a4b-it
+openai_api: false
+openrouter_api: true
+openrouter_reasoning: false
+temperature: 0.5
+top_p: 1.0
+max_new_tokens: 768
+max_new_tokens_round1: 500
+max_new_tokens_round2: 500
+max_length: 8192
+num_samples: 1

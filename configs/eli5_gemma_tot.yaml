@@ -1,0 +1,19 @@
+# Tree of Thought, 2-shot demo — ELI5 with Gemma 4 26B (OpenRouter).
+---
+prompt_file: prompts/eli5_tot.json
+eval_file: data/eli5_eval_bm25_top100.json
+quick_test: 200
+seed: 42
+shot: 1
+ndoc: 3
+dataset_name: eli5
+tag: tot_gemma26
+model: google/gemma-4-26b-a4b-it
+openai_api: false
+openrouter_api: true
+openrouter_reasoning: false
+temperature: 0.5
+top_p: 1.0
+max_new_tokens: 1200
+max_length: 8192
+num_samples: 1

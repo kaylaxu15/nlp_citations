@@ -4,7 +4,7 @@ eval_file: data/qasa_closedbook_eval.json
 quick_test: 200
 quick_test_indices_file: configs/qasa_eval_quick200_seed42_indices.json
 seed: 42
-shot: 2
+shot: 3
 ndoc: 0
 dataset_name: qasa
 tag: openrouter_closedbook

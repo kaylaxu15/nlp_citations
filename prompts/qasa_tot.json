@@ -1,0 +1,228 @@
+{
+  "instructions": [
+    "Instruction: You are given a question and retrieved documents. Simulate three brilliant expert analysts collaboratively answering the question. The experts are: Expert A (Document Analyst: focuses on assessing relevance and reliability of each document), Expert B (Fact Checker: focuses on identifying key facts and potential contradictions across documents), and Expert C (Answer Synthesizer: focuses on how to best combine evidence into a coherent answer).\n\nRound 1 - Each expert assesses document relevance:\nExpert A: [rates each document High/Medium/Low relevance with reason]\nExpert B: [agrees or refines A's ratings, notes any contradictions or missing info]\nExpert C: [identifies which 2-3 documents are most critical for answering and why]\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: [proposes claims supported by the most relevant documents, with citation numbers]\nExpert B: [fact-checks A's claims, adds or removes based on document support, with citation numbers]\nExpert C: [refines and synthesizes into a coherent set of claims, with citation numbers]\n\nFinal Answer: Based on the expert discussion above, write a single fluent paragraph answer. Use an unbiased and journalistic tone. Always cite for any factual claim using [1][2][3]. Cite at least one document and at most three documents in each sentence. If multiple documents support the sentence, only cite a minimum sufficient subset."
+  ],
+  "instruction": "Instruction: You are given a question and retrieved documents. Simulate three brilliant expert analysts collaboratively answering the question. The experts are: Expert A (Document Analyst: focuses on assessing relevance and reliability of each document), Expert B (Fact Checker: focuses on identifying key facts and potential contradictions across documents), and Expert C (Answer Synthesizer: focuses on how to best combine evidence into a coherent answer).\n\nRound 1 - Each expert assesses document relevance:\nExpert A: [rates each document High/Medium/Low relevance with reason]\nExpert B: [agrees or refines A's ratings, notes any contradictions or missing info]\nExpert C: [identifies which 2-3 documents are most critical for answering and why]\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: [proposes claims supported by the most relevant documents, with citation numbers]\nExpert B: [fact-checks A's claims, adds or removes based on document support, with citation numbers]\nExpert C: [refines and synthesizes into a coherent set of claims, with citation numbers]\n\nFinal Answer: Based on the expert discussion above, write a single fluent paragraph answer. Use an unbiased and journalistic tone. Always cite for any factual claim using [1][2][3]. Cite at least one document and at most three documents in each sentence. If multiple documents support the sentence, only cite a minimum sufficient subset.",
+  "demo_sep": "\n\n\n",
+  "demo_prompt": "{INST}\n\nQuestion: {Q}\n\n{D}\nAnswer: {A}",
+  "doc_prompt": "Document [{ID}](Title: {T}): {P}\n",
+  "demos": [
+    {
+      "question": "What is the truncation setting?",
+      "answer": "Round 1 - Each expert assesses document relevance:\nExpert A: Document [1] Medium relevance - describes the Truncation Trick mechanism but does not define which specific setting is reported. Document [2] Medium relevance - explains the variety-fidelity trade-off curve and effects of varying truncation thresholds. Document [3] High relevance - directly defines the three truncation settings used to report FID/IS values in model evaluation.\nExpert B: I agree with Expert A's ratings. Document [3] is the primary source for what the truncation setting means in the evaluation context. Documents [1] and [2] provide useful mechanistic background but do not answer the question about which specific setting is reported. No contradictions across documents.\nExpert C: The most critical document is [3], as it precisely defines all three truncation settings. Document [2] provides supporting context on the variety-fidelity trade-off. Document [1] can be set aside for this specific question.\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: Claim 1: The truncation setting refers to one of three configurations used to report IS and FID values [3]. Claim 2: The first setting reports FID/IS at the threshold that attains the best FID [3]. Claim 3: The second reports FID when the model's IS matches that of real validation data [3]. Claim 4: The third reports FID at the maximum IS achieved [3].\nExpert B: All claims are well-supported by Document [3]. I would add: Claim 5: Multiple settings are needed because models can trade sample variety for quality, making single-setting comparison against prior art unclear [3]. No contradictions found.\nExpert C: Synthesized claims: definition of the truncation setting [3], the three specific configurations [3], and the motivation for reporting multiple settings [3]. These fully answer the question.\n\nFinal Answer: The truncation setting refers to one of three evaluation configurations used to report IS and FID scores, motivated by the fact that models can trade sample variety for quality, making a single comparison point insufficient [3]. The first setting reports FID/IS at the truncation threshold that attains the best FID, the second reports FID when the model's IS matches that of real validation data as a measure of maximum sample variety, and the third reports FID at the maximum IS achieved by each model to show how much variety must be sacrificed to maximize quality [3].",
+      "docs": [
+        {
+          "title": "LARGE SCALE GAN TRAINING FOR HIGH FIDELITY NATURAL IMAGE SYNTHESIS",
+          "text": "Remarkably, our best results come from using a different latent distribution for sampling than was used in training. Taking a model trained with z and sampling z from a truncated normal (where values which fall outside a range are resampled to fall inside that range) immediately provides a boost to IS and FID. We call this the Truncation Trick: truncating a z vector by resampling the values with magnitude above a chosen threshold leads to improvement in individual sample quality at the cost of reduction in overall sample variety.",
+          "id": "1809.11096_all_17",
+          "id_suffix": "1"
+        },
+        {
+          "title": "LARGE SCALE GAN TRAINING FOR HIGH FIDELITY NATURAL IMAGE SYNTHESIS",
+          "text": "This technique allows fine-grained, post-hoc selection of the trade-off between sample quality and variety for a given G. Notably, we can compute FID and IS for a range of thresholds, obtaining the variety-fidelity curve reminiscent of the precision-recall curve (Figure 17). As IS does not penalize lack of variety in class-conditional models, reducing the truncation threshold leads to a direct increase in IS (analogous to precision). FID penalizes lack of variety (analogous to recall) but also rewards precision, so we initially see a moderate improvement in FID, but as truncation approaches zero and variety diminishes, the FID sharply drops.",
+          "id": "1809.11096_all_18",
+          "id_suffix": "2"
+        },
+        {
+          "title": "LARGE SCALE GAN TRAINING FOR HIGH FIDELITY NATURAL IMAGE SYNTHESIS",
+          "text": "We evaluate our models on ImageNet ILSVRC 2012 at 128x128, 256x256, and 512x512 resolutions. We report IS and FID in Table 2. As our models are able to trade sample variety for quality, it is unclear how best to compare against prior art; we accordingly report values at three settings. First, we report the FID/IS values at the truncation setting which attains the best FID. Second, we report the FID at the truncation setting for which our model's IS is the same as that attained by the real validation data, reasoning that this is a passable measure of maximum sample variety achieved while still achieving a good level of objectness. Third, we report FID at the maximum IS achieved by each model, to demonstrate how much variety must be traded off to maximize quality.",
+          "id": "1809.11096_all_30",
+          "id_suffix": "3"
+        }
+      ],
+      "gold_ctxs": [
+        "30"
+      ]
+    },
+    {
+      "question": "What does \"temperature\" mean in context of the authors' proposed model?",
+      "answer": "Round 1 - Each expert assesses document relevance:\nExpert A: Document [1] Low relevance - presents a mathematical approximation for high temperature conditions but does not define temperature itself. Document [2] Medium relevance - describes how high temperature is used during distillation training and then set to 1 at inference. Document [3] High relevance - directly defines temperature as a parameter in the softmax output layer and explains its effect on the probability distribution.\nExpert B: I agree with Expert A's ratings. Document [3] is the clearest and most direct definition. Document [2] adds useful context about how temperature is practically applied during distillation. Document [1] assumes prior understanding of temperature and is too abstract to answer the question directly. No contradictions across documents.\nExpert C: The most critical documents are [3] and [2]. Document [3] defines what temperature is and its mathematical role; document [2] explains how it is used in the distillation process. Together they fully answer the question.\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: Claim 1: Temperature T is a parameter in the softmax output layer that converts logits into class probabilities [3]. Claim 2: A higher temperature produces a softer probability distribution over classes [3]. Claim 3: During distillation training, a high temperature is used to produce soft targets, and the same temperature is applied when training the distilled model [2].\nExpert B: All claims are well-supported. I would add: Claim 4: After training, the distilled model uses a temperature of 1 for standard inference [2]. No contradictions found across documents.\nExpert C: Synthesized claims: definition of temperature [3], its effect on the output distribution [3], its role in distillation training [2], and its value at inference time [2]. These fully answer the question.\n\nFinal Answer: In the context of the authors' proposed model, temperature is a parameter T in the softmax output layer that converts the logit computed for each class into a probability by comparing it with the other logits [3]. Using a higher value of T produces a softer probability distribution over classes, which is central to the distillation process [3]. During training, a high temperature is applied to the cumbersome model to generate soft targets for the distilled model, with the same temperature used when training the distilled model; after training, the temperature is set back to 1 for standard inference [2].",
+      "docs": [
+        {
+          "title": "Distilling the Knowledge in a Neural Network",
+          "text": "If the temperature is high compared with the magnitude of the logits, we can approximate the gradient of the cost function with respect to the logits.",
+          "id": "1503.02531_all_10",
+          "id_suffix": "1"
+        },
+        {
+          "title": "Distilling the Knowledge in a Neural Network",
+          "text": "In the simplest form of distillation, knowledge is transferred to the distilled model by training it on a transfer set and using a soft target distribution for each case in the transfer set that is produced by using the cumbersome model with a high temperature in its softmax. The same high temperature is used when training the distilled model, but after it has been trained it uses a temperature of 1.",
+          "id": "1503.02531_all_7",
+          "id_suffix": "2"
+        },
+        {
+          "title": "Distilling the Knowledge in a Neural Network",
+          "text": "Neural networks typically produce class probabilities by using a softmax output layer that converts the logit computed for each class into a probability by comparing it with the other logits. T is a temperature that is normally set to 1. Using a higher value for T produces a softer probability distribution over classes.",
+          "id": "1503.02531_all_6",
+          "id_suffix": "3"
+        }
+      ],
+      "gold_ctxs": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "question": "What is the difference in test results according to the presence or absence of adapters?",
+      "answer": "Round 1 - Each expert assesses document relevance:\nExpert A: Document [1] Medium relevance - discusses how the KG-C adapter affects attention patterns in zero-shot fusion but does not give a direct accuracy number. Document [2] High relevance - directly states the quantitative improvement in average accuracy from using the KG-C adapter. Document [3] Medium relevance - provides qualitative t-SNE visualization of the adapter's effect on representations but no direct accuracy comparison.\nExpert B: I agree with Expert A's ratings. Document [2] is the authoritative source for the numerical answer. Documents [1] and [3] provide supporting qualitative evidence that corroborates Document [2]'s finding. No contradictions across documents.\nExpert C: The most critical document is [2], as it directly answers the question with a concrete metric. Document [1] adds useful mechanistic explanation for why the improvement occurs.\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: Claim 1: Zero-shot fusion with the KG-C adapter improves average accuracy by 0.4% compared to zero-shot fusion without it [2]. Claim 2: The improvement implies the KG-C adapter helps the method generalize better across most evaluation benchmarks [2].\nExpert B: Both claims are well-supported. I would add: Claim 3: The KG-C adapter enables more balanced fusion of knowledge from different expert adapters rather than over-relying on a single expert [1]. No contradictions found.\nExpert C: Synthesized claims: quantitative improvement [2], generalization benefit [2], and mechanism of improvement [1]. These fully answer the question.\n\nFinal Answer: According to ablation results, zero-shot fusion with the KG-C adapter improves average accuracy by 0.4% over zero-shot fusion without it, indicating better overall performance and generalization across most evaluation benchmarks [2]. This improvement is attributed to the adapter enabling more balanced fusion of knowledge across expert adapters, rather than over-focusing on a single source [1].",
+      "docs": [
+        {
+          "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+          "text": "Further, we explore how the KG-C adapter affects zero-shot fusion which is based on an attention-like mechanism compared to zero-shot fusion without KG-C adapter. We can observe that zero-shot fusion with KG-C adapter fuses the knowledge from different experts with a subtle difference rather than focusing on a single expert severely. This implies that KG-C adapter enables the delicate balancing between multiple knowledge sources based on the KG-alignment awareness, which leads to performance improvements in commonsense reasoning tasks.",
+          "id": "2206.03715_all_29",
+          "id_suffix": "1"
+        },
+        {
+          "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+          "text": "Moreover, as an ablation, we compare the zero-shot fusion with and without KG-C adapter to explore the efficacy of the KG-C adapter. We can observe that zero-shot fusion with KG-C adapter improves the average accuracy by 0.4%, which implies that the use of KG-C adapter improves the overall performance and makes our method generalize better on most of the evaluation benchmarks.",
+          "id": "2206.03715_all_27",
+          "id_suffix": "2"
+        },
+        {
+          "title": "Modularized Transfer Learning with Multiple Knowledge Graphs for Zero-shot Commonsense Reasoning",
+          "text": "To assess the effects of the KG-C adapter itself, we visualize and compare the final layer (CLS) token representation between PLM and KG-C adapter. Figure 3 shows t-SNE plots of all representation of five benchmark datasets. We can observe that KG-C adapter can separate the samples of different benchmarks well despite being unseen data. It verifies that KG-awareness acquired with the KG classification task is beneficial to categorize the given sample.",
+          "id": "2206.03715_all_28",
+          "id_suffix": "3"
+        }
+      ],
+      "gold_ctxs": [
+        "27"
+      ]
+    },
+    {
+      "question": "What makes the extremely deep architectures important to study ?",
+      "answer": "Round 1 - Each expert assesses document relevance:\nExpert A: Document [1] Low relevance - discusses highway network layer utilization, not the general importance of depth. Document [2] Low relevance - describes training advantages of highway networks specifically, not deep architectures generally. Document [3] High relevance - directly motivates why deep architectures are important by citing empirical breakthroughs and concrete accuracy gains on ImageNet.\nExpert B: I agree with Expert A's ratings. Document [3] is the clear primary source, providing concrete evidence for why depth matters. Documents [1] and [2] are about highway networks specifically and do not directly answer the broader question. No contradictions found.\nExpert C: The most critical document is [3]. It alone is sufficient to answer why extremely deep architectures are important to study, with concrete empirical evidence.\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: Claim 1: Many recent empirical breakthroughs in supervised machine learning have been achieved through large and deep neural networks [3]. Claim 2: Network depth has played the most important role in these successes [3]. Claim 3: Top-5 image classification accuracy on ImageNet improved from ~84% to ~95% within a few years by using deeper networks [3].\nExpert B: All claims are well-supported by Document [3]. No contradictions found across documents.\nExpert C: Synthesized claims: general importance of depth [3], its central role in recent breakthroughs [3], and concrete accuracy gains as evidence [3]. These fully answer the question.\n\nFinal Answer: Extremely deep architectures are important to study because network depth has played the most central role in recent empirical breakthroughs in supervised machine learning [3]. As concrete evidence, top-5 image classification accuracy on the 1000-class ImageNet dataset improved from approximately 84% to 95% within just a few years through the use of deeper networks with small receptive fields, and similar gains in accuracy and performance have been observed across many other practical machine learning problems [3].",
+      "docs": [
+        {
+          "title": "Training Very Deep Networks",
+          "text": "A possible objection is that many layers might remain unused if the transform gates stay closed. Our experiments show that this possibility does not affect networks adversely - deep and narrow highway networks can match/exceed the accuracy of wide and shallow maxout networks. Additionally, we can exploit the structure of highways to directly evaluate the contribution of each layer.",
+          "id": "1507.06228_all_40",
+          "id_suffix": "1"
+        },
+        {
+          "title": "Training Very Deep Networks",
+          "text": "Very deep highway networks can directly be trained with simple gradient descent methods due to their specific architecture. This property does not rely on specific non-linear transformations, which may be complex convolutional or recurrent transforms, and derivation of a suitable initialization scheme is not essential.",
+          "id": "1507.06228_all_39",
+          "id_suffix": "2"
+        },
+        {
+          "title": "Training Very Deep Networks",
+          "text": "Many recent empirical breakthroughs in supervised machine learning have been achieved through large and deep neural networks. Network depth has played perhaps the most important role in these successes. For instance, within just a few years, the top-5 image classification accuracy on the 1000-class ImageNet dataset has increased from ~84% to ~95% using deeper networks with rather small receptive fields.",
+          "id": "1507.06228_all_0",
+          "id_suffix": "3"
+        }
+      ],
+      "gold_ctxs": [
+        "0"
+      ]
+    },
+    {
+      "question": "Does complex bypass connections add extra parameters to the model?",
+      "answer": "Round 1 - Each expert assesses document relevance:\nExpert A: Document [1] High relevance - directly states that complex bypass connections add extra parameters and defines a complex bypass as a 1x1 convolution layer. Document [2] Medium relevance - compares accuracy of complex vs simple bypass but does not directly address parameters. Document [3] Low relevance - describes simple bypass connections only and does not address complex bypass parameter costs.\nExpert B: I agree with Expert A's ratings. Document [1] definitively answers the question. Document [2] adds useful context showing that despite extra parameters, complex bypass yields less accuracy gain than simple bypass. Document [3] is not needed. No contradictions found.\nExpert C: The most critical document is [1], which directly and unambiguously answers the question. Document [2] provides useful supporting context on the accuracy trade-off.\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: Claim 1: Complex bypass connections add extra parameters to the model [1]. Claim 2: A complex bypass is defined as a bypass containing a 1x1 convolution layer with filters equal to the number of required output channels [1]. Claim 3: Simple bypass connections, by contrast, add no extra parameters [1].\nExpert B: All claims are well-supported. I would add: Claim 4: Despite the extra parameters, complex bypass connections yield less accuracy improvement than simple bypass connections [2]. No contradictions found.\nExpert C: Synthesized claims: yes/no answer [1], definition of complex bypass [1], contrast with simple bypass [1], and accuracy trade-off context [2]. These fully answer the question.\n\nFinal Answer: Yes, complex bypass connections add extra parameters to the model; they are defined as bypasses that include a 1x1 convolution layer with the number of filters set equal to the number of required output channels, unlike simple bypass connections which add no extra parameters [1]. Notably, despite incurring this additional parameter cost, complex bypass connections yield less accuracy improvement than simple bypass connections in practice [1][2].",
+      "docs": [
+        {
+          "title": "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and<0.5MB model size",
+          "text": "When the same number of channels requirement can't be met, we use a complex bypass connection. While a simple bypass is just a wire, we define a complex bypass as a bypass that includes a 1x1 convolution layer with the number of filters set equal to the number of output channels that are needed. Note that complex bypass connections add extra parameters to the model, while simple bypass connections do not.",
+          "id": "1602.07360_all_38",
+          "id_suffix": "1"
+        },
+        {
+          "title": "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and<0.5MB model size",
+          "text": "Complex and simple bypass connections both yielded an accuracy improvement over the vanilla SqueezeNet architecture. Interestingly, the simple bypass enabled a higher accuracy improvement than complex bypass. Adding the simple bypass connections yielded an increase of 2.9 percentage-points in top-1 accuracy and 2.2 percentage-points in top-5 accuracy without increasing model size.",
+          "id": "1602.07360_all_40",
+          "id_suffix": "2"
+        },
+        {
+          "title": "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and<0.5MB model size",
+          "text": "Our simple bypass architecture adds bypass connections around Fire modules 3, 5, 7, and 9, requiring these modules to learn a residual function between input and output. As in ResNet, to implement a bypass connection around Fire3, we set the input to Fire4 equal to (output of Fire2 + output of Fire3), where the + operator is elementwise addition.",
+          "id": "1602.07360_all_37",
+          "id_suffix": "3"
+        }
+      ],
+      "gold_ctxs": [
+        "38"
+      ]
+    },
+    {
+      "question": "How is using a conditional GAN to produce a latent vector from a label different to using the encoder in OPTIMUS with just the label as its input?",
+      "answer": "Round 1 - Each expert assesses document relevance:\nExpert A: Document [1] High relevance - directly describes the conditional GAN generation process in OPTIMUS and how it produces a latent vector from a label before passing to the decoder. Document [2] Low relevance - discusses general VAE background and prior work, not the specific conditional GAN mechanism. Document [3] Low relevance - describes latent space properties of OPTIMUS generally but does not address the conditional GAN vs encoder distinction.\nExpert B: I agree with Expert A's ratings. Document [1] is the sole relevant source for answering this question. Documents [2] and [3] provide background context but do not address the specific comparison asked. No contradictions found.\nExpert C: The only critical document is [1]. It directly describes the conditional GAN pipeline and implicitly distinguishes it from encoder-based label conditioning.\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: Claim 1: The conditional GAN is trained on OPTIMUS's fixed latent space to produce a latent vector from a given label, bypassing the encoder [1]. Claim 2: That latent vector is then passed to OPTIMUS's decoder to generate output sentences [1].\nExpert B: Both claims are well-supported by Document [1]. No contradictions found. The document does not explicitly describe what happens when a label is fed to the encoder directly, so the distinction is inferred from the described pipeline.\nExpert C: Synthesized claims: the conditional GAN pipeline [1] and its distinction from encoder-based approaches [1]. These are sufficient to answer the question.\n\nFinal Answer: Rather than passing a label through OPTIMUS's encoder to obtain a latent vector, the conditional GAN approach trains a separate model on OPTIMUS's fixed latent space to produce a latent vector directly from a given label, bypassing the encoder entirely [1]. This latent vector is then passed to OPTIMUS's decoder to generate the output sentences [1].",
+      "docs": [
+        {
+          "title": "Optimus: Organizing Sentences via Pre-trained Modeling of a Latent Space",
+          "text": "The goal is to generate text reviews given the positive/negative sentiment. We fine-tune Optimus using the VAE objective on the dataset, then freeze backbone weights. A conditional GAN is trained on the fixed latent space. The generation process is to first produce a latent vector based on a given label using conditional GAN, then generate sentences conditioned on that latent vector using the decoder.",
+          "id": "2004.04092_all_36",
+          "id_suffix": "1"
+        },
+        {
+          "title": "Optimus: Organizing Sentences via Pre-trained Modeling of a Latent Space",
+          "text": "Language VAEs have inspired new applications in NLP, via exploiting many interesting properties of the model's latent space. Its modeling capacity and empirical performance is somewhat limited, partially due to the KL vanishing issue. Several attempts have been made to alleviate this issue, including different KL annealing/thresholding schemes, decoder architectures, auxiliary loss, semi-amortized inference, aggressive encoder training schedule, batch normalized inference and flexible posterior.",
+          "id": "2004.04092_all_6",
+          "id_suffix": "2"
+        },
+        {
+          "title": "Optimus: Organizing Sentences via Pre-trained Modeling of a Latent Space",
+          "text": "Different from the traditional NLMs or GPT-2, VAEs learns bidirectional mappings between the latent and symbolic space. It enables high-level sentence editing as arithmetic latent vector operations, and thus allows guided language generation.",
+          "id": "2004.04092_all_32",
+          "id_suffix": "3"
+        }
+      ],
+      "gold_ctxs": [
+        "36"
+      ]
+    },
+    {
+      "question": "How do Projected Attention Layers work?",
+      "answer": "Round 1 - Each expert assesses document relevance:\nExpert A: Document [1] High relevance - describes PALs as additional attention heads that inject patterns into a pre-trained transformer encoder alongside the original model parameters. Document [2] Medium relevance - frames PALs as one of two pattern-injection approaches, providing useful context. Document [3] Low relevance - discusses general transformer self-attention research but does not describe PALs.\nExpert B: I agree with Expert A's ratings. Document [1] is the primary source. Document [2] adds framing context. Document [3] is background only and does not answer the question. No contradictions found.\nExpert C: The most critical documents are [1] and [2]. Document [1] defines how PALs work; document [2] situates them among available approaches.\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: Claim 1: PALs inject attention patterns into a pre-trained transformer encoder through additional attention heads [1]. Claim 2: They operate alongside the parameters of the original model rather than replacing them [1]. Claim 3: PALs represent one of two approaches for injecting patterns into pre-trained transformers, the other being direct injection into existing heads [2].\nExpert B: All claims are well-supported. No contradictions found. The documents do not go into further architectural detail beyond what is cited in Stickland and Murray (2019).\nExpert C: Synthesized claims: PAL mechanism [1], integration with original model [1], and place among pattern-injection techniques [2]. These fully answer the question.\n\nFinal Answer: Projected Attention Layers (PALs) work by injecting attention patterns into a pre-trained transformer encoder through additional attention heads, operating alongside the parameters of the original model rather than replacing them [1]. They represent one of two approaches for injecting patterns into pre-trained transformer models, with the other being direct injection into existing attention heads [2].",
+      "docs": [
+        {
+          "title": "Human Guided Exploitation of Interpretable Attention Patterns in Summarization and Topic Segmentation",
+          "text": "We then experiment with injecting the patterns back into the pre-trained transformer encoder. In particular, we inject them through additional attention heads in the form of a Projected Attention Layer (PAL) (Stickland and Murray, 2019), along with the parameters of the original model.",
+          "id": "2112.05364_all_49",
+          "id_suffix": "1"
+        },
+        {
+          "title": "Human Guided Exploitation of Interpretable Attention Patterns in Summarization and Topic Segmentation",
+          "text": "In practice, patterns can be injected in at least two scenarios: (i) injecting patterns directly into the attention heads of transformer-based models, and (ii) injecting patterns into pretrained transformer models using techniques such as the Projected Attention Layers (Stickland and Murray, 2019).",
+          "id": "2112.05364_all_22",
+          "id_suffix": "2"
+        },
+        {
+          "title": "Human Guided Exploitation of Interpretable Attention Patterns in Summarization and Topic Segmentation",
+          "text": "With transformer-based models dominating the leaderboard for many key NLP tasks such as summarization, topic segmentation, and sentiment analysis, their core multi-head self-attention mechanism has also been thoroughly investigated.",
+          "id": "2112.05364_all_0",
+          "id_suffix": "3"
+        }
+      ],
+      "gold_ctxs": [
+        "49"
+      ]
+    },
+    {
+      "question": "What does \"long-tailed app\" mean?",
+      "answer": "Round 1 - Each expert assesses document relevance:\nExpert A: Document [1] High relevance - directly defines long-tailed apps by contrasting them with popular apps and explaining their sparsity and personalization characteristics. Document [2] Low relevance - describes a masked app prediction task and does not address the definition of long-tailed apps. Document [3] Low relevance - describes data preprocessing steps and does not mention long-tailed apps.\nExpert B: I agree with Expert A's ratings. Document [1] is the only source that defines long-tailed apps. Documents [2] and [3] are entirely irrelevant to this question. No contradictions found.\nExpert C: The only critical document is [1]. It provides a complete definition through contrast with popular apps, explanation of the sparsity challenge, and the personalization value of long-tailed apps.\n\nRound 2 - Each expert proposes key claims for the answer:\nExpert A: Claim 1: Long-tailed apps have very few installations relative to the total user base, in contrast to popular apps installed on nearly all devices [1]. Claim 2: Long-tailed apps suffer from serious data sparsity, making building representations for them challenging [1]. Claim 3: Despite their sparsity, user behaviors over long-tailed apps often reflect more personalized interests than behaviors over popular apps [1].\nExpert B: All claims are well-supported by Document [1]. No contradictions found.\nExpert C: Synthesized claims: definition by contrast [1], sparsity challenge [1], and value for personalization [1]. These fully answer the question.\n\nFinal Answer: Long-tailed apps are mobile applications with very limited install bases - potentially only a few hundred installations among millions of users - in contrast to popular apps that are installed on nearly all devices [1]. They suffer from serious data sparsity, making it difficult to build effective representations for them, yet user behaviors toward long-tailed apps tend to reflect more personalized interests than behaviors toward widely popular apps [1].",
+      "docs": [
+        {
+          "title": "general-purpose user embeddings based on mobile app usage",
+          "text": "Many long-tailed apps suffer from serious sparsity. Popular apps like Wechat and Alipay have been installed on almost all the smartphones in China, while long-tailed apps may only have a few hundreds of installations among one million users. However, user's behaviors over the long-tailed apps often reflect one's personalized interests better. Building effective user representations need to utilize the information from long-tailed apps without suffering from severe sparsity.",
+          "id": "2005.13303_all_3",
+          "id_suffix": "1"
+        },
+        {
+          "title": "general-purpose user embeddings based on mobile app usage",
+          "text": "Task #3: Masked App Prediction. This task is similar to the Masked LM task in BERT. We randomly mask apps in installation and uninstallation but keep the corresponding date and behavior type. The transformer encoder is trained only to predict the masked apps.",
+          "id": "2005.13303_all_45",
+          "id_suffix": "2"
+        },
+        {
+          "title": "general-purpose user embeddings based on mobile app usage",
+          "text": "We need to preprocess the user data into a format suitable for subsequent models to handle and also reduce the noise in data. After data preprocessing, each user is represented with one's retention and four sequences representing recent installation and uninstallation operations.",
+          "id": "2005.13303_all_14",
+          "id_suffix": "3"
+        }
+      ],
+      "gold_ctxs": [
+        "3"
+      ]
+    }
+  ]
+}

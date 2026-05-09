@@ -4,7 +4,7 @@ prompt_file: data/qasa_prompt.json
 eval_file: data/qasa_eval.json
 quick_test_indices_file: configs/qasa_eval_quick200_seed42_indices.json
 seed: 42
-shot: 2
+shot: 1
 ndoc: 3
 dataset_name: qasa
 model: meta-llama/llama-3.3-70b-instruct
@@ -12,3 +12,4 @@ openai_api: false
 openrouter_api: true
 openrouter_reasoning: false
 max_new_tokens: 500
+max_length: 8192
