@@ -1,0 +1,10 @@
+{
+  "eli5-gemma-4-26b-a4b-it-tot_gemma26-shot1-ndoc3-42-quick_test200.json": {
+    "citation_recall": 62.066666666666656,
+    "citation_precision": 58.01805555555555
+  },
+  "qasa-gemma-4-26b-a4b-it-qasa_gemma26_tot-shot1-ndoc3-42-quick_test200.json": {
+    "citation_recall": 78.725,
+    "citation_precision": 77.28055555555555
+  }
+}

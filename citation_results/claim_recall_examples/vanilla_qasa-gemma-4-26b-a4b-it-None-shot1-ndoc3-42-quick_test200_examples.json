@@ -1,0 +1,2216 @@
+{
+  "file": "vanilla_qasa-gemma-4-26b-a4b-it-None-shot1-ndoc3-42-quick_test200.json",
+  "claim_recall": 40.75,
+  "thresholds": {
+    "good": 0.75,
+    "bad": 0.25
+  },
+  "good_examples": [
+    {
+      "question": "Which datasets are used by the paper for supervised learning?",
+      "output": "The paper uses the UCF-101 and HMDB-51 datasets for supervised tasks [3]. The UCF-101 dataset consists of 13,320 videos across 101 different action categories [3]. The HMDB-51 dataset contains 5,100 videos belonging to 51 different action categories [3].",
+      "claims": [
+        {
+          "claim": "The paper uses the UCF-101 and HMDB-51 datasets for supervised learning.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What are the CNN architectures that were explored in this paper?",
+      "output": "The paper explores three main convolutional neural network architectures: \"AlexNet-CNN,\" a shallower \"Cifar-CNN,\" and a much deeper version of \"GoogLeNet-CNN\" that includes modifications to the CNN structures [1]. These architectures are characterized by varying widths, ranging from 5 thousand to 160 million parameters, and different numbers of layers [1]. Specifically, the study examines CifarNet, AlexNet, and GoogLeNet with different model training parameter values [3].",
+      "claims": [
+        {
+          "claim": "The paper explored AlexNet, CifarNet, and GoogLeNet.",
+          "entailed": true
+        },
+        {
+          "claim": "These CNN architectures were used with various numbers of parameters.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Is Data Augmentation always sufficient to support performance in the segmentation task?",
+      "output": "Data augmentation is described as essential for teaching a network desired invariance and robustness properties, particularly when only a few training samples are available [1]. In the context of microscopical images, the authors suggest that random elastic deformations are a key concept for training a segmentation network when there are very few annotated images [1]. While the authors utilize \"excessive data augmentation\" to allow the network to learn invariance to deformations without needing to see those transformations in the annotated corpus, the provided text does not explicitly state whether data augmentation is always sufficient to support performance [2].",
+      "claims": [
+        {
+          "claim": "Performance of the microscopy image segmentation task can be improved by using elastic deformation-based segmentation.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What are the reasons that there is no large-scale annotated medical image dataset such as the ImageNet?",
+      "output": "There is no large-scale annotated medical image dataset comparable to ImageNet because data acquisition is difficult [1]. Additionally, providing quality annotation for such datasets is costly [1].",
+      "claims": [
+        {
+          "claim": "Large-scale annotated medical image datasets like ImageNet do not exist because data acquisition in the medical image field is hard.",
+          "entailed": true
+        },
+        {
+          "claim": "Large-scale annotated medical image datasets like ImageNet do not exist because annotation in the medical image field is costly.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "What components of the proposed method aggregate explicit knowledge into implicit knowledge for query and passage embedding?",
+      "output": "To aggregate explicit and implicit knowledge, the authors propose a novel interaction module between text and the knowledge graph [3]. Implicit knowledge is derived from text using a Pre-trained Language Model (PLM) as a text encoder, while explicit knowledge is encoded from a knowledge meta graph using a multi-layer graph neural network called the Graph Meta Network (GMN) [3]. These word and entity representations are then combined within a specifically designed module known as the knowledge injector [3]. This framework of aggregating PLM and graph neural networks models the interaction between explicit and implicit knowledge [2].",
+      "claims": [
+        {
+          "claim": "The proposed aggregation module uses a PLM and a Graph Neural Network (GMN) to model interactions between explicit and implicit knowledge.",
+          "entailed": true
+        },
+        {
+          "claim": "The PLM encodes text into word representations, which represent implicit knowledge.",
+          "entailed": true
+        },
+        {
+          "claim": "The GMN encodes knowledge meta-graphs into entity representations, which represent explicit knowledge.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 3,
+      "total_claims": 3
+    },
+    {
+      "question": "In language models, which method would be better for preventing overfitting from batch normalization and dropout?",
+      "output": "The provided documents do not explicitly state which method is better for preventing overfitting between batch normalization and dropout [2]. However, they note that using a vanilla language model without dropout on small datasets like TREC-6 runs the risk of overfitting, which decreases performance [1]. To avoid overfitting in such cases, the authors suggest keeping a dropout of 0.4 in the classifier [1]. Additionally, the authors utilize various dropout rates, such as 0.4 for layers and 0.3 for RNN layers, as part of their model configuration [3].",
+      "claims": [
+        {
+          "claim": "Without dropout, a vanilla language model can run the risk of overfitting.",
+          "entailed": true
+        },
+        {
+          "claim": "Overfitting decreases performance.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Does it really assist bridge long-term temporal dependencies early in learning, as the authors say, to bias the gates in LSTM networks initially?",
+      "output": "The authors propose an initialization scheme for transform gates where the bias $b_T$ is set to a negative value to bias the network toward carry behavior [2]. This scheme is strongly inspired by a proposal to initially bias gates in an LSTM network to assist in bridging long-term temporal dependencies during the early stages of learning [2]. In their own experiments, the authors found that contrary to their expectations, most biases decreased further during training [3]. Additionally, they observed that strong negative biases at low depths were not used to shut down gates, but rather to make them more selective [3].",
+      "claims": [
+        {
+          "claim": "Contrary to the authors' expectations, most of the biases were reduced during training.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "How does TransE learns entity and relatio embeddings in unsupervised way?",
+      "output": "TransE is an unsupervised learning method that learns latent representations for a knowledge triplet $(e_{h},r,e_{t})$ [1]. It intuitively models the latent distribution of knowledge within a given knowledge graph [1].",
+      "claims": [
+        {
+          "claim": "TransE is an unsupervised learning method.",
+          "entailed": true
+        },
+        {
+          "claim": "TransE learns latent representations for a knowledge triplet.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "What makes the performance of one-stage detectors inferior to two-stage detectors ?",
+      "output": "One-stage detectors are inferior to two-stage detectors in accuracy, with examples like SSD showing a 10-20% lower AP [2]. While one-stage methods can be tuned for speed, they continue to trail in accuracy even when provided with a larger compute budget [2]. This performance gap exists because one-stage detectors must process a much larger set of candidate object locations, often enumerating approximately 100k locations that densely cover spatial positions, scales, and aspect ratios [1]. Additionally, while two-stage detectors can classify boxes at any position, scale, and aspect ratio via a region pooling operation, one-stage detectors rely on a fixed sampling grid [3]. This makes the training procedure for one-stage detectors inefficient, as it is dominated by easily classified background examples [1].",
+      "claims": [
+        {
+          "claim": "Two-stage detectors can classify boxes at any position, scale, and aspect ratio using a region pooling operation.",
+          "entailed": true
+        },
+        {
+          "claim": "One-stage detectors use a fixed sampling grid.",
+          "entailed": true
+        },
+        {
+          "claim": "One-stage methods trailed in accuracy even with a larger compute budget.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 3,
+      "total_claims": 3
+    },
+    {
+      "question": "How do the authors generate synthetic QA?",
+      "output": "The authors generate synthetic QA by repurposing a method that transforms a Knowledge Graph (KG) into multiple $(Q_i, A_i)$ pairs [1]. To create the natural language question $Q_i$, the head entity and relation from a KG triple are transformed using templates [1]. The set of answer options $A_i$ is constructed by combining the correct answer (the tail entity) with $m-1$ distractors, which are tail entities sampled randomly from other triples [1].",
+      "claims": [
+        {
+          "claim": "The authors generate synthetic QA by transforming a triplet of KG into a question-and-answer pair.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What is the issue with EMNIST dataset?",
+      "output": "The EMNIST dataset is an extended version of MNIST that increases the number of classes by adding uppercase and lowercase characters [1]. To use this dataset seamlessly, a user must change the underlying deep neural network to classify the additional classes and extend the MNIST helpers of a deep learning framework [1].",
+      "claims": [
+        {
+          "claim": "Using EMNIST seamlessly requires extending the deep learning framework\u2019s MNIST helpers.",
+          "entailed": true
+        },
+        {
+          "claim": "It also requires changing the underlying deep neural network to classify the extra classes.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "What is the difference between AIDA and AIDA+?",
+      "output": "AIDA is a dataset that essentially lacks coreference information [1]. To create AIDA+, the authors extended the original dataset by annotating NIL coreference clusters and adding missing mention links to ensure consistent annotations at the coreference cluster level [1].",
+      "claims": [
+        {
+          "claim": "AIDA+ is an extended version of AIDA.",
+          "entailed": true
+        },
+        {
+          "claim": "AIDA+ differs from AIDA by adding missing mention links.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Is there any benefit to using fader control instead of numbers (e.g., percentages)?",
+      "output": "Yes, fader control is suggested because it is quite difficult to describe a desired amount of a specific effect, such as the amount of snow on a mountain, through text [1]. Instead of using text, fader control allows a user to control the magnitude of the effect induced by a specific word [1].",
+      "claims": [
+        {
+          "claim": "Fader control allows users to control the magnitude of the effect induced by specific words.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "How the MobileNet model was trained and why it was different than training the large networks?",
+      "output": "MobileNet models were trained in TensorFlow using RMSprop with asynchronous gradient descent, similar to Inception V3 [1]. Their training process differs from large models because they utilize less regularization and fewer data augmentation techniques, as small models experience less trouble with overfitting [1]. Specifically, when training MobileNets, researchers do not use label smoothing or side heads, and they reduce image distortions by limiting the size of small crops used in large Inception training [1]. Furthermore, very little or no weight decay (l2 regularization) is applied to depthwise filters because they contain so few parameters [1].",
+      "claims": [
+        {
+          "claim": "MobileNet was trained with less regularization and less data augmentation.",
+          "entailed": true
+        },
+        {
+          "claim": "This training choice was different from the large networks because MobileNets had less overfitting.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Why should LSTM based auto-encoder models learn good features?",
+      "output": "LSTM-based auto-encoder models should learn good features so that the representation of the input video, which is the state of the encoder LSTM after the last input is read, retains information regarding the motion, background, and object appearance [1]. To avoid learning a simple identity mapping that merely copies the input to the output, the model utilizes a fixed number of hidden units and applies the same LSTM operation recursively during decoding [1]. This structure ensures the representation is more useful than the input itself [1]. Furthermore, by using an autoencoder-style objective, the model aims to capture all necessary information to reproduce the input while adhering to the inductive biases imposed by the model [2].",
+      "claims": [
+        {
+          "claim": "LSTM-based auto-encoder models control learning an identity mapping.",
+          "entailed": true
+        },
+        {
+          "claim": "This forces the models to learn good features.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "For matching default boxes with ground truth ones, what metric was used?",
+      "output": "To match default boxes with ground truth ones, the model first matches each ground truth box to the default box that possesses the best Jaccard overlap [1]. Additionally, default boxes are matched to any ground truth that has a Jaccard overlap higher than a threshold of 0.5 [1].",
+      "claims": [
+        {
+          "claim": "Best Jaccard Overlap was used to match default boxes with ground truth ones.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What does \"multi-orientation pooling\" means ?",
+      "output": "Multi-orientation pooling is an orientation pooling stage that aggregates information from different orientations to capture a more holistic sense of a 3D object [2]. This process involves sampling 3D input from different orientations and aggregating them within a multi-orientation volumetric CNN (MO-VCNN) [3]. During the training phase, different rotations of the 3D model are generated by randomly sampling both elevation and azimuth angles [3]. Utilizing multi-orientation pooling increases performance across all network variations [1].",
+      "claims": [
+        {
+          "claim": "Multi-orientation pooling is a learning strategy that combines rotations around the vertical axis with elevation rotations.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "How Inception-ResNet v1 compare with Inception-ResNet v2 in terms of structure, stem and settings?",
+      "output": "Both Inception-ResNet-v1 and Inception-ResNet-v2 are Inception-style hybrid networks that utilize residual connections rather than filter concatenation [1]. In terms of cost, Inception-ResNet-v1 has a computational cost similar to Inception-v3, whereas Inception-ResNet-v2 is a costlier version [2]. Regarding performance, Inception-ResNet-v2 provides significantly improved recognition performance compared to Inception-ResNet-v1 [2].",
+      "claims": [
+        {
+          "claim": "Both Inception-ResNet-v1 and Inception-ResNet-v2 are Inception-style networks.",
+          "entailed": true
+        },
+        {
+          "claim": "Both models utilize residual connections instead of filter concatenation.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "What is prior preservation loss?",
+      "output": "Prior preservation loss (PPL) is an autogenous, class-specific loss proposed to combat language drift and preserve the model's prior [1][2][3]. This method works by supervising the model with its own generated samples to help it retain knowledge about the class prior during few-shot fine-tuning [2]. By leveraging the semantic prior embedded in the model, the loss encourages the generation of diverse images of the same class as the subject [3]. Additionally, using PPL helps the model avoid overfitting to the environment of reference images and allows for more training iterations without risking overfitting [1][2].",
+      "claims": [
+        {
+          "claim": "Prior preservation loss supervises the model with its own samples.",
+          "entailed": true
+        },
+        {
+          "claim": "It is used to keep the prior during few-shot fine-tuning.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Why is KG Modularization needed?",
+      "output": "KG modularization is used to preserve the intrinsic knowledge of Knowledge Graphs (KGs) [3]. This approach allows the model to learn the subtle differences between each KG without interference from one another [3]. Furthermore, the modularized method alleviates interference between different KGs, which is a pitfall of Multi-Task Learning (MTL) according to empirical observations [2]. Ultimately, this allows multiple KGs to be combined into a synergetic zero-shot framework [2].",
+      "claims": [
+        {
+          "claim": "KG modularization is needed to maintain the intrinsic knowledge of each individual KG.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "How could the algorithm infer amplitude and phase in the case of showing only half of the input range?",
+      "output": "The model trained with MAML can infer the amplitude and phase in the other half of the input range even when the $K$ datapoints are all located in only one half of that range [3]. This capability demonstrates that the MAML trained model $f$ has learned to model the periodic nature of the sine wave [3].",
+      "claims": [
+        {
+          "claim": "The meta-learned model f can learn the periodicity of a sine wave without looking at the entire dataset.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "Is the last 1*1 convolutional layer used because the task requires to output a map of segmentation?",
+      "output": "At the final layer, a 1x1 convolution is utilized to map each 64-component feature vector to the desired number of classes [3]. The provided text does not explicitly state that this layer is used because the task requires outputting a segmentation map, though it notes that the network uses unpadded convolutions so that the resulting segmentation map only contains pixels for which full context is available [1].",
+      "claims": [
+        {
+          "claim": "The last 1\u00d71 convolutional layer is used to get the desired number of classes for the segmentation map.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "Given the triggered sentences, how can this problem be rectified?",
+      "output": "One solution to the problems mentioned is to integrate the reliability and strength of classical AI models in logical reasoning with language models [3]. In the literature, two major approaches to logical reasoning exist: Forward Chaining (FC), which iterates between making inferences and adding them to a theory starting from facts and rules, and Backward Chaining (BC), which recursively decomposes a goal into sub-goals [3]. While previous approaches have mostly incorporated elements of FC into language models, FC can be difficult because it requires a combinatorial search over a large space of facts and rules and faces challenges in deciding when to halt [3].",
+      "claims": [
+        {
+          "claim": "The problem can be rectified by integrating the strength and reliability of classical AI models in logical reasoning with language models.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "How long is this challenge been running?",
+      "output": "The challenges have been running for five years [3].",
+      "claims": [
+        {
+          "claim": "The challenge has been running for the past 5 years.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "This paper deals with NIL. It is true?",
+      "output": "The paper addresses NIL by formulating a joint task where a coreferenced cluster can be linked to a single entity or NIL, which represents a non-linkable entity [1]. The authors contribute an extended AIDA dataset that includes new annotations for NIL coreference clusters [3]. However, regarding performance metrics for entity linking, the authors only report results for non-NIL mentions and leave the study of NIL links for future work [2].",
+      "claims": [
+        {
+          "claim": "Yes, the paper adds new annotations of linked and NIL coreference clusters.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "How can we learn the network to be invariant to gray value variations?",
+      "output": "Data augmentation is essential for teaching a network desired invariance and robustness properties, such as robustness to gray value variations, especially when few training samples are available [2]. While random elastic deformations are noted as a key concept for training segmentation networks with limited annotated images, data augmentation generally allows a network to learn invariance to transformations without needing to see them in the annotated image corpus [1][2]. Additionally, drop-out layers at the end of the contracting path perform further implicit data augmentation [2].",
+      "claims": [
+        {
+          "claim": "Data augmentation can make the network invariant to gray value variations.",
+          "entailed": true
+        },
+        {
+          "claim": "A drop-out layer can make the network invariant to gray value variations.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Why is each attention head equipped with a 2-layer MLP in particular?",
+      "output": "Each attention head is equipped with a 2-layer MLP with ReLU activation to process queries and keys [3]. This MLP maps token representations into the node representation space to obtain node embeddings [3]. This setup, along with a set of $k$ trainable cluster-embeddings, allows for the proper parameterization of the SBM by enabling the inference of the block matrix and node-memberships [3].",
+      "claims": [
+        {
+          "claim": "Each attention head is equipped with a 2-layer MLP to process each query and key.",
+          "entailed": true
+        },
+        {
+          "claim": "The 2-layer MLP maps token representations into the node representation space.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Is it true that large text to image models cannot mimic and create novel rendition of images in a reference set?",
+      "output": "Yes, it is true that while large text-to-image models possess unprecedented synthesis capabilities, they lack the ability to mimic the appearance of subjects in a given reference set and synthesize novel renditions of those subjects in different contexts [1]. This limitation exists because the expressiveness of their output domain is limited, meaning even detailed textual descriptions may result in instances with different appearances [1]. Additionally, even models utilizing text embeddings in a shared language-vision space are unable to accurately reconstruct the appearance of specific subjects, instead only creating variations of the image content [1].",
+      "claims": [
+        {
+          "claim": "Large text-to-image models cannot mimic and create novel renditions of images in a reference set.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "Historically, which architectures have been used for supervised sequence learning tasks?",
+      "output": "Recurrent neural networks utilizing the Long Short Term Memory (LSTM) architecture have been used successfully for various supervised sequence learning tasks [1]. These tasks include machine translation, speech recognition, and caption generation for images [1]. Additionally, these architectures have been applied to videos for generating natural language descriptions and recognizing actions [1].",
+      "claims": [
+        {
+          "claim": "Recurrent neural networks with Long Short Term Memory (LSTM) architectures have been used for supervised sequence learning tasks.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "They generated the cross-attention output weight by calculating the similarity between spatial features of the noise image and textual embedding. Is it right?",
+      "output": "Yes, that is correct [2][3]. The cross-attention output is a weighted average of the values $V$, where the weights are determined by attention maps $M$ that correlate to the similarity between a query matrix $Q$ and a key matrix $K$ [2]. Specifically, the deep spatial features of the noisy image are projected into the query matrix $Q$, while the textual embedding is projected into the key matrix $K$ and a value matrix $V$ [3]. The attention maps $M$ are then calculated using the softmax of the product of $Q$ and the transpose of $K$ [3].",
+      "claims": [
+        {
+          "claim": "Yes, the cross-attention output weight is correlated with the similarity between a query matrix of projected noisy image Q and a key matrix of projected textual embedding K.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What makes SBM-Transformer novel compared to existing efficient Transformer variants?",
+      "output": "SBM-Transformer is novel because it is the first Transformer architecture capable of data-adaptively choosing between linear and full attention with corresponding computational costs [3]. Each attention head in the model can adaptively adjust its attention sparsity and computational cost based on the input data [2]. This is achieved without the need to explicitly compute the full attention score matrix [1][3]. Furthermore, the model leverages a mixed-membership Stochastic Block Model (SBM) where each head is equipped with its own underlying SBM, allowing for diversified attention sparsity across different heads and layers [3].",
+      "claims": [
+        {
+          "claim": "SBM-Transformer is the first Transformer architecture that can data-adaptively choose between linear and full attention.",
+          "entailed": true
+        },
+        {
+          "claim": "Its novelty lies in allowing this choice with the corresponding computational costs.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Why is MNIST so popular?",
+      "output": "MNIST is popular because its size allows deep learning researchers to quickly prototype and check their algorithms [1]. Additionally, its popularity is bolstered by the fact that machine learning libraries and deep learning frameworks provide convenient examples and helper functions that use MNIST out of the box [1]. Despite its simplicity, the dataset has become the most widely used testbed in deep learning, even surpassing ImageNet and CIFAR-10 in popularity according to Google trends [2].",
+      "claims": [
+        {
+          "claim": "MNIST is popular because its size allows researchers to check and prototype their models.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "How different would a BC version of chain of thought be than Lambada model?",
+      "output": "Lambada is a hybrid technique that augments a Language Model (LM) with a backward chaining (BC) technique, where BC is used to drive high-level proof planning while the LM handles individual reasoning steps and textual understanding [1]. Compared to Chain of Thought (CoT), Lambada achieves significantly higher deductive accuracy and is considerably more likely to generate valid reasoning chains [1]. Specifically, Lambada demonstrated substantial relative improvements over CoT on the ParaRules dataset (43%), the PrOntoQA dataset (37%), and the ProofWriter-PUD dataset (44%) [2].",
+      "claims": [
+        {
+          "claim": "LAMBADA combines language models\u2019 ability to handle realistic text input with backward chaining for high-level reasoning.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "Which specific metrics are improved when increasing attention modules ?",
+      "output": "Increasing the number of attention modules allows the model to surpass state-of-the-art image classification methods [1]. Specifically, the model achieves a 3.90% error on CIFAR-10, a 20.67% error on CIFAR-100, and a 0.6% top-1 accuracy improvement on the ImageNet dataset [1]. Additionally, the use of attention residual learning improves the discrimination of represented features [2].",
+      "claims": [
+        {
+          "claim": "Increasing attention modules improves the Top-1 error metric.",
+          "entailed": true
+        },
+        {
+          "claim": "Increasing attention modules improves the Top-5 error metric.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Is the reason for using max pooling for permutation invariant in the paper above?",
+      "output": "Yes, the paper states that using a simple symmetric function to aggregate information from each point is one of three existing strategies to make a model invariant to input permutation [3]. The authors use max pooling as their single symmetric function [2]. A symmetric function, such as max pooling, takes $n$ vectors as input and produces a new vector that remains invariant to the input order [3].",
+      "claims": [
+        {
+          "claim": "To make a model invariant to input permutation, one strategy is to use a simple symmetric function to aggregate information from each point.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What is an example of an FPGA?",
+      "output": "An example of an FPGA is the Xilinx Vertex-7, which has a maximum of 8.5 MBytes of on-chip memory and lacks off-chip memory [2].",
+      "claims": [
+        {
+          "claim": "Xilinx Vertex-7 FPGA is an example of an FPGA.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What does \u201cscale invariance\u201d mean?",
+      "output": "Scale invariance in object detection can be achieved through two primary strategies: \"brute-force\" learning and the use of image pyramids [1][2]. In the brute-force approach, the network is required to directly learn scale-invariant detection from training data, where each image is processed at a pre-defined pixel size during both training and testing [2]. Alternatively, the multi-scale approach uses an image pyramid to provide approximate scale-invariance to the network [3]. During multi-scale training, a pyramid scale is randomly sampled each time an image is sampled to serve as a form of data augmentation [3].",
+      "claims": [
+        {
+          "claim": "\u201cScale invariance\u201d means that there are different scales for the model.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "Can the the NetVLAD pooling layer be inserted into any other CNN or does it support certain architectures?",
+      "output": "The NetVLAD layer is a powerful pooling mechanism with learnable parameters that can be easily plugged into any other CNN architecture [3]. While the authors specifically used AlexNet and VGG-16 as base architectures extended with NetVLAD layers, they note that the NetVLAD pooling layer is a generic CNN building block [1][3].",
+      "claims": [
+        {
+          "claim": "NetVLAD pooling is a generic building block.",
+          "entailed": true
+        },
+        {
+          "claim": "NetVLAD pooling can be inserted into any other CNN architecture.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "What are the total number of encoders and decoders used in SegNet?",
+      "output": "In the experiments described, a total of 4 encoders and 4 decoders are used [3]. These components are organized into a 4-layer SegNet architecture [2][3].",
+      "claims": [
+        {
+          "claim": "SegNet uses 4 encoders and 4 decoders.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What are the side effects of group convolution?",
+      "output": "When multiple group convolutions are stacked together, a side effect occurs where outputs from a specific channel are derived from only a small fraction of input channels [1]. This property blocks the flow of information between channel groups and weakens representation [1]. Additionally, while larger group numbers can help encode more information, they may also lead to degradation for an individual convolutional filter because of the limited corresponding input channels [3].",
+      "claims": [
+        {
+          "claim": "Group convolutions can block information flow between channel groups when multiple group convolutions are combined.",
+          "entailed": true
+        },
+        {
+          "claim": "Group convolutions can damage individual convolution filters for each group because they reduce the number of input channels.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Define KL divergence.",
+      "output": "KL divergence, denoted as $KL$, is used to compare probability distributions, such as the distribution of a specialist model or generalist full model ($\\mathbf{p}^{m}$ or $\\mathbf{p}^{g}$) against a full probability distribution $\\mathbf{q}$ [1]. When all models produce a single probability for each class, the solution to the minimization of KL divergence is either the arithmetic or geometric mean, depending on whether $KL(\\mathbf{p}, \\mathbf{q})$ or $KL(\\mathbf{q}, \\mathbf{p})$ is used [2].",
+      "claims": [
+        {
+          "claim": "KL divergence is computed between the probability distribution of a specialist model or generalist full model and the full probability distribution over all classes.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What was Memorization Accuracy Metric first used to quantify?",
+      "output": "Memorization Accuracy (MA) quantifies the extent to which a model $f_{\\theta}$ has memorized specific token sequences [3]. This metric was originally proposed by Tirumala et al. (2022) for the purpose of analyzing the training dynamics of large language models [3].",
+      "claims": [
+        {
+          "claim": "Memorization Accuracy Metric (MA) was first used to quantify the training dynamics of large language models.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What does it mean to be multimodal in the context of \"multimodal inputs\"?",
+      "output": "In the context of \"multimodal inputs,\" being multimodal refers to handling multiple modalities of input data [1]. Examples of these modalities include audio and video, text and image data, or RGB-D data [1]. Some approaches to multimodal data involve learning separate low-level features for each modality, which can be effective when the modalities differ significantly, such as text and images [1][2]. Alternatively, modalities can be integrated by simply concatenating them as a vector, an approach that is more effective when modalities are more similar, such as RGB-D data [1][2].",
+      "claims": [
+        {
+          "claim": "Being multimodal means the system can handle multiple modalities of input data.",
+          "entailed": true
+        },
+        {
+          "claim": "Examples of multimodal inputs include audio and video, text and image data, and RGB-D data.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "What does the b of the sub-role, s^b_i mean in the semantic structure of sentence S?",
+      "output": "In the semantic structure of sentence $\\mathcal{S}$, $s^{b}_{i}$ represents a sub-role [3]. Each sub-role is a component of a larger semantic role $s_{i}$ that can be divided into $n_{i}$ sub-roles [3]. When $n_{i}=1$, the role $s_{i}$ itself acts as a sub-role [3].",
+      "claims": [
+        {
+          "claim": "\\(b\\) refers to a sub-role in the semantic structure of the sentence.",
+          "entailed": true
+        },
+        {
+          "claim": "\\(i\\) denotes a specific number of a sub-role in the sequence of sub-roles in the semantic structure of a sentence.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "How did they finetune GPT3?",
+      "output": "The GPT3 model (specifically the \"davinci\" engine) was finetuned using the OpenAI finetuning API [2]. This process involved using various templates to concatenate the instruction and input, then training the model to generate the output [2]. For this finetuning, the authors used default hyper-parameters with the exception of setting the prompt loss weight to 0 and training the model for 2 epochs [2]. The resulting model from this process is referred to as GPT3$_{Self-Inst}$ [1][2].",
+      "claims": [
+        {
+          "claim": "The authors fine-tuned the GPT-3 model via the OpenAI API.",
+          "entailed": true
+        },
+        {
+          "claim": "The model, also called \u201cdavinci,\u201d was fine-tuned for 2 epochs with a prompt loss weight set to zero.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "How is the inversion of text-guided diffusion models different from the inversion of GAN?",
+      "output": "Inversion involves finding an initial noise vector that produces a specific input image when fed into the diffusion process [2]. While this process has received considerable attention for GANs, it has not yet been fully addressed for text-guided diffusion models [2].",
+      "claims": [
+        {
+          "claim": "Inversion of GANs requires finding the initial noise vector that produces the desired edit.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What are quantized depth planes, probabilistic disparity maps, and view-dependent flow fields?",
+      "output": "In the context of end-to-end learning methods for novel view synthesis, quantized depth planes, probabilistic disparity maps, and view-dependent flow fields are different ways to represent underlying geometry [1]. Specifically, quantized depth planes are used by DeepStereo, probabilistic disparity maps are used by Deep3D, and view-dependent flow fields are used by Appearance Flows [1].",
+      "claims": [
+        {
+          "claim": "Quantized depth planes, probabilistic disparity maps, and view-dependent flow fields are methods for representing the underlying geometry of the scene.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "When does cross-encoder powerful? Give an example.",
+      "output": "A cross-encoder is often better than a bi-encoder at utilizing context information [1]. However, it can occasionally make mistakes due to misleading context cues [1]. One example of its power is when a cross-encoder uses the context word \"Juventus\" to disambiguate the name \"Ronaldo,\" whereas a bi-encoder mistakenly links it to the Brazilian football player [1]. Another example is when a cross-encoder correctly identifies from context that a sentence describes art rather than fiction [1].",
+      "claims": [
+        {
+          "claim": "Cross-encoder is powerful for cases that require disambiguation with the given context.",
+          "entailed": true
+        },
+        {
+          "claim": "An example is accurately identifying and linking entities through context when a bi-encoder fails.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "What is the advantage of stacking encoders and decoders for semantic segmentation?",
+      "output": "Stacking encoder-decoder pairs provides several advantages for semantic segmentation [1][2]. First, adding deeper layers with pooling-subsampling increases the spatial context available for pixel labelling, which results in smoother predictions compared to patch-based classifiers [1][2]. Second, the computational cost successively decreases for each additional or deeper encoder-decoder pair, which offers a practical advantage [2]. Finally, the decoder stack allows for ablation studies to be performed to understand the effects of certain features [1].",
+      "claims": [
+        {
+          "claim": "Stacking encoders and decoders produces smooth segment labels.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "Why did the authors use a different set of phonemes for decoding and scoring?",
+      "output": "The provided documents do not state the reason why the authors used a different set of phonemes for decoding and scoring [1]. The text only specifies that decoding was performed using the 61+1 phoneme set, whereas scoring was conducted on the 39 phoneme set [1].",
+      "claims": [
+        {
+          "claim": "The paper does not provide evidence or information explaining why a different set of phonemes was used for decoding and scoring.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "What does STL stand for?",
+      "output": "STL stands for Single-Task Learning [1]. In this approach, a model is pre-trained on a synthetic QA dataset that is generated from a single knowledge graph (KG) [1].",
+      "claims": [
+        {
+          "claim": "STL stands for Single-Task Learning.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "In BUIR, how does the online encoder updated compared to the target encoder?",
+      "output": "In BUIR, the online encoder $f_{\\theta}$ and the target encoder $f_{\\xi}$ are updated using different methods [1]. The online encoder is trained to minimize the error between its output and the target by using gradients back-propagated from the loss [1][3]. In contrast, the target encoder is updated as a moving average of the online encoder using a momentum-based update [3]. This momentum-based update involves a momentum coefficient $\\tau$ to ensure the target encoder evolves more slowly than the online encoder, which helps provide consistent targets [3].",
+      "claims": [
+        {
+          "claim": "In BUIR, the online encoder is updated by minimizing the error between its output and the target using back-propagated gradients from the loss.",
+          "entailed": true
+        },
+        {
+          "claim": "The target encoder is updated by momentum, as the moving average of the online encoder.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 2,
+      "total_claims": 2
+    },
+    {
+      "question": "Why does using larger patches reduce localization accuracy?",
+      "output": "Using larger patches reduces localization accuracy because they require more max-pooling layers [1]. While larger patches provide more context, there is an inherent trade-off between the use of context and localization accuracy [1].",
+      "claims": [
+        {
+          "claim": "Using larger patches reduces localization accuracy because they require more max-pooling layers.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 1,
+      "total_claims": 1
+    },
+    {
+      "question": "Would the performance be improved if the PLM model is pre-trained or fine-tuned on bio-medical domain datasets?",
+      "output": "All models exhibit poor ranking performance in the bio-medical domain because it is a challenging data scarcity scenario where textual data is not widely covered in the pre-training datasets of PLMs [1]. Because various specialized domains like bio-medical may only have few training examples in a general corpus, domain-specific knowledge is difficult for a model to reveal and capture [3]. Consequently, the processing of domain-specific queries is often inaccurate [3].",
+      "claims": [
+        {
+          "claim": "All of the models performed poorly on the bio-medical domain.",
+          "entailed": true
+        },
+        {
+          "claim": "The poor performance was because the domain\u2019s textual data was not widely covered in the PLMs\u2019 pretraining dataset.",
+          "entailed": true
+        },
+        {
+          "claim": "Lack of domain data can prevent a PLM from capturing knowledge specific to that domain.",
+          "entailed": true
+        }
+      ],
+      "claim_recall": 1.0,
+      "entailed": 3,
+      "total_claims": 3
+    }
+  ],
+  "bad_examples": [
+    {
+      "question": "What does inductive bias means?",
+      "output": "Inductive bias is a concept usually associated with specific architectures, model types, and regularization approaches [1]. The authors conceptually extend this notion to refer to learning tasks involving pretrained language models [1]. Specifically, the paper investigates whether pretraining develops helpful inductive biases for non-linguistic reasoning, such as string reasoning, recognizing regular expressions, or performing quantitative computation [3].",
+      "claims": [
+        {
+          "claim": "Inductive bias means the performance gain of a pretrained model in different linguistic structures.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How did the authors verify that YOLO learns very general representation of objects ?",
+      "output": "The authors verified that YOLO learns generalizable representations of objects by training the model on natural images and then testing it on artwork [1]. In this test, YOLO outperformed leading detection methods, such as R-CNN and DPM, by a significant margin [1]. Because of this high level of generalizability, YOLO is less prone to failure when applied to unexpected inputs or new domains [1].",
+      "claims": [
+        {
+          "claim": "YOLO is trained on full images end-to-end, which allows it to encode contextual information about each class and its appearance.",
+          "entailed": false
+        },
+        {
+          "claim": "YOLO can learn shapes, sizes, and relationships between objects.",
+          "entailed": false
+        },
+        {
+          "claim": "The authors showed YOLO was generalizable to artwork and made fewer background-object mistakes than R-CNN.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "Why did the authors chose to do experiments on different basic units to prove the generalization of the residual attention network?",
+      "output": "The authors used different basic units to demonstrate that the Residual Attention Network can generalize well [1]. To construct these networks, they applied three popular basic units: Residual Unit, ResNeXt, and Inception [1]. Ultimately, the results from these experiments show that their method can be applied to various different network structures [3].",
+      "claims": [
+        {
+          "claim": "Proving generalization shows that the proposed method can be applied to multiple structures without a significant loss in performance.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What are the motivation behind choosing TREC-COVID for analysis on annotation bias?",
+      "output": "The motivation for choosing TREC-COVID was to study the impact of annotation selection bias [1]. Although the dataset used a pooling method to reduce bias by constructing the annotation set from search results of various participating systems, researchers found that different systems had largely different Hole@10 rates [1][3]. These varying rates negatively affected non-lexical approaches, highlighting the challenge of evaluating new models on existing datasets [3].",
+      "claims": [
+        {
+          "claim": "TREC-COVID was chosen because the dataset could be made unbiased by manual annotations.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How did the authors manage the model fast and accurately enough for real-time applications?",
+      "output": "The authors achieved speed and accuracy by eliminating the bounding box proposals and the subsequent stage of resampling pixels or features [3]. To increase accuracy, they utilized small convolutional filters to predict bounding box location offsets and object categories, employed separate predictors for different aspect ratios, and applied these filters to multiple feature maps to perform detection at various scales [3]. Additionally, using multiple layers for prediction at different scales allows for high-accuracy detection using relatively low resolution input, which further increases speed [3]. By using multi-scale convolutional bounding box outputs attached to multiple feature maps, the model can efficiently model the space of possible box shapes [2]. Consequently, the SSD300 model achieves real-time performance at 59 FPS with superior detection accuracy compared to alternatives like YOLO [2][3].",
+      "claims": [
+        {
+          "claim": "The authors used a deep network-based object detector that does not resample pixels or features for bounding box hypotheses.",
+          "entailed": false
+        },
+        {
+          "claim": "The detector is as accurate as approaches that do resample pixels or features.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What type of parameter would be considered a 'good' initial parameter?",
+      "output": "A \"good\" initial parameter can be viewed as one that builds an internal representation broadly suitable for many tasks [2]. From a dynamical systems standpoint, these parameters are optimized to maximize the sensitivity of new task loss functions, meaning small local changes to the parameters can result in large improvements in task loss [2]. Ultimately, the proposed method aims to optimize parameters so that a small number of gradient steps on a new task will produce maximally effective behavior [3].",
+      "claims": [
+        {
+          "claim": "A good initial parameter gives good performance in many tasks with only a little fine-tuning.",
+          "entailed": false
+        },
+        {
+          "claim": "A good initial parameter should lead to sensitive loss functions across tasks, enabling good updates.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Is hyperparameter optimization performed independently for the two dataset corpora?",
+      "output": "Yes, all model hyperparameters were tuned on the respective validation sets of the two corpora [1].",
+      "claims": [
+        {
+          "claim": "Hyperparameter optimization for each dataset appears to be performed independently.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Can we use Faster R-CNN for human pose estimation ?",
+      "output": "While the provided documents do not explicitly state whether Faster R-CNN can be used for human pose estimation, they describe Mask R-CNN as a framework that can be readily extended to such tasks [2][3]. Mask R-CNN can be applied to detect instance-specific poses by viewing each keypoint as a one-hot binary mask [3]. Faster R-CNN is described as a two-stage detector consisting of a Region Proposal Network (RPN) and a second stage that performs classification and bounding-box regression [1].",
+      "claims": [
+        {
+          "claim": "Yes, Faster R-CNN can be used for human pose estimation.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Is it inspired by transformer network?",
+      "output": "The provided documents do not explicitly state whether the proposed model is inspired by transformer networks [2]. However, the text notes that the T2I diffusion models used (such as LDM) employ a U-Net architecture composed of stacked 2D convolutional residual blocks and transformer blocks [1]. Each of these transformer blocks includes a feed-forward network, a cross-attention layer, and a spatial self-attention layer [1].",
+      "claims": [
+        {
+          "claim": "The authors extend the spatial self-attention in the T2I model from one image to multiple images to maintain content consistency across frames.",
+          "entailed": false
+        },
+        {
+          "claim": "This approach is useful in the spatiotemporal domain, such as generating videos.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Does \u03b2-VAE's objective control overlap ?",
+      "output": "Yes, the $\\beta$-VAE's objective allows for direct control over the level of overlap [1]. The ability of the $\\beta$-VAE to encourage disentanglement is predominantly achieved through this direct control over the overlap level [3]. However, increasing $\\beta$ is not always beneficial for disentanglement because the level of overlap can be increased too far [3].",
+      "claims": [
+        {
+          "claim": "\u03b2-VAE\u2019s objective directly controls the level of overlap between encodings of the data.",
+          "entailed": false
+        },
+        {
+          "claim": "\u03b2-VAE encourages disentanglement primarily through maximizing the entropy of the encoding distribution.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What type of scenes were used for training?",
+      "output": "The training examples for the model consist of short image sequences of scenes that are captured by a moving camera [1]. The authors assume that the scenes of interest are mostly rigid, meaning the change in scene appearance across different frames is primarily dominated by camera motion [1]. Additionally, the training process excludes static sequences that have a mean optical flow magnitude of less than 1 pixel [3].",
+      "claims": [
+        {
+          "claim": "The proposed model was trained on the Cityscapes dataset.",
+          "entailed": false
+        },
+        {
+          "claim": "The model was then fine-tuned on KITTI scenes.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Why was a zero-centered input used for training the paper's DNN, instead of using the training images as input directly?",
+      "output": "The network was trained on ImageNet by first subtracting the per-pixel mean of examples in ImageNet before inputting training examples to the network [1]. Consequently, the direct input to the network, $\\mathbf{x}$, is considered a zero-centered input [1].",
+      "claims": [
+        {
+          "claim": "Zero-centered input data improves the convergence properties of backpropagation training.",
+          "entailed": false
+        },
+        {
+          "claim": "Using zero-centered input can help the DNN reach the desired solution faster.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Does the proposed approach in the paper require a labelled dataset?",
+      "output": "The proposed Universal Language Model Fine-tuning (ULMFiT) approach can be used in both supervised and semi-supervised settings [2]. In the supervised setting, the model is fine-tuned using only labeled examples [2]. When the approach is used in a semi-supervised manner, it can also utilize unlabeled examples [1][2]. Furthermore, the method is designed to work across various label types and does not require additional in-domain labels [3].",
+      "claims": [
+        {
+          "claim": "ULMFiT does not require any additional in-domain documents or labels for pretraining.",
+          "entailed": false
+        },
+        {
+          "claim": "The model is then fine-tuned on a target task using novel techniques.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Why was the random edge exploration technique used during training of SBM-Transformer?",
+      "output": "Based on the provided documents, there is no mention of a \"random edge exploration technique\" being used during the training of SBM-Transformer [1][2][3]. The documents state that SBM-Transformer uses a mixed-membership Stochastic Block Model (SBM) where each attention head samples a bipartite graph to connect queries to keys [1]. This sampled graph's adjacency serves as an attention mask, allowing the model to compute only the attention scores for the sampled edges [1]. To ensure end-to-end differentiability during the discrete graph-sampling step, the model incorporates a straight-through estimator [1].",
+      "claims": [
+        {
+          "claim": "Random edge exploration was used to prevent edge probabilities from accidentally collapsing to zero.",
+          "entailed": false
+        },
+        {
+          "claim": "It helps the SBM-Transformer explore new edges during training.",
+          "entailed": false
+        },
+        {
+          "claim": "It can resuscitate sampling probabilities for edges if necessary.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "Can kernel functions other than the exponential kernel be applied?",
+      "output": "Yes, the proposed structure-aware self-attention is flexible enough to be combined with any model that generates subgraph representations, including (differentiable) graph kernels [2]. Specifically, the $\\kappa_{\\text{graph}}$ used in the structure-aware attention can be any kernel that compares a pair of subgraphs [3]. While the exponential kernel is used to define the similarity between extracted vector representations of subgraphs, the model is designed to incorporate more generalized kernels that account for local substructures around each node [1][3].",
+      "claims": [
+        {
+          "claim": "Any kernel that compares a pair of subgraphs can replace the exponential kernel.",
+          "entailed": false
+        },
+        {
+          "claim": "The graph kernel is defined as the exponential kernel in P6, but P2 allows it to be changed to another kernel that can compare a pair of subgraphs.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Is GLUE a benchmark for BERT or corpus for BERT?",
+      "output": "GLUE is a benchmark, specifically the General Language Understanding Evaluation benchmark, rather than a corpus [2]. It consists of a collection of 9 datasets used for evaluating natural language understanding systems [2]. These datasets include tasks such as MNLI, QNLI, RTE, and STS-B [1][2].",
+      "claims": [
+        {
+          "claim": "GLUE is a benchmark dataset for BERT.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How input image resolution affects the accuracy of the SSD framework?",
+      "output": "Increasing the input image size, such as moving from $300 \\times 300$ to $512 \\times 512$, can help improve the detection of small objects [1]. By increasing the training and testing image size to $512 \\times 512$, the model is 4.5% more accurate than Faster R-CNN [2]. Additionally, the use of multiple layers for prediction at different scales allows the system to achieve high accuracy even when using a relatively low resolution input [3].",
+      "claims": [
+        {
+          "claim": "The accuracy of the SSD framework is relatively higher on higher-resolution images than on lower-resolution images.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How did the authors handle complexity constraints for their mobile networks?",
+      "output": "To customize a network to a desired complexity, the authors apply a scale factor $s$ to the number of channels [2]. For instance, scaling the number of filters in \"ShuffleNet $1\\times$\" by $s$ times results in an overall complexity that is roughly $s^2$ times that of the original \"ShuffleNet $1\\times$\" [2]. Additionally, the authors intentionally use depthwise convolution only on the bottleneck in ShuffleNet units to prevent overhead, as depthwise convolution can be difficult to implement efficiently on low-power mobile devices [3].",
+      "claims": [
+        {
+          "claim": "The authors constructed a simple scaling method to reduce the size of ShuffleNet so it fits computational constraints.",
+          "entailed": false
+        },
+        {
+          "claim": "They also reported the implementation outcomes and reasons when the network is run on mobile devices.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What is the difference between a 1-d CNN and a 2-layer highway network?",
+      "output": "In the described model, a 1-d CNN is used to process characters by applying max-pooling across the sequence for each convolutional feature [1]. The resulting features from this process are then fed into a 2-layer highway network, which enables the embedding to learn semantic representations [1].",
+      "claims": [
+        {
+          "claim": "The paper does not discuss the difference between a 1D CNN and a 2-layer highway network.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What is the effect of changing stride of the convolution?",
+      "output": "Reducing the effective stride, such as decreasing it from 32 pixels to 16 pixels, increases the resolution of the score map [1]. In the R-FCN architecture, modifying stride=2 operations to have a stride=1 requires using the \u201chole algorithm\u201d (also known as the \u201c\u00e0 trous trick\u201d) on convolutional filters to compensate for the reduction [1]. This \"\u00e0 trous\" technique has been shown to improve mAP by 2.6 points [1].",
+      "claims": [
+        {
+          "claim": "Reducing the stride of the convolution with the hole algorithm improves mAP by 26 points.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Why is it adequate to say this problem is strictly convex?",
+      "output": "Based on the provided documents, there is no information explaining why the problem is strictly convex [1][2][3].",
+      "claims": [
+        {
+          "claim": "The Hessian is a positive definite matrix.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What is the role of meta-data in the proposed method?",
+      "output": "Based on the provided documents, the term \"meta-data\" is not explicitly defined or assigned a specific role; however, the proposed SELAR framework utilizes meta-learning to learn a concept across tasks [2]. This meta-learning approach is used to learn weight functions that softly select auxiliary tasks and balance them with the primary task [3]. Additionally, the framework employs meta-learning to transfer knowledge from auxiliary tasks to the primary task [2].",
+      "claims": [
+        {
+          "claim": "Meta-data serves as a signal to guide the update of the model\u2019s parameters.",
+          "entailed": false
+        },
+        {
+          "claim": "Using meta-data in this way improves the primary task.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "By how much does the proposed approach outperform CoVE?",
+      "output": "On the IMDb dataset, the proposed method reduces the error rate by 43.9% compared to CoVe [1]. While the method outperforms CoVe on both datasets, the improvement on TREC-6 is not statistically significant because of the small 500-example test set [1][3].",
+      "claims": [
+        {
+          "claim": "On IMDb, the proposed approach reduces the error by 439% compared to CoVe.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "The authors claim that autonomous cars would be able to drive without specialized sensors using only fast and accurate algorithms, is that true ?",
+      "output": "Yes, the authors claim that fast and accurate algorithms for object detection would allow computers to drive cars without the need for specialized sensors [1]. This capability, along with the ability to enable assistive devices to convey real-time scene information and unlock responsive robotic systems, is linked to the development of such algorithms [1].",
+      "claims": [
+        {
+          "claim": "The paper says autonomous cars could theoretically drive without specialized sensors if detection algorithms were as fast and accurate as the human visual system.",
+          "entailed": false
+        },
+        {
+          "claim": "The paper does not further discuss this claim.",
+          "entailed": false
+        },
+        {
+          "claim": "At the time of writing, YOLO was still inferior to other detectors in terms of accuracy.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "What is the purpose of using shortcut connections in residual learning?",
+      "output": "Shortcut connections turn a plain network into its residual counterpart [2]. In the authors' formulation, identity shortcuts are parameter-free and ensure that all information is always passed through, as they are never \"closed\" [1]. These connections introduce no extra computation complexity or additional parameters [3]. When dimensions increase, shortcuts can either use identity mapping with zero padding or use projection shortcuts via $1 \\times 1$ convolutions to match dimensions [2].",
+      "claims": [
+        {
+          "claim": "Shortcut connections in residual learning are used to ease the comparison between plain and residual networks.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What does \"information highways\" mean ?",
+      "output": "\"Information highways\" refer to computation paths created by an LSTM-inspired adaptive gating mechanism that allow information to flow across many layers without attenuation [1]. These paths enable the creation of highway networks, which differ from traditional \"plain\" networks [1]. Unlike fixed \"skip\" connections, the gating mechanism uses multiplicative connections to route information by responding differently to various inputs [2]. In these highways, most outputs remain constant over many layers, which is visualized as a pattern of stripes [3].",
+      "claims": [
+        {
+          "claim": "\u201cInformation highways\u201d means that some information is not lost while passing through the layer.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What metrics are used to compare the performance of ULMFiT against existing approaches?",
+      "output": "To assess the impact of its contributions, the authors report error rates on a validation set consisting of 10% of the training set [3]. These experiments were conducted on three representative corpora: IMDb, TREC-6, and AG [3].",
+      "claims": [
+        {
+          "claim": "The authors reported all results as error rates.",
+          "entailed": false
+        },
+        {
+          "claim": "Lower error rates indicate better performance.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Why does Yolo outperform R-CNN in other categories such as cat and train ?",
+      "output": "YOLO achieves higher performance on categories such as cat and train [2]. This is because YOLO reasons globally about the image when making predictions, whereas region proposal-based techniques do not [3]. By seeing the entire image during both training and test time, YOLO implicitly encodes contextual information regarding the appearance and classes of objects [3]. Consequently, YOLO makes less than half the number of background errors compared to Fast R-CNN, which mistakes background patches for objects because it cannot see the larger context [3].",
+      "claims": [
+        {
+          "claim": "The paper does not specifically discuss why YOLO outperforms R-CNN in categories such as cat and train.",
+          "entailed": false
+        },
+        {
+          "claim": "It is difficult to answer this question using only the contents of the paper.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What does \"2.5D data\" means ?",
+      "output": "Based on the provided documents, \"2.5D\" is discussed in the context of lifting data to 3D using the 3DShapeNets approach [3]. This process involves categorizing each voxel as free space, surface, or occluded based on its position relative to the visible surface or depth value from a depth map [3].",
+      "claims": [
+        {
+          "claim": "\u201c2.5D data\u201d means 2D information from the image plane plus information about the relative depths of points.",
+          "entailed": false
+        },
+        {
+          "claim": "The depth information indicates whether points are behind or in front of the visible surface.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What are the metrics used to compare the efficiency of different methods which compute the adversarial perturbations?",
+      "output": "To evaluate the robustness of a classifier to adversarial perturbations, the average robustness $\\hat{\\rho}_{\\text{adv}}(f)$ is computed [3]. This metric is defined as the average ratio of the norm of the estimated minimal perturbation $\\hat{\\bm{r}}(\\bm{x})$ to the norm of the original input $\\bm{x}$ over a test set $\\mathscr{D}$ [3]. Specifically, the authors use the $\\ell_2$ norm to define this average robustness [3]. Additionally, when perturbations are measured using the $\\ell_{\\infty}$ norm, the robustness is measured by $\\hat{\\rho}_{\\text{adv}}^{\\infty}(f)$ [2].",
+      "claims": [
+        {
+          "claim": "The methods are compared using the model\u2019s average robustness estimated in a norm, such as 2-norm or infinity-norm.",
+          "entailed": false
+        },
+        {
+          "claim": "The methods are also compared using the average running time needed to find the estimated minimal perturbation.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "How do the authors come to the conclusion that the thinness is what is causing regions to be masked improperly?",
+      "output": "The authors conclude that thinness causes improper masking by observing that the depth CNN has low confidence in predicting thin structures well [1]. Consequently, the network tends to mask these thin structures as unexplainable [1].",
+      "claims": [
+        {
+          "claim": "The simultaneous estimation of structure and motion is a well-studied problem.",
+          "entailed": false
+        },
+        {
+          "claim": "Traditional methods suffer from thin structures.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "The reason why the diffusion step can be applied on both z_{t-1} and z^*_t in parallel is their one timestep difference is matched each other. Is it right?",
+      "output": "The provided documents do not state that the diffusion step can be applied to both $z_{t-1}$ and $z^*_{t}$ in parallel because of a matched one-timestep difference [1]. Instead, the documents note that a diffusion step can be applied to both $z_{t-1}$ and $z^*_{t}$ in the same batch (in parallel), which results in only one step of overhead compared to the original inference of the diffusion model [1].",
+      "claims": [
+        {
+          "claim": "In the diffusion process, the noisy image output \\(z_{t-1}\\) at a single time-step \\(t\\) can be computed as \\(DM(z_t, P, t, s)\\).",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What significance do the numbers like 51.3 and 30.0 have with respect to the One Billion Word benchmark?",
+      "output": "Based on the provided documents, there is no mention of the numbers 51.3 or 30.0 [1][2][3]. The documents describe the One Billion Word Benchmark as a large-scale dataset containing approximately 0.8B to 1B words and a vocabulary of approximately 793,471 to 800,000 words [1][2]. The standard measure used for reporting progress on such language modeling benchmarks is perplexity [3].",
+      "claims": [
+        {
+          "claim": "The numbers like 51.3 and 30.0 represent perplexity values on the One Billion Word benchmark.",
+          "entailed": false
+        },
+        {
+          "claim": "Perplexity is the average per-word log-probability.",
+          "entailed": false
+        },
+        {
+          "claim": "Perplexity measures how confused the language model is in predicting the next word.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "How is complexity calculated given scale factor of the ShuffleNet model? Given scale factor 0.25 and complexity of ShuffleNet 1x is 140 MFLOPS",
+      "output": "To customize a network to a specific complexity, a scale factor $s$ can be applied to the number of channels [2]. Scaling the number of filters in a \"ShuffleNet 1$\\times$\" model by $s$ times results in an overall complexity that is roughly $s^2$ times that of the ShuffleNet 1$\\times$ model [2]. Given a scale factor of 0.25 and a ShuffleNet 1$\\times$ complexity of 140 MFLOPS, the complexity would be calculated as $140 \\times 0.25^2$ [2].",
+      "claims": [
+        {
+          "claim": "The complexity of ShuffleNet 0.25x is 13 MFLOPs.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What was Faster R-CNN developed to overcome in the Fast R-CNN?",
+      "output": "Based on the provided documents, there is no information regarding what Faster R-CNN was developed to overcome in Fast R-CNN [1][2][3]. The documents describe Faster R-CNN's components, such as the RPN being a fully convolutional detector [2], and compare its speed and accuracy to other models like R-FCN [1][3].",
+      "claims": [
+        {
+          "claim": "Faster R-CNN was developed to replace the sliding window approach used in Fast R-CNN.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What is dropout and how does it alleviate overfitting?",
+      "output": "Dropout is a regularization technique applied to non-recurrent connections [1]. While it does not completely prevent overfitting, using dropout on non-recurrent connections largely mitigates these issues and removes the necessity for early stopping [1]. Even relatively small models can over-fit a training set if trained for a long enough duration, which eventually leads to degradation on the holdout set [2].",
+      "claims": [
+        {
+          "claim": "Dropout is a neural network component parametrized with a probability.",
+          "entailed": false
+        },
+        {
+          "claim": "The paper does not discuss how dropout alleviates overfitting.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What is the full form of ILSVRC?",
+      "output": "Based on the provided documents, the full form of ILSVRC is not mentioned [1][2][3]. The documents only state that a specific choice of CNN achieved the best performance on the ILSVRC 2014 classification competition [3].",
+      "claims": [
+        {
+          "claim": "The full form of ILSVRC is not given in the paper.",
+          "entailed": false
+        },
+        {
+          "claim": "Answering this requires external knowledge.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What is the unit of local regions (the meaning of 'local')",
+      "output": "In the context of the proposed model, the neighborhood of a point in a sampled metric space is defined by metric distance [2]. These local neighborhoods are used to analyze geometric point sets, such as point clouds, which are collections of points in a Euclidean space [3]. The distance metric defines these local regions, which may exhibit varying properties such as non-uniform point density across different locations [3].",
+      "claims": [
+        {
+          "claim": "A local region of a pixel consists of pixels with array indices within a certain Manhattan distance, or kernel size, of the pixel.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How many entities and relations does ConceptNet has?",
+      "output": "Based on the provided documents, the specific number of entities and relations contained in ConceptNet is not mentioned [1][2]. The documents only describe ConceptNet as a general knowledge graph that contains common sense knowledge [2].",
+      "claims": [
+        {
+          "claim": "In this work, ConceptNet was merged into a multi-relational graph with 17 relation types.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "I believe T2I models can do this using latent exploration. What is the difference between them? What is novel about T2V\u2019s interpolation?",
+      "output": "The provided documents do not explicitly mention \"latent exploration\" in the context of T2I models, nor do they define a specific difference between T2I and T2V models based on that concept [2]. However, the documents state that T2I models are trained on text-image pairs, while T2V models require extending spatial layers to include temporal information to learn temporal world dynamics [1][3]. Regarding interpolation, the T2V model utilizes a frame interpolation network to enable high frame rate generation and increase the resolution of generated videos [1][3].",
+      "claims": [
+        {
+          "claim": "A frame interpolation network for high frame rate generation can produce a semantically similar video.",
+          "entailed": false
+        },
+        {
+          "claim": "It does so by taking the average CLIP embedding of all frames from a video as the condition.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "How would the effectiveness of SqueezeNet's model compression be affected if a significantly smaller CNN is used instead of AlexNet?",
+      "output": "Based on the provided documents, there is no information regarding how the effectiveness of SqueezeNet's model compression would be affected if a significantly smaller CNN were used instead of AlexNet [1][2][3]. The documents primarily state that SqueezeNet itself is a compact architecture with 50\u00d7 fewer parameters than AlexNet [2] and that AlexNet is used as a basis for comparison when evaluating SqueezeNet [3]. Additionally, the text notes that Deep Compression is effective on both architectures with many parameters, such as AlexNet, and the already compact SqueezeNet [1].",
+      "claims": [
+        {
+          "claim": "SqueezeNet combined with Deep Compression achieved a 510\u00d7 reduction in model size.",
+          "entailed": false
+        },
+        {
+          "claim": "This compression caused no decrease in accuracy compared to the baseline.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Instead of concatenate the three parts, what can be more effective way to consider these three behaviors collectively?",
+      "output": "Instead of simple concatenation, a more effective way to consider the three behaviors collectively is to concatenate the retention (for the transformer encoder part) or bottleneck (for the transformer decoder part) to each key and value for the scaled dot-product attention [1]. This approach enforces information interaction with the retention or bottleneck during every attention step [1]. By using this modification, the transformer encoder can fuse information from retention and (un)installation more efficiently, while the decoder can better extract information from the bottleneck for reconstruction tasks [1]. This method has been shown to improve the quality of user embeddings [1].",
+      "claims": [
+        {
+          "claim": "Retention indicates whether a set of apps is installed now.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How do the authors evaluate the performance of the networks in the experiments?",
+      "output": "The provided documents do not explicitly state the specific metrics or methods used to evaluate the performance of the networks in the experiments [1][2][3]. However, the authors do mention observing training error levels, such as whether error is below 80% [1], and they reference accuracy results, noting that a 110-layer network achieved 6.43% [1]. Additionally, the authors compare the behaviors of different networks by observing training error trends as depth increases [2].",
+      "claims": [
+        {
+          "claim": "The authors evaluate classification networks by calculating training error and testing error.",
+          "entailed": false
+        },
+        {
+          "claim": "The authors evaluate object detection networks using mAP.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Wasn't initial training done with 416 x 416 images?",
+      "output": "While the addition of anchor boxes changed the resolution to 416\u00d7416, the authors implemented multi-scale training to make the model robust to different image sizes [2]. Instead of using a fixed input size, the network randomly chooses a new image dimension size every 10 batches [1]. These dimensions are pulled from multiples of 32, ranging from a smallest option of 320\u00d7320 to a largest of 608\u00d7608 [1].",
+      "claims": [
+        {
+          "claim": "Yes, the initial training was done with 416 x 416 images.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What are the main findings of the experiments with respect to plain networks and residual networks?",
+      "output": "In comparison to plain networks, ResNets generally exhibit smaller layer response strengths [1]. Analysis of layer responses indicates that as ResNets become deeper, the magnitudes of these responses become even smaller, suggesting that individual layers in deeper ResNets modify the signal less [1]. While deep plain networks suffer from increased depth and exhibit higher training error as they go deeper, the 34-layer ResNet successfully reduces training error and reduces the top-1 error by 3.5% compared to its plain counterpart [2][3].",
+      "claims": [
+        {
+          "claim": "Residual networks reduce more training error than plain networks.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Are the three stages sequentially conducted in the model?",
+      "output": "The model involves three stages of learning that result in a word representation enhanced by richer semantic information [1]. The first stage uses basic level masking to obtain a basic word representation [3]. The second stage employs phrase-level masking to encode phrase information into the word embedding [2]. The third stage consists of entity-level masking, where named entities are analyzed and all slots within them are masked and predicted [1].",
+      "claims": [
+        {
+          "claim": "No, the three stages are not clearly conducted sequentially.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What metrics should be used for comparison of Mask R-CNN to the state of the art on the COCO dataset ?",
+      "output": "To compare Mask R-CNN to the state of the art on the COCO dataset, the standard COCO metrics should be reported [1]. These metrics include AP (averaged over IoU thresholds), AP50, AP75, and AP at different scales, specifically APS, APM, and APL [1]. Unless otherwise noted, AP is evaluated using mask IoU [1].",
+      "claims": [
+        {
+          "claim": "The metrics used for comparison are AP, multi-scale train/test, horizontal flip test, and online hard example mining (OHEM).",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Was the whole ImageNet dataset used for the 10 epochs of resolution fine tuning?",
+      "output": "The provided documents do not explicitly state whether the entire ImageNet dataset was used for the 10 epochs of resolution fine tuning [1][3]. However, they note that the classification network is fine tuned at a full $448 \\times 448$ resolution on ImageNet for 10 epochs [3]. This process is intended to allow the network's filters to adjust to higher resolution input [3].",
+      "claims": [
+        {
+          "claim": "The proposed network is fine-tuned at a larger size, 448, after initial training on images at 224\u00d7224.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What differences exist between the approach of this paper and open-loop variants?",
+      "output": "The primary difference is that the authors' approach utilizes continuous visual feedback to constantly adjust grasps, whereas open-loop variants do not make use of continuous visual feedback [2][3]. Because it lacks this feedback, the open-loop baseline is unable to react to gripper shape variability, actuation variability, object movement, or perturbations [1]. Additionally, the open-loop method observes the scene prior to the grasp to extract image patches and choose a location based on a known camera calibration [2]. In contrast, the authors' method achieves higher success rates and requires fewer assumptions, such as not needing depth images or knowledge of the camera-to-hand calibration [2].",
+      "claims": [
+        {
+          "claim": "The paper\u2019s approach does not require camera-to-hand calibration, calibration or depth images, proposals or image patches, or robot-camera calibration.",
+          "entailed": false
+        },
+        {
+          "claim": "The paper learns continuous visual servoing for robotic grasping from monocular cameras in an entirely data-driven way without human annotation.",
+          "entailed": false
+        },
+        {
+          "claim": "Open-loop variants observe the scene before grasping, extract image patches, choose the patch with the highest grasp probability, and use known camera calibration to move the gripper to that location.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "Why does the network receive not only input of images but also a list of RoI as the input value?",
+      "output": "The network is modified to accept two specific data inputs: a list of images and a list of RoIs located within those images [1]. Specifically, the network takes an image (or an image pyramid encoded as a list of images) along with a list of $R$ object proposals to be scored [2].",
+      "claims": [
+        {
+          "claim": "RoI extracts a fixed-length feature vector from the feature map in the model.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Model architecture of StarGAN is based on two other GAN models. What is it?",
+      "output": "The model architecture of StarGAN is adapted from CycleGAN [3].",
+      "claims": [
+        {
+          "claim": "StarGAN\u2019s model architecture is based on CycleGAN and PatchGAN.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Why do the authors use heuristics to estimate a variable's life span in the computational graph, instead of calculating it exactly?",
+      "output": "The authors use heuristics because an ideal memory allocation strategy requires $O(n^2)$ time complexity, where $n$ is the number of variables [1]. In contrast, the proposed heuristic strategies offer linear time complexity [2].",
+      "claims": [
+        {
+          "claim": "Calculating a variable's estimated life span exactly costs quadratic time complexity.",
+          "entailed": false
+        },
+        {
+          "claim": "Heuristics cost only linear time complexity, which is more efficient.",
+          "entailed": false
+        },
+        {
+          "claim": "Experimental results show that heuristics can reduce the memory footprint effectively.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "The paper's pre-trained network is nearly identical to the \u201cAlexNet\u201d. Does it use the same training set as the \"AlexNet\"?",
+      "output": "The paper's pre-trained network was trained on the ImageNet 2012 dataset using the Caffe framework [1]. While the network's architecture is nearly identical to \"AlexNet,\" it includes local response normalization layers after the pooling layers [1].",
+      "claims": [
+        {
+          "claim": "Yes, both networks were trained on the ImageNet 2012 dataset.",
+          "entailed": false
+        },
+        {
+          "claim": "The paper\u2019s network subtracts the per-pixel mean of ImageNet examples before training input.",
+          "entailed": false
+        },
+        {
+          "claim": "This makes the direct input to the network zero-centered.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "Is choosing NAL as a baseline a good choice knowing that it always results in performance drop ?",
+      "output": "Choosing NAL as a baseline is considered appropriate because the notion of attention residual learning is new, meaning no other suitable previous methods are comparable [1]. While NAL is used as a baseline, networks trained with this method suffer obvious degradation in performance as the number of Attention Modules increases [2]. This is in contrast to the proposed attention residual learning technique, which consistently outperforms the NAL baseline [2].",
+      "claims": [
+        {
+          "claim": "NAL seems to be the only available choice for the baseline.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Which language model is used for vocabulary encoding and why?",
+      "output": "For the Imagen model, the T5-XXL tokenizer is used [1]. To create unique identifiers, the authors use uniform random sampling of tokens that correspond to 3 or fewer Unicode characters without spaces, specifically within the T5-XXL tokenizer range of {5000,...,10000} [1].",
+      "claims": [
+        {
+          "claim": "CLIP and T5-XXL language models are used for translating noise into image embeddings.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Did the authors try other interpolation methods besides the bilinear sampling mechanism?",
+      "output": "Based on the provided documents, the authors use a differentiable bilinear sampling mechanism to linearly interpolate the values of four pixel neighbors to approximate $I_s(p_s)$ [1]. The provided text does not mention whether the authors tried any other interpolation methods besides this mechanism [1][2][3].",
+      "claims": [
+        {
+          "claim": "No, the authors used only the differentiable bilinear sampling mechanism for warping.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What is the criteria for training multiple substitute DNNs?",
+      "output": "The training of multiple substitute DNNs follows a five-step iterative procedure [3]. First, the adversary collects a small set of representative inputs, such as 10 images for each digit in a handwritten digit classification task [3]. Second, an architecture is selected based on high-level knowledge of the classification task, such as using convolutional networks for vision [3]. Third, the adversary labels the samples in the training set by querying the oracle for their output labels [3]. Fourth, the chosen architecture is trained using the substitute training set alongside classical training techniques [3]. Finally, the adversary applies a Jacobian-based augmentation technique to the training set to produce a larger set of synthetic training points that better represent the model's decision boundaries [3]. This labeling and training process is repeated several times to increase the accuracy of the substitute DNN and the similarity of its decision boundaries to those of the oracle [3].",
+      "claims": [
+        {
+          "claim": "The criterion for training multiple substitute DNNs is to achieve good accuracy.",
+          "entailed": false
+        },
+        {
+          "claim": "The main goal is to create a substitute capable of mimicking the oracle decision boundaries.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Why does author experiment the quantized linear supernet design even though Radosavovic et al. already provided similar result?",
+      "output": "The authors' experiments demonstrate that their specific modification to the supernet enhances search result efficiency regarding both accuracy and latency [2]. While Radosavovic et al. (2020) claim that architectures with a linear relationship between cumulative depth and width tend to achieve higher accuracy at similar computational complexities, the authors' results confirm that a supernet with linear depth outperforms one with constant depth in accuracy while maintaining similar latency [1][2].",
+      "claims": [
+        {
+          "claim": "The previous study showed that the linear design is beneficial in terms of computational complexity.",
+          "entailed": false
+        },
+        {
+          "claim": "The author experimented with the quantized linear supernet design to show the result in terms of latency.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "How many different types of experiments are performed to test the proposed models?",
+      "output": "Based on the provided documents, the authors perform several experiments to test the proposed models:\n\n1.  **Model Architecture Variations**: The authors test a single layer Composite Model and then a two-layer Composite Model to determine if adding depth improves predictions [1]. They also test a version where the future predictor is made conditional to achieve sharper predictions [1].\n2.  **Generalization Over Time Scales**: An experiment is conducted to test if the model can function at time scales different from those used during training [2]. This involves using a one hidden layer unconditioned Composite Model to see if it can generalize beyond the 10-frame prediction limit by running for 100 steps into the future [2].\n3.  **Dataset Testing**: The models are tested using a dataset of moving MNIST digits, which features two digits moving within a 64 \u00d7 64 patch [3].",
+      "claims": [
+        {
+          "claim": "Five different types of experiments are performed to test the proposed models.",
+          "entailed": false
+        },
+        {
+          "claim": "The experiments are generalization over time scales, MNIST, natural image patches, out-of-domain inputs, and visualizing features.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What is an example of a \"network-centric\" approach?",
+      "output": "A \"network-centric\" approach is a method used to interpret the function of individual neurons by investigating a network directly without using data from a dataset [1][2]. An example of this approach is the method used by Erhan et al. (2009), which involves synthesizing images that cause high activations for specific units [2]. This is achieved by starting with an initial input and taking steps in the input space along the gradient to create inputs that result in increasingly higher activations for a particular unit [2]. Other researchers have used gradients to find images that cause either higher activations or lower activations for output units [2].",
+      "claims": [
+        {
+          "claim": "A network-centric approach can involve taking a trained network, starting with an initial input, and computing the forward-path activations.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What is the similarities and differences between the NaturalInstructions dataset and the SuperNaturalInstructions dataset?",
+      "output": "Based on the provided documents, the similarities and differences between the datasets are as follows:\n\nSuperNI is described as a comprehensive collection of existing NLP tasks, though most of these tasks were originally proposed for research and are skewed toward classification [3]. In contrast, a subset of instructions was curated to be motivated by user-oriented applications, such as email writing, programming, and productivity tools [3]. While SuperNI's tasks are often typical NLP tasks, the new instructions aim to diversify styles and formats, including long or short instructions and various input/output forms like tables, code, or equations [3]. Additionally, research indicates that generated data may be distinct from the typical NLP tasks found in SuperNI [1].",
+      "claims": [
+        {
+          "claim": "The paper only mentions and discusses the SuperNaturalInstructions dataset, not the NaturalInstructions dataset.",
+          "entailed": false
+        },
+        {
+          "claim": "Based on the naming, both datasets may contain annotated instructional data to help LLMs perform a wider range of specialized tasks.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Would 'bijection' always be guaranteed in this case?",
+      "output": "In the authors' model, the property that mappings $G$ and $F$ are bijections is a structural assumption applied to the translation process [2]. However, such a translation does not guarantee that an individual input $x$ and output $y$ are paired in a meaningful way [3]. Furthermore, in practice, optimizing the adversarial objective in isolation can lead to mode collapse, a problem where all input images map to the same output image [3].",
+      "claims": [
+        {
+          "claim": "If there is a translator G:X\u2192Y and another translator F:Y\u2192X, then G and F should be inverses of each other.",
+          "entailed": false
+        },
+        {
+          "claim": "In that case, both mappings should be bijections.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What performance metric does IOU measure?",
+      "output": "Based on the provided documents, there is no information explaining what performance metric IOU measures; however, it is used to define positive examples as RoIs that have an intersection-over-union (IoU) overlap with a ground-truth box of at least 0.5 [3].",
+      "claims": [
+        {
+          "claim": "IOU measures the overlap between the ground-truth RoI and the RoI detected by the model.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Why are dense 1X1 convolutions computationally expensive?",
+      "output": "Dense $1 \\times 1$ convolutions, also referred to as pointwise convolutions, require considerable complexity [1]. In architectures like ResNeXt, these pointwise convolutions can occupy as much as 93.4% of multiplication-adds [1]. Because of this high cost, dense $1 \\times 1$ convolutions can make state-of-the-art architectures less efficient when used in extremely small networks [3].",
+      "claims": [
+        {
+          "claim": "Dense 1x1 convolutions are computationally expensive because they can account for 934% of the multiplication-adds in each residual unit in reduced versions of Xception and ResNeXt.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Is it true that they used the output from the bottom decoder layer for y_{i-1}, not the decoder-RNN output from the past decoding time step?",
+      "output": "Yes, it is true; in their implementation, the authors use the output from the bottom decoder layer for $\\mathbf{y}_{i-1}$ [2]. This $\\mathbf{y}_{i-1}$ represents the decoder-RNN output from the past decoding time step [2].",
+      "claims": [
+        {
+          "claim": "The authors used only the decoder-RNN output from the past decoding time step in the bottom decoder layer.",
+          "entailed": false
+        },
+        {
+          "claim": "This output was used to obtain recurrent attention context that is sent directly to all the remaining decoder layers.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Is task-independent sentence representations same thing as embedding?",
+      "output": "Based on the provided documents, there is no information to determine if task-independent sentence representations are the same thing as embeddings [1][2][3]. The documents only state that self-attention has been used successfully for tasks such as learning task-independent sentence representations [3].",
+      "claims": [
+        {
+          "claim": "Task-independent sentence representations learn text embeddings.",
+          "entailed": false
+        },
+        {
+          "claim": "They can be implemented efficiently using self-attention.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Which evaluation criteria was used to compare the performance of action recognition models?",
+      "output": "The performance of the models was compared using performance on a supervised task [2]. This comparison involved running experiments on the full UCF-101 and HMDB-51 datasets, as well as on small subsets of these datasets [2].",
+      "claims": [
+        {
+          "claim": "The evaluation criteria used to compare action recognition models were RGB data (single or multiple frames) and flow features.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Similar to some of the related work, do the authors also use CTC-training for their proposed model?",
+      "output": "The provided documents do not state whether the authors use CTC-training for their proposed model [1][2][3]. While the text notes that speech recognizers based on connectionist temporal classification (CTC) are the closest to the ARSG model considered in the paper, it does not explicitly confirm if the authors utilize this method [1].",
+      "claims": [
+        {
+          "claim": "The authors used an attention-based recurrent sequence generator (ARSG), not CTC.",
+          "entailed": false
+        },
+        {
+          "claim": "ARSG differs from CTC in how alignment is treated and can result in non-monotonic alignment.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Is extrapolating the missing context enough to predict the pixels in the border region of the image?",
+      "output": "To predict the pixels in the border region of the image, the missing context is extrapolated by mirroring the input image [1]. This approach is used because the network only uses the valid part of each convolution, meaning the segmentation map only contains pixels for which the full context is available in the input image [1].",
+      "claims": [
+        {
+          "claim": "Using an extrapolating-based tiling strategy, U-Net can predict the pixels in the border region of the image.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What are the reasons and goals behind image sampling ?",
+      "output": "Image sampling is performed by sampling image patches from slices using provided ROIs to maintain consistency with previous patch-level and slice-level classification methods [1]. One reason for using an aggressive extraction of random views within a large range of fields of view (FOVs) is to capture more image spatial context [2]. This sampling scheme aims to improve performance in tasks such as mediastinal lymph node detection and automated pancreas segmentation [2]. Additionally, a decompositional 2.5D view resampling is used to acquire a sufficient number of training image samples and eliminate the \"curse-of-dimensionality\" issue [3].",
+      "claims": [
+        {
+          "claim": "Image sampling is useful for data augmentation to create larger datasets for training.",
+          "entailed": false
+        },
+        {
+          "claim": "Image sampling can be used to balance the number of data per class during the data augmentation process.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "How did the performance of the proposed model differ on shorter vs longer audio sequences?",
+      "output": "The proposed sharpening methods improved performance on long utterances [2]. However, these methods, particularly selecting the frame with the highest score, negatively impacted the model's performance on the standard development set, which primarily contains short utterances [2]. Regarding alignment capabilities, a model using a hybrid attention mechanism with convolutional features could align sequences up to 200 phones long, whereas the baseline model could decode up to 120 phones when a single utterance was repeated and up to 150 phones when different utterances were concatenated [3].",
+      "claims": [
+        {
+          "claim": "The proposed model showed good performance on shorter audio sequences of about 200 phones.",
+          "entailed": false
+        },
+        {
+          "claim": "The proposed model failed to align most phones on longer audio sequences.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What are the hyper-parameters used to design the neural architecture search network?",
+      "output": "After learning the convolutional cells, several hyper-parameters can be explored to construct a final network for a specific task [3]. These hyper-parameters include the number of cell repeats $N$ and the number of filters in the initial convolutional cell [3].",
+      "claims": [
+        {
+          "claim": "The hyper-parameters used to design the neural architecture search network are the number of cell repeats.",
+          "entailed": false
+        },
+        {
+          "claim": "The hyper-parameters used to design the neural architecture search network include the number of filters in the initial convolutional cell.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "By ignoring IoU between 0.4 and 0.5, Are we losing some positive samples too?",
+      "output": "Yes, by ignoring anchors with an overlap in the (0.4, 0.5) range, those anchors are ignored during training [3]. Because anchors are assigned to ground-truth object boxes using an IoU threshold of 0.5, an anchor that falls into this unassigned range is not assigned to an object [3].",
+      "claims": [
+        {
+          "claim": "Ignoring anchors with IoU between 0.4 and 0.5 may cause some positive samples to be lost.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How did the authors find potential causes of cross-lingual transfer?",
+      "output": "The authors investigated potential causes of cross-lingual transfer by examining the correlation between model performance and two specific factors [1]. These factors include the amount of target language data present in the model's pretraining corpus and the similarity of the language to English [1]. To assess language similarity, the authors utilized syntactic distance, where lower scores indicate more similar languages [3].",
+      "claims": [
+        {
+          "claim": "The authors do not discuss how they identified the potential causes of cross-lingual transfer.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "Why did the author adopt an attention mechanism as a base architecture of model?",
+      "output": "The authors use an attention mechanism to enable the system to focus on a targeted area within a context paragraph that is most relevant to answering a question [3]. Their specific bi-directional attention flow offers several improvements over previous paradigms [2]. First, by computing attention for every time step rather than summarizing the context into a fixed-size vector, they reduce information loss caused by early summarization [2]. Second, they utilize a memory-less attention mechanism, which they hypothesize creates a division of labor that forces the attention layer to focus on query-context attention while allowing the modeling layer to focus on interactions within the query-aware context representation [2]. This memory-less approach also ensures that attention at any given time step is not affected by incorrect attendances from previous time steps [2]. Third, they employ attention in both directions\u2014query-to-context and context-to-query\u2014to provide complementary information [2].",
+      "claims": [
+        {
+          "claim": "The author adopted an attention mechanism because it was the finest model they could use for their model.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What are the metrics used to compare the performance between YOLO & DPM/RCNN?",
+      "output": "To compare the performance of YOLO with other systems, the authors use mean Average Precision (mAP) [1][3]. Additionally, the authors compare relative mAP and speed to examine the accuracy-performance tradeoffs available in object detection systems [3].",
+      "claims": [
+        {
+          "claim": "The paper mostly uses mean average precision (mAP) and frames per second (fps) to evaluate accuracy and speed, respectively.",
+          "entailed": false
+        },
+        {
+          "claim": "YOLO\u2019s errors are compared qualitatively to R-CNN.",
+          "entailed": false
+        },
+        {
+          "claim": "mAP is shown on different classes of objects.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "How did the authors come to the conclusion that the pose network likely uses image correspondence and the depth estimation network likely recognizes common structural features?",
+      "output": "The provided documents do not explicitly state how the authors reached this conclusion [1]. The authors only suggest that the pose network likely utilizes image correspondence for estimating camera motion and that the depth estimation network likely recognizes common structural features of objects and scenes [1]. Investigation into these representations is noted as an area for future work [1].",
+      "claims": [
+        {
+          "claim": "New scenes can be synthesized given camera poses, which requires image correspondence.",
+          "entailed": false
+        },
+        {
+          "claim": "A target view can also be synthesized from per-pixel depth in an image plus pose and visibility in a nearby view, including structural features.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What does this initial results mean?",
+      "output": "The provided documents do not explicitly define what \"this initial results\" refers to, as the phrase is not used in the text [1][2][3]. However, the documents report various experimental results, including perceptual quality scores for videos generated by the model, which show that the method strongly improves upon the previous state-of-the-art [2]. Additionally, the text reports metrics for text-conditioned video generation, such as FVD, FID, and IS, as well as video prediction performance on the Kinetics-600 benchmark [1][3].",
+      "claims": [
+        {
+          "claim": "Video diffusion models provide the first results on a large text-conditioned video generation task.",
+          "entailed": false
+        },
+        {
+          "claim": "They achieve state-of-the-art results on popular video datasets.",
+          "entailed": false
+        },
+        {
+          "claim": "Training the model with images and videos jointly improves sample quality.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "What is training method used for decreasing the gap between monolingual model and multilingual model?",
+      "output": "Based on the provided documents, the gap between monolingual and multilingual models is decreased by finetuning the models for non-English downstream tasks [3]. For example, after finetuning a subset of models for non-English part-of-speech (POS) tagging, the gap between RoBERTa and XLM-R was reduced from 12.5 points when probing to an average of only 2.65 points [3].",
+      "claims": [
+        {
+          "claim": "The training method used for decreasing the gap between monolingual and multilingual models is fine-tuning.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How would be the results and performance considering accuracy and losses while using window-with-size r self-attention approach with shorter sequences?",
+      "output": "The provided documents do not contain specific results or performance data regarding accuracy and losses when using a window-with-size $r$ self-attention approach with shorter sequences [1]. While the authors suggest that restricting self-attention to a neighborhood of size $r$ could improve computational performance for very long sequences, they state that they plan to investigate this approach further in future work [1]. Additionally, it is noted that self-attention layers are faster than recurrent layers when the sequence length $n$ is smaller than the representation dimensionality $d$ [1].",
+      "claims": [
+        {
+          "claim": "Window-with-size r self-attention is only recommended to improve computational performance for tasks involving very long sequences.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "The authors claims that the  performance increase with the number of attention module, is that true, knowing that they tried only m = {1,2,3,4} ?",
+      "output": "Based on the provided documents, the authors do not explicitly state whether performance increases with the number of attention modules [1][2]. They do, however, evaluate the effectiveness of the attention residual learning mechanism by setting the number of Attention Modules in each stage to $m = \\{1, 2, 3, 4\\}$ [2]. These configurations result in different trunk layer depths, specifically Attention-56, Attention-92, Attention-128, and Attention-164 [2]. The network is constructed by stacking these multiple Attention Modules to allow different types of attention to be captured [3].",
+      "claims": [
+        {
+          "claim": "The authors also tried m = 5 and 6.",
+          "entailed": false
+        },
+        {
+          "claim": "Performance still improved for m = 5 and 6, so the increase with the number of attention modules seems true.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What properties of costrastive self-supervised learning have attracted attention from researchers in the recommendation field?",
+      "output": "The recommendation community has been inspired by recent advances in contrastive self-supervised learning (SSL) to leverage the method for fusing correlations among different views of a single sequence [3]. This approach follows the mutual information maximization (MIM) principle [3]. In sequential recommendation, existing methods utilize contrastive SSL as instance discrimination tasks that optimize a lower bound of MIM, such as InfoNCE [3].",
+      "claims": [
+        {
+          "claim": "Contrastive SSL can maximally separate sequences of user behavior.",
+          "entailed": false
+        },
+        {
+          "claim": "Contrastive SSL can also bring sequences of user behavior together.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What is Majority in baselines?",
+      "output": "In the context of the baselines used to show the characteristics of each benchmark, Majority refers to the use of the most frequent label [2].",
+      "claims": [
+        {
+          "claim": "Majority is the baseline that selects the most frequent label as the answer.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How is MIRA different to TWIST fundamentally?",
+      "output": "Fundamentally, TWIST addresses the sub-optimal solutions caused by the direct optimization of mutual information (MI) terms by appending a normalization layer before softmax and introducing an additional self-labeling stage [2]. In contrast, MIRA addresses the difficulty of MI maximization through explicit optimization in a principled way [2]. While TWIST requires an extra training stage with self-labeling to achieve performance similar to MIRA, MIRA does not require any additional training [1]. Furthermore, MIRA is a pseudo-labeling algorithm that formulates the assignment of pseudo-labels as a convex optimization problem [3].",
+      "claims": [
+        {
+          "claim": "TWIST directly optimizes mutual information through model parameters, which leads to a suboptimal solution.",
+          "entailed": false
+        },
+        {
+          "claim": "MIRA optimizes mutual information between pseudo-label and data.",
+          "entailed": false
+        },
+        {
+          "claim": "MIRA does not update model parameters.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 3
+    },
+    {
+      "question": "What is the numeric value of dropout fraction used during the training phase?",
+      "output": "Based on the provided documents, the specific numeric value of the dropout fraction used during the training phase is not mentioned [1]. The documents state that a large neural net was \"strongly regularized using dropout and weight-constraints,\" but they do not provide the exact dropout rate [1].",
+      "claims": [
+        {
+          "claim": "The gold answer does not specify any numeric dropout fraction used during training.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "What is the meaning of invariant to permutations?",
+      "output": "In the context of 3D point sets, being invariant to permutations means that a network must produce the same result regardless of the $N!$ different data feeding orders of the input set [2]. To achieve this invariance, a model can use strategies such as sorting input into a canonical order, training an RNN with augmented permutations, or utilizing a symmetric function to aggregate information [1]. A symmetric function is one that takes $n$ vectors as input and outputs a new vector that remains unchanged by the input order [1].",
+      "claims": [
+        {
+          "claim": "A point cloud is a set of points and is invariant or indifferent to permutations of its members.",
+          "entailed": false
+        },
+        {
+          "claim": "Because point clouds have no specific order, they differ from pixel arrays in images or voxel arrays in volumetric grids.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "What is kernel size used in each layer of SegNet?",
+      "output": "A constant kernel size of 7\u00d77 was chosen over all the layers [1][2]. This specific size was selected to provide a wide context for smooth labelling [1].",
+      "claims": [
+        {
+          "claim": "The kernel size used in each layer of SegNet is 7*7.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How is a VAE different from an autoencoder ?",
+      "output": "Based on the provided documents, there is insufficient information to explain how a VAE is different from a standard autoencoder [1][2][3]. The documents focus on analyzing the $\\beta$-VAE, which can be interpreted as a standard VAE objective with an annealed prior and additional maximum entropy regularization of the encoder [1]. This regularization increases the stochasticity of the encodings and, when using a Gaussian encoder and isotropic Gaussian prior, acts as a regularizer that encourages higher encoder variance [1].",
+      "claims": [
+        {
+          "claim": "Disentanglement is used in traditional autoencoders.",
+          "entailed": false
+        },
+        {
+          "claim": "Disentanglement is not used in VAEs.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 2
+    },
+    {
+      "question": "Instead of editing the prompt based on previous cases, did they test a simpler approach where previous cases are concatenated to the prompt?",
+      "output": "Yes, the authors compared their method against a baseline called grow-prompt [3]. In this approach, the prompt is continuously grown by inserting a subset of memory $\\mathcal{M}$ that fits within the maximum limit of 2048 tokens [3]. Specifically, the most recent subset of the memory $\\mathcal{M}$ is what is inserted into the prompt [3].",
+      "claims": [
+        {
+          "claim": "Yes, they tested a simpler approach where previous cases are concatenated to the prompt.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    },
+    {
+      "question": "How black box attacks perform on larger and finite perturbation?",
+      "output": "Black-box attacks can evade defenses that rely on gradient masking, which smooths decision surfaces to protect against small, infinitesimal perturbations [1][2]. While these attacks use a substitute model to bypass defenses against small perturbations, making a model robust to larger and finite perturbations can prevent the black-box attack [2]. For example, in testing, a black-box attack was effective at an $\\varepsilon=0.15$, but it was no longer effective when $\\varepsilon=0.3$ [2].",
+      "claims": [
+        {
+          "claim": "Black-box attacks cannot be successful against a model that is robust to larger and finite perturbations.",
+          "entailed": false
+        }
+      ],
+      "claim_recall": 0.0,
+      "entailed": 0,
+      "total_claims": 1
+    }
+  ]
+}

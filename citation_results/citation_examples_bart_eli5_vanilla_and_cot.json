@@ -1,0 +1,434 @@
+{
+  "eli5-gemma-4-26b-a4b-it-openrouter-shot1-ndoc3-42-quick_test200.json": {
+    "good_examples": [
+      {
+        "question": "In Economics, the IS-LM Model ",
+        "answer": "Without a paper or a blackboard, this is impossible to explain. I took macroeconomics last semester and before you can understand the IS-LM model, you need to learn about unemployment rates, interest rates, and a lot of macroeconomic concept.\n\nIf you are taking a macroeconomics class and need help with it, I'd suggest contacting your professor or TA's.",
+        "output": "The IS-LM model is a Keynesian macroeconomic model that illustrates the interaction between the market for economic goods and the money market or loanable funds market [2]. The acronym stands for \"investment-savings\" (IS) and \"liquidity preference-money supply\" (LM) [2]. \n\nThe model is represented graphically by the intersection of the IS and LM curves, which demonstrates the short-run equilibrium between total output and interest rates [2]. Specifically, the IS curve relates real interest rates to real GDP [1]. The model serves to describe how aggregate markets for financial markets and real goods interact to balance the macroeconomy's total output and interest rate [2].",
+        "docs": [
+          {
+            "title": "LM part of the IS-LM model (video) | IS-LM | Khan Academy",
+            "text": "Economics and finance Macroeconomics Keynesian approaches and IS-LM IS-LM Investment and real interest rates Connecting the keynesian cross to the IS curve Loanable funds interpretation of IS curve LM part of the IS-LM model Government spending and the IS-LM model Keynesian economics and its critiques Economics and finance·Macroeconomics·Keynesian approaches and IS-LM·IS-LM We've already studied the IS curve in some detail and just a bit of a review here, it's just relating real interest rates to real GDP. Let me just write that as Y, real GDP. The relationship, there's 2 ways we've viewed it; one is real interest rates driving"
+          },
+          {
+            "title": "IS-LM Model Definition",
+            "text": "IS-LM Model Reviewed by Jim Chappelow What is the IS-LM Model? The IS-LM model, which stands for \"investment-savings\" (IS) and \"liquidity preference-money supply\" (LM) is a Keynesian macroeconomic model that shows how the market for economic goods (IS) interacts with the loanable funds market (LM) or money market. It is represented as a graph in which the IS and LM curves intersect to show the short-run equilibrium between interest rates and output. The IS-LM model describes how aggregate markets for real goods and financial markets interact to balance the rate of interest and total output in the macroeconomy. IS-LM was"
+          },
+          {
+            "title": "Investment and real interest rates (video) | Khan Academy",
+            "text": "Economics and finance Macroeconomics Keynesian approaches and IS-LM IS-LM IS-LM Investment and real interest rates Connecting the keynesian cross to the IS curve Loanable funds interpretation of IS curve LM part of the IS-LM model Government spending and the IS-LM model Keynesian economics and its critiques Economics and finance·Macroeconomics·Keynesian approaches and IS-LM·IS-LM In our planned expenditure remodel we've been assuming that planned investment is fixed. What I want to do in this video is think about how real interest rates drive planned investment. Think about the function investment as a function of real interest rates. Planned investment as a function"
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "The movie Oldboy ",
+        "answer": "Major Spoilers here...\n\nAs a teenager, Oh Dae Su sees fellow student Woo Jin engaging in sex acts with a girl. He is moving to a different school, but tells his friend about it. His friend tells everyone, and it turns out the girl was Woo Jin's sister. His sister can't deal with the shame and kills herself. Woo Jin dedicates his life to getting revenge on Oh Dae Su for talking.\n\nHis revenge is tricking Oh Dae Su into committing incest himself. He does this by kidnapping Oh Dae Su for 15 years so that he will no longer recognize his daughter. Woo Jin sets up a scenario that will ensure that they cross paths through hypnotism and coercion. His plan works, and it is revealed that Oh Dae Su has slept with his own daughter.",
+        "output": "*Oldboy* is a dramatic revenge saga centered on a man who is abducted and held captive for 20 years [1]. The 2013 Hollywood production, directed by Spike Lee and starring Josh Brolin, is a remake of the 2003 South Korean film of the same name [1][2]. While the remake was scheduled to hit theaters on October 25, 2013, some viewers noted it appeared remarkably similar to the original film [2].",
+        "docs": [
+          {
+            "title": "Oldboy (2013) | Oldboy Movie | Oldboy Hollywood Movie Cast & Crew, Release Date, Review, Photos, Videos – Filmibeat",
+            "text": "Hollywood » Movies » Oldboy 2013 (India) 27 Nov 2013 (WorldWide) Oldboy is a dramatic revenge saga of a man who is abducted and held captive for 20 years. It is a remake of the 2003 South Korean film of the same name, ... Read: Complete Oldboy Story Go to: Oldboy Cast & Crew Go to: Oldboy News"
+          },
+          {
+            "title": "Here’s The Red Band Trailer For Spike Lee’s “Oldboy” | Movie Vine",
+            "text": "is that the jury’s still out. It looks remarkably similar to the original film, but maybe the marketing folks wanted to please fanboys and we’ll get a more stylized trailer later. I’m still interested in this Oldboy remake, but I wish I could say I’m excited. Oldboy hits theaters on October 25th, 2013. Josh Brolin Confirmed For Spike Lee’s “Oldboy” Spike Lee May Tackle The “OldBoy” Remake Comments for Here’s The Red Band Trailer For Spike Lee’s “Oldboy” are now closed. Movie Vine / Movies / Here’s The Red Band Trailer For Spike Lee’s “Oldboy” Tagged: Josh Brolin, oldboy, spike"
+          },
+          {
+            "title": "﻿ Watch Oldboy online: trailer, review, cast, pics",
+            "text": "the original Oldboy should check both of the movies out. If you want to see an interesting action movie with a good story and some over the top action scenes, give this one a go. Oldboy Cast Oldboy Pics Unfortunately, you will not find any Oldboy HD wallpapers here; these are just the screenshots of the movie. They catch some moments of the movie, so you can get a better idea about the movie before watching it. Click on the image for a larger view."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "What is \"grim trigger\" in Game Theory, and what would it look like in international relations?",
+        "answer": "This answer was posted in another thread after yours, but answers the same question perfectly:\n\n_URL_0_\n\n > Grim trigger is a game theory term that means once the person on the other side of the game \"defects\" (meaning does the selfish thing) then you defect for every play of the game after that point, with no exceptions.\n\n > So, in the relationship context, a grim trigger might be never letting go of an argument. It's any situation where, even the next time the issue comes up, the person \"pulling\" the grim trigger assumes that the other person is going to act negatively, and so behaves as though they did so.",
+        "output": "In game theory, a \"grim trigger\" is a non-forgiving strategy used to deter specific behaviors through the threat of extreme or permanent penalties [2]. This strategy prescribes a \"normal choice,\" such as cooperation, until a rival deviates from the agreement; once that deviation occurs, the \"punishment choice,\" or defection, persists for the remainder of the game [1]. Essentially, a single instance of defection triggers permanent defection [1].\n\nIn the context of international relations, a grim trigger can manifest as a breakdown in bilateral relations where parties prioritize retribution over bargaining following a specific provocative event [1]. For example, if a diplomatic trigger occurs, such as a controversial political visit, the resulting unraveling of relations can lead to a cycle of continuous retaliation [1].",
+        "docs": [
+          {
+            "title": "Grappling on a Hillside? - Comparative Connections",
+            "text": "liquefied natural gas (LNG) that were scheduled for Sept. 19 in Tokyo have also been abandoned. In the terminology of game theory, the situation is looking more like the “grim trigger.” The grim trigger entails a type of strategy that prescribes the “normal choice” (cooperation) until a rival deviates; once that deviation occurs, the “punishment choice” (defection) persists for the rest of the game – hence, a single defection triggering permanent defection. With the visit by President Lee to Dokdo/Takeshima as the trigger, bilateral relations are unraveling as each side seems keener on retribution than bargaining. Admittedly, the revoking of"
+          },
+          {
+            "title": "When Do Punishments Become Too Extreme?",
+            "text": "IMDB for “Gladiator” Grim Triggers and Extreme Penalties In economics, there’s a concept in game theory called grim triggers. If you want to deter or prevent a behavior, you can commit to a penalty so severe and/or permanent that it’s called a non-forgiving trigger strategy or a grim trigger strategy. Here’s an excerpt from an MIT lecture on Game Theory with Engineering Applications: Extreme penalties and trigger strategies may be “effective” in deterring the behavior. “If I’ll get kicked out of the house as a consequence, there’s no way I’m sneaking that extra cookie before bedtime.” The harsh penalty warrants"
+          },
+          {
+            "title": "Cryptoeconomics and game theory in cryptocurrency world | CaptainAltcoin",
+            "text": "different kinds of incentives and how they affect people is where game theory comes into play. What is the Game theory? What is Nash Equilibrium? The Schelling (Focal) Point The concept of Bounded Rationality Block Mining The Proof of Work Takeover Problem Grim Trigger argument Read more about other interesting coins Game theory is the study of how rational people make strategic decisions in certain complicated situations. It represents an entire field of science, economy and math that focuses on analyzing and explaining your everyday social interactions. Based on the findings of this theory, many corporations make decisions regarding their"
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "How can I type correctly on the keyboard without looking but I won't be able to tell you where the keys are?",
+        "answer": "Muscle memory. Your hands have typed \"e\" so many times that you've sort of \"programmed\" your muscles to reach X inches in Y direction and press down for \"e\". You, consciously, don't know where the \"e\" button is, but your body knows where it is, relative to some known point(s). \n\nThis is why people who learn to type fast usually use a \"home row\" of keys, to give their muscles a constant reference point for learning key locations.",
+        "output": "To type correctly without looking at the keyboard, you can learn a skilled method known as touch typing [3]. This technique involves typing correctly without using the sense of sight to find keys, instead relying on muscle memory to press them [3].\n\nTo master this, you should aim to understand and memorize the location of every key on the computer keyboard [1]. One approach is to observe the keyboard layout repeatedly and attempt to recollect the position of every key [1]. You can practice by looking at the computer screen and attempting to type all letters and numbers correctly until you can do so without looking down [1]. Additionally, keyboards are designed to be used \"by touch\" using the five fingers of each hand rather than relying solely on two index fingers [2].",
+        "docs": [
+          {
+            "title": "How to Type Fast Without Looking at the Keyboard",
+            "text": "Location of the Keys The first suggestion would be to understand and memorize the location of all the keys on the computer keyboard. Unless, you know exactly where a letter or number key is, you would not be able to type it without looking down. You should observe the keyboard layout time and again, and try to recollect the location of every key. You should look at the computer screen and try typing all the letters correctly, till you get all the letters and the numbers right. There are many ways of remembering the positions of the keys. The first"
+          },
+          {
+            "title": "No more \"Hunt n' Peck\"! How you can learn to type without looking at the keyboard ~ Traducciones Inglesk",
+            "text": "or less like this: Keyboards are designed to be used \"by touch\" and using the five fingers of each hand, so why not learn to type correctly and make the most out of my keyboard? On that moment I decided that I would no longer depend on my eyes and just my two index fingers to type. I decided I wanted to be able to type with my eyes closed or in a room without light, and that I wanted to type much faster. Thus I decided to learn how to touch-type. Woooo! Ohh, and I also wanted to beat"
+          },
+          {
+            "title": "Best Jobs For Touch Typist - I Love Typing",
+            "text": "Touch Typing is one of the most advanced and skilled style of typing where a person can type correctly without looking at the keys. This term is generally used for those who don’t use the sense of sight to find the keys on keyboard and types correctly by pressing keys using muscle memory. In this digital era, almost every work is done online and the number of persons required to do manual work is more as compared to availability. Degrees don’t matter these days, employers look for a person with experience and ability to the work in best possible way."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "why do many people say there's no such thing as centrifugal force ?",
+        "answer": "Because all too many people are told that in high school and never go on to a more advanced mechanics course. High school teachers often say that the centrifugal force \"doesn't exist\" or \"isn't real\" because they are not willing/capable to teach non-inertial reference frames at a high school level.\n\nI don't think non-inerial frames are appropriate for high school students, but it's wrong of the teachers to instill such a falsehood into the minds of their students. My own high school physics teacher told me that the centrifugal force doesn't exist. However my undergraduate and graduate mechanics courses later taught me otherwise.",
+        "output": "The debate regarding the existence of centrifugal force often stems from the frame of reference being used [1]. Some physicists argue that centrifugal force is not \"real\" because it is a force \"added\" by observers when using a non-inertial frame of reference to maintain Newton's Laws of Motion [1][3]. Instead of relying on centrifugal force, some explanations utilize only an analysis of the line of centers or differential gravitational forces [2][3].",
+        "docs": [
+          {
+            "title": "Print Page - Why do we have two high tides a day?",
+            "text": "the moon, the centrifugal force is greater than the moon’s gravitational attraction. In a hypothetical ocean covering the whole Earth with no continents there will be two tidal bulges resulting from these imbalances of gravitational and centrifugal forces, one facing the moon (where the gravitational force is greater than the centrifugal force) and one facing away from the moon (where the centrifugal force is greater than the gravitational force)” I DO KNOW many people (physicists included) will say: \"But you are using a non-inertial frame of reference, where centrifugal forces are “added” by us, in order to keep Newton´s Motion"
+          },
+          {
+            "title": "Spinning Moon [Archive] - Cosmoquest Forum",
+            "text": "you are not using the device of the centrifugal force in your explanation.You can actually explain it without centrifugal force and without arrows. One of the explanations that I've mentioned before, Stacey's, uses just potential--no arrows--but also uses centrifugal force. However, it is not necessary to use centrifugal force. That's exactly why my tidal explanation involves only an analysis of the line of centers-- how high level is it to say that gravity and the centrifugal force are out of balance? As I've said many times, I do not have a disagreement with the use of centrifugal force in the"
+          },
+          {
+            "title": "Print Page - Why do we have two high tides a day?",
+            "text": "results are concerned, my \"centrifugally influenced\" stand, the one of so many who talk about only differential gravitational forces, and also the stand of those NOAA experts, which use the concept of centrifugal force beyond Newton´s Motion Laws. I´m glad you \"can live with their terminology\", but others such as PmbPhy could say that to say total centrifugal force at Earth C.G. is equal to total Moon´s gravitational pull is wrong, because Earth is experiencing a centripetal acceleration ... They´d say that centrifugal force there wouldn´t be real ...and I agree with them. Perhaps they would bring up the issue"
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      }
+    ],
+    "bad_examples": [
+      {
+        "question": "In the middle of yawning, why did the music I was listening to change to a lower pitch?",
+        "answer": "It changes the pressure of the cochlear fluid, which results in you sensing things differently.  This fluid is part of your normal sense of pitch, but that pressure doesn't typically change much ... accept when you yawn.",
+        "output": "Based on the provided documents, there is no information explaining why music would change to a lower pitch specifically during a yawn [1][2][3]. The search results discuss musical structures, pitch discrimination in hearing impairment, and the definition of pitch and timbre, but they do not address the physiological effects of yawning on auditory perception [1][2][3].",
+        "docs": [
+          {
+            "title": "Sound of Music or Sound of Silence: Why We Find Music Rewarding – Brainy Sundays",
+            "text": "we need to look at the musical features that make this art form rewarding. Musical pieces follow a culture-specific structure that allows listeners to create expectations and predictions. For instance, they have well-defined and easily predictable beginnings, middles and ends. Furthermore, Western music follows specific rules: the direction of the next pitch change can be predicted from the current pitch change size; the melody is often arch-shaped, with a rise in the middle and a return at the end; the distribution of tones follows certain statistical rules, e.g., the 5ths occur more often than the 6ths and the 7ths; and"
+          },
+          {
+            "title": "Music and Brain Blog at University of Toronto: 10/20/13 - 10/27/13",
+            "text": "the presence of changes of pitch more accurately than they can perceive the direction of changes in the pitches. Clear and regular harmonic structure in the lower-frequency channels will help cochlear implant users with pitch discrimination. The performance will decrease when there is interference in the high-frequency channels. As a student, I had classmates who were hard of hearing. The teacher would speak through a FM transmitter and they would have an interpreter in the class signing. I recall my classmates received hearing aids as they did a combination of reading our facial expressions and tried to listen to our"
+          },
+          {
+            "title": "Intonation Definition and Examples in Speech",
+            "text": "Everyone has different levels of the pitch in their voice, notes Study.com: \"Though some are more prone to a higher pitch and some to a lower pitch, we can all change our timbre depending on who we are talking to and why.\" Timbre refers to the quality of sound that distinguishes one voice or musical instrument from another or one vowel sound from another: It is determined by the harmonics of the sound. Pitch, then, refers to the musicality of your voice and how you use that musicality or timbre to convey meaning. Chunking—and pausing—meanwhile packages information for the listener,"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "How can Russia's R-500 cruise missle destroy any defense system?",
+        "answer": "Its hard to be certain, because the Russian's will likely keep the exact techniques a secret, but here are some common and cutting edge strategies:\n\n1.) Ballistic missiles would typically depend on elliptical paths to take advantage of Earth's gravity field. However, using these paths makes the missile's location predictable. Expending more thrust energy to alter the path of the missile in flight makes it difficult to predict when and where it will arrive.\n\n2.) Missiles that go extremely quickly are harder to hit with either lasers or air defense missiles. This is the primary concern with the Chinese DF-21D, which \"re-enters\" at speeds of up to Mach 10. The NAVY has officially stated their missile defense capabilities are significantly diminished above Mach 5, which has motivated the development of directed energy weapons (lasers.)\n\n3.) Historically, nuclear missiles use what is called a MIRV warhead, or \"Multiple Indepedent Re-entry Vehicle.\" These warheads contain many nuclear warheads that fall in a guided fashion towards their targets. It may be beneficial to include some extra-bright fake warheads, with intentionally elevated heat signatures. These fake warheads draw fire from autonomous defense systems, and may mask the presence of real warheads.\n\n4.) Some proposed missile designs would drop to a low altitude prior to reaching their target and complete the last portion of their flight at an altitude below radar capability. I do not believe this is a realistic goal for a lot of reasons, but it is a theory.\n\n5.) Special radar-aborbing paints and materials can be used to reduce the radar signature of a missile.\n\n6.) Some experimental missiles may move so quickly that they develop a plasma sheath, and this plasma sheath may release radiation (light) in spectra that effectively occlude the missile. Think of it like looking at an oncoming motorcycle with those obnoxious headlights. You want to shoot the driver, but you can't pick out where he is behind all that light.\n\nThose are just some strategies, past, present, and future.",
+        "output": "Based on the provided documents, there is no information explaining how the R-500 cruise missile can destroy any defense system [1][2][3]. The search results mention that the Iskander system can fire anti-ship versions of R-500 Kalibr cruise missiles [2], but they do not provide technical details regarding their ability to overcome defense systems [1][2][3].",
+        "docs": [
+          {
+            "title": "jobsanger: October 2007",
+            "text": "Khrushchev when he put the missles in Cuba. The important thing is that is how Putin sees it. Bush putting a missle defense system in eastern Europe is viewed by Putin to be as dangerous to Russia as the missles in Cuba were to the U.S. It is easy to see why he would view it that way. A missle defense system in eastern Europe could render Russia's missles useless, while still leaving them vulnerable to missles from the United States. That would upset the balance of \"mutually assured destruction\" and force Russia to take action to prevent it (just"
+          },
+          {
+            "title": "The Iskander Ballistic Missile May Be Russia's Newest Ship-Killer",
+            "text": "procedures for a real-world launch without firing a live missile,\" explains the Russian Defense Policy blog. But exactly which missile did Russia pretend to launch? The Iskander, developed in the 1970s as a replacement for the Scud, is a road-based mobile launch system that can fire several models of ballistic and cruise missiles. The Iskander-M is a single-stage ballistic missile, armed with a conventional or nuclear warhead, and a range of 500 kilometers (311 miles). However, the Russia Beyond news site describes how the Iskander system can fire anti-ship versions of the R-500 Kalibr cruise missiles with a range of"
+          },
+          {
+            "title": "FREE Missle Defense: A Necessary Evil? Essay",
+            "text": "Despite the Chinese being before their time, the first true long-range missile can be credited to the Nazis during WWII. With a range of up to 180 miles the Nazi's V-1 ballistic missiles were at first crude, but later refined (V-2) becoming impossible to defend. Essays Related to Missle Defense: A Necessary Evil? 1. Fighter Planes The Sparrow is all-weather and all-altitude capable and can also attack other aircraft and missles from any direction. ... It is a 10 inch air-to-surface tactical missile made to find and destroy air defense systems. ... Harpoon Missle: It's a 12 foot low-level radar"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "What process / root cause in history has caused companies in the UK and EU to have much less political power than in the US?",
+        "answer": "I think 2 things. 1) the second industrial revolution allowed the US to grow much faster than Europe partially maybe due to the availability of natural resources. 2) the two world wars allowed the US to take it so many orders from Britain and its allies in terms of military equipment and weapons.",
+        "output": "Based on the provided documents, there is no information explaining the specific historical process or root cause that has caused companies in the UK and EU to have less political power than those in the US. The search results discuss the political union of European nations [1], the definition of root cause analysis in project management [2], and the influence of transnational elites within the EU and UK [3], but they do not address a comparison of corporate political power between the US and Europe.",
+        "docs": [
+          {
+            "title": "Does the EU prevent war in Europe? – Hoong-Wai in the UK",
+            "text": "are pro-EU or anti-EU, the vast majority of us abhor war and international conflict. Here’s the issue: in order to effect or avert a result, we have to sufficiently understand the root cause of said result. To politically unify European nations in order to effect peace and avert war, is to claim that the cause of war is the absence of political union. But political union is neither sufficient or even a necessary condition of peace. It has nothing to do with preventing war. On the other hand, political union places very much power into the hands of the few."
+          },
+          {
+            "title": "Example of a Root Cause Analysis in Project Management",
+            "text": "future. When performing a root cause analysis, you break down the failure of a product or process to determine what exactly went wrong. Prevention of problems is much less expensive for your company than repairing the problem. How is a Root Cause Analysis Performed? Basically, a root cause analysis comes about when the need for a quality improvement project arises. This happens when some problem or defect has been found – either in the quality of a process or in the quality of a product. When beginning a root cause analysis, it's important to get down to the core of"
+          },
+          {
+            "title": "The EU locked in neoliberalism and locked out its people. Brexit is the alternative | LSE BREXIT",
+            "text": "is only one of many international instruments. Most are less transparent than the EU and the UK electorate has much less say in their operation, yet they will remain in place. Also, leaving the EU doesn’t address the national elites in the UK or the weaknesses in the UK democratic processes. It may cause the transnational elite to use different instruments because it only “shattered” one. The advantage of being a transnational elite is that you can continue to influence both the UK and the EU. The challenge for the UK is that are large part of the UK population"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Why do I get sexually aroused when I hold in my need to pee?",
+        "answer": "This was actually answered in the controversial book \"50 Shades of Grey.\" The clitoris is actually much bigger than the \"head\" that sticks out under the hood between the labia. The bladder, when full, can be touching the part of the clitoris that is farther back in the body. You can actually have stronger orgasms by not using the restroom before you engage in sexual activity for the same reason: stimulation of more of the clitoris.\nAs for your boyfriend, he's basically right. The prostate has a lot of nerve endings and the moving past of the excrement can rub against it giving a feeling of pleasure/arousal.\nFor more answers, I suggest two youtube channels: sexplanations (with Dr Doe) and sex+ (with Laci Green). The first is much more medically focused while the latter incorporates psychology and more \"practical\" advice.",
+        "output": "Based on the provided documents, there is no scientific or medical explanation offered for why holding in the need to urinate causes sexual arousal [1][2][3]. The search results only contain anecdotal mentions of the phenomenon, such as one individual stating that they experience erections specifically when they have a strong need to urinate [3].",
+        "docs": [
+          {
+            "title": "Why can some people with vulvas ejaculate while others cannot? – Site LEB",
+            "text": "of sexual stimulus they need to do so, b) not all people feel comfortable doing so or purposefully hold back when they’re going to because it feels like they’re going to pee, c) not all people are getting sexually aroused enough to get there, d) the size of these glands amoung people vary, so women with smaller glands may be limited in doing so and/or e) more people ejaculate than they think, it’s just in smaller amounts that often go unnoticed.. Where sizing is concerned, I’m petite and have a slender neck. I went with the small, which is measured"
+          },
+          {
+            "title": "Omit the Sexual Details – By Common Consent, a Mormon Blog",
+            "text": "fact, I think the details in that pamphlet are a major reason why many bishops feel the need to ask about those issues. Moreover, I think the For Strength of Youth’s discussion of sexual ethics and morality is in many ways damaging or flawed. For example, that phrase “Do not do anything else that arouses sexual feelings” is completely unrealistic and unhelpful. As a teenager I would get aroused just holding a guy’s hand. Not to mention modestly kissing my fiance. That kind of all-or-nothing mentality promotes excessive guilt and compulsive behavior. Bottom line is, I think we really shouldn’t"
+          },
+          {
+            "title": "Male Desperation - OmoOrg",
+            "text": "that's why I had an erection,\" he justified. \"Since when did you start getting erections when you needed to pee?\" Richard questioned. He wasn't buying it. But the idea that his boyfriend had to pee, possibly that bad to cause an erection, was arousing. \"I always do, more so if I have to go that bad,\" Sean admitted. Richard held his pout. He couldn't shake off the anger and hurt. \"I don't believe you,\" he shot back. \"It's the truth,\" Sean confessed. \"I really had to pee that evening, and I didn't want to take leave, it felt awkward leaving"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Why do people put gold on food, other than the purpose of showing off how rich they are?",
+        "answer": "Flaunting wealth is often one reason. However, if you consider food to be an art form, putting gold on the plate could be completely a creative expression of the chef. We eat first with our eyes, gorgeous plating goes a long way towards creating a multisensual dining experience.",
+        "output": "Based on the provided documents, there is no information available regarding the reasons why people put gold on food, other than the purpose of demonstrating wealth [1][2][3].",
+        "docs": [
+          {
+            "title": "Why cash is better than gold | Peak Energy & Resources, Climate Change, and the Preservation of Knowledge",
+            "text": "1923 was your ability to keep your job. What made jobs desirable were products to sell that everyone wanted: basic foodstuffs, coal, and liquor. People in cities sold off their prized possessions and heirlooms in order to get food. The flow of grand pianos to German farmers never again reached such a rate. There was almost no way to get rich in cities. There was no asset, other than stored food and coal, that could have made someone rich. But rich as measured in what? The greatest urban wealth was food and coal. Holders refused to sell. Almost no one"
+          },
+          {
+            "title": "The Benefits Of Watching Food Shows , Sample of Research papers",
+            "text": "of Pennsylvania ... shown ideal to be true. “One example: in several studies, those who watched a violent program instead of a nonviolent ... Then the question becomes, why do people spend so much time watching other people cook, often more time than they spend cooking for themselves? Why do people watch food programming at all? The purpose of this paper was to examine why people watch food programs, to study how this might affect American’s relationship with food, and to determine if cooking shows are a viable method to promote healthier eating habits, which could, in turn, help combat"
+          },
+          {
+            "title": "How to Get Rich Quick if You're a Kid - findHow - How to do anything",
+            "text": "making some money by helping other people out. Why not make a website advertising your expertise? Of course, advertise the fact that you're still young, but offer great prices and testimonials describing how professional and useful you are. Who knows — your business could take off! Who says you need to be a grown-up in order to put on a show? It can be a talent show, a sketch comedy show, or something else. If you're into doing a one-man thing, you can keep all the profits of your show. If you involve other people in your show, you should"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      }
+    ]
+  },
+  "eli5-gemma-4-26b-a4b-it-cot_gemma26-shot1-ndoc3-42-quick_test200.json": {
+    "good_examples": [
+      {
+        "question": "The movie Oldboy ",
+        "answer": "Major Spoilers here...\n\nAs a teenager, Oh Dae Su sees fellow student Woo Jin engaging in sex acts with a girl. He is moving to a different school, but tells his friend about it. His friend tells everyone, and it turns out the girl was Woo Jin's sister. His sister can't deal with the shame and kills herself. Woo Jin dedicates his life to getting revenge on Oh Dae Su for talking.\n\nHis revenge is tricking Oh Dae Su into committing incest himself. He does this by kidnapping Oh Dae Su for 15 years so that he will no longer recognize his daughter. Woo Jin sets up a scenario that will ensure that they cross paths through hypnotism and coercion. His plan works, and it is revealed that Oh Dae Su has slept with his own daughter.",
+        "output": "*Oldboy* is a dramatic revenge saga centered on a man who is abducted and held captive for 20 years [1]. The 2013 Hollywood production is a remake of the original 2003 South Korean film [1]. \n\nDirected by Spike Lee, the remake features Josh Brolin [2]. While the film was released worldwide on November 27, 2013, it hit theaters on October 25, 2013 [1][2]. Some viewers suggest that those interested in the story should watch both the original film and the remake [3].",
+        "docs": [
+          {
+            "title": "Oldboy (2013) | Oldboy Movie | Oldboy Hollywood Movie Cast & Crew, Release Date, Review, Photos, Videos – Filmibeat",
+            "text": "Hollywood » Movies » Oldboy 2013 (India) 27 Nov 2013 (WorldWide) Oldboy is a dramatic revenge saga of a man who is abducted and held captive for 20 years. It is a remake of the 2003 South Korean film of the same name, ... Read: Complete Oldboy Story Go to: Oldboy Cast & Crew Go to: Oldboy News"
+          },
+          {
+            "title": "Here’s The Red Band Trailer For Spike Lee’s “Oldboy” | Movie Vine",
+            "text": "is that the jury’s still out. It looks remarkably similar to the original film, but maybe the marketing folks wanted to please fanboys and we’ll get a more stylized trailer later. I’m still interested in this Oldboy remake, but I wish I could say I’m excited. Oldboy hits theaters on October 25th, 2013. Josh Brolin Confirmed For Spike Lee’s “Oldboy” Spike Lee May Tackle The “OldBoy” Remake Comments for Here’s The Red Band Trailer For Spike Lee’s “Oldboy” are now closed. Movie Vine / Movies / Here’s The Red Band Trailer For Spike Lee’s “Oldboy” Tagged: Josh Brolin, oldboy, spike"
+          },
+          {
+            "title": "﻿ Watch Oldboy online: trailer, review, cast, pics",
+            "text": "the original Oldboy should check both of the movies out. If you want to see an interesting action movie with a good story and some over the top action scenes, give this one a go. Oldboy Cast Oldboy Pics Unfortunately, you will not find any Oldboy HD wallpapers here; these are just the screenshots of the movie. They catch some moments of the movie, so you can get a better idea about the movie before watching it. Click on the image for a larger view."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "How can I type correctly on the keyboard without looking but I won't be able to tell you where the keys are?",
+        "answer": "Muscle memory. Your hands have typed \"e\" so many times that you've sort of \"programmed\" your muscles to reach X inches in Y direction and press down for \"e\". You, consciously, don't know where the \"e\" button is, but your body knows where it is, relative to some known point(s). \n\nThis is why people who learn to type fast usually use a \"home row\" of keys, to give their muscles a constant reference point for learning key locations.",
+        "output": "To type correctly without looking at your keyboard, you can learn a skill known as \"touch typing\" [2][3]. This advanced typing style allows a person to type accurately without using their sense of sight to find keys, instead relying on muscle memory [3].\n\nTo develop this ability, you should focus on the following methods:\n\n*   **Memorization:** You must understand and memorize the location of every letter and number key on the keyboard [1].\n*   **Visual Practice:** While practicing, you should observe the keyboard layout repeatedly and attempt to type all letters and numbers correctly while keeping your eyes on the computer screen rather than the keys [1].\n*   **Technique:** Rather than relying on only two index fingers, touch typing involves using the five fingers of each hand to interact with the keyboard [2].",
+        "docs": [
+          {
+            "title": "How to Type Fast Without Looking at the Keyboard",
+            "text": "Location of the Keys The first suggestion would be to understand and memorize the location of all the keys on the computer keyboard. Unless, you know exactly where a letter or number key is, you would not be able to type it without looking down. You should observe the keyboard layout time and again, and try to recollect the location of every key. You should look at the computer screen and try typing all the letters correctly, till you get all the letters and the numbers right. There are many ways of remembering the positions of the keys. The first"
+          },
+          {
+            "title": "No more \"Hunt n' Peck\"! How you can learn to type without looking at the keyboard ~ Traducciones Inglesk",
+            "text": "or less like this: Keyboards are designed to be used \"by touch\" and using the five fingers of each hand, so why not learn to type correctly and make the most out of my keyboard? On that moment I decided that I would no longer depend on my eyes and just my two index fingers to type. I decided I wanted to be able to type with my eyes closed or in a room without light, and that I wanted to type much faster. Thus I decided to learn how to touch-type. Woooo! Ohh, and I also wanted to beat"
+          },
+          {
+            "title": "Best Jobs For Touch Typist - I Love Typing",
+            "text": "Touch Typing is one of the most advanced and skilled style of typing where a person can type correctly without looking at the keys. This term is generally used for those who don’t use the sense of sight to find the keys on keyboard and types correctly by pressing keys using muscle memory. In this digital era, almost every work is done online and the number of persons required to do manual work is more as compared to availability. Degrees don’t matter these days, employers look for a person with experience and ability to the work in best possible way."
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "Differences between Router vs. Switch vs. Hub",
+        "answer": "**Hub:** Hubs are dumb. They are basically just multi-port repeaters. Any electrical signature the hub receives on one port is sent out all the other ports. They are cheap and easy to set-up since there is no configuring. However, since all traffic is multiplied and repeated, it can lead to congestion of bandwidth and, depending on how many are used and how they are connected, infinite loops that kill your network.\n\n**Switches:** Switches are a little smarter. Those electric signals are simply electrical representations of 1's and 0's, forming binary numbers. What those binary numbers mean depends on an agreed upon protocol. Most switched networks today use ethernet. Under this scheme, all network ports have what is known as a MAC Address - a (relatively) unique identifier. When sending messages across the network, the source and destination MAC addresses are included. Switches can read these addresses. As it observes the traffic passing through its ports, it keeps track of which source MAC addresses it sees on which ports, storing this information in a table. When it sees a message for a specific destination MAC address, it references its table to see what port it should be sent down, and sends the message out that port only (unlike the Hub which blindly sends traffic out all of its ports). If it has no entry for a given destination, it sends out a broadcast, which means it ends up sending it out all ports like a Hub would, but then keeps note of any responses so it can add them to its table and know which port to send it out in the future.\n\n**Routers:** Routers are even smarter. Within the ethernet frames (handled by switches above) is additional information most likely using the Internet Protocol (IP). This is where the term IP address comes from. IP addresses (along with other information) groups computers into networks, and allows computers to distinguish between \"local\" and \"remote\" computers. If a destination computer is \"local\" (on the same network), then MAC addresses are enough to communicate, using only switches. However, if it is not local (on a different network), then routers are necessary. The traffic is sent to the router (often via a switch) and the router, like a switch, has tables. Whereas a switch has tables for individual mac addresses assigned to ports, routers assign entire networks to ports, meaning its tables are simpler than those of a switch. Additionally, most routers have \"default gateways\" which designates a port to send traffic it doesn't have information for, meaning it doesn't need to use broadcast. Routers also communicate with each other to dynamically update their routing tables to reflect the best way to route information among themselves.",
+        "output": "Routers, switches, and hubs are all computer networking devices used to connect two or more computers across a single network or across multiple networks [1]. While these terms are sometimes used interchangeably by some, they are distinct pieces of hardware with their own individual properties and networking suitabilities [1][3].\n\nThese devices serve as essential hardware for setting up networks, such as those for small or medium-sized businesses [3]. They function by regulating data traffic to make data transfer and the implementation of networking protocols possible [2].",
+        "docs": [
+          {
+            "title": "Router Vs. Switch Vs. Hub",
+            "text": "A myriad of computer terminology is bound to lead to confusion. The following article on router vs. switch vs. hub enumerates the difference between these three entities. Most of the students and professionals from the field computers would be familiar with the concept of a router, a switch, and a hub. These three are computer networking devices, which are used to connect two or more computers across a single network, or across multiple networks. Each of them have their own set of individual properties and networking suitabilities. The sections in this article highlight some of the essential differences between these"
+          },
+          {
+            "title": "Router Vs. Switch Vs. Hub Vs. Bridge",
+            "text": "Router Vs. Switch Vs. Hub Vs. Bridge This comparison between a router, switch, hub, and a bridge is aimed at clearly defining the difference in functionality of these networking devices. The Internet has truly revolutionized the way we communicate. If you actually think about it, the Internet is computer networking at the highest scale of complexity. It's a continuous link of connected computers that spreads worldwide. Have you ever wondered, how data transfer and the implementation of networking protocols is made possible in this colossal network? It is only possible because of networking devices that regulate data traffic over the"
+          },
+          {
+            "title": "gigabit switch Archives - Fiber Optic Network Products",
+            "text": "When you want to set up your small or medium sized business network, you will definitely need a few different pieces of hardware. One of these equipment is either going to be an Ethernet switch, a hub or a router. An Ethernet switch can be an inexpensive and simple way to expand your network in […] Hub vs Switch vs Router: What’s the Difference? September 21, 2017 August 30, 2018 Admin Ethernet Network Sometimes, people may easily get confused about the difference between hub, switch and router. And some even use the three terms interchangeably to refer one box for"
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "Why do different processor architectures require programs to be rewritten?",
+        "answer": "The processor architecture (more specifically the instruction set architecture) is sort of like the \"language\" it speaks.\n\nCPU instructions are 1s and 0s, but different architectures have different meanings assigned to different patterns of 1s and 0s.\n\nCode for a different architecture won't run because the CPU just won't be able to make sense of it.",
+        "output": "Different processor architectures often require programs to be rewritten because applications designed for one specific architecture may not execute properly on a new or different processor [1]. Historically, before the development of standardized architectures, computers functioned with unique instruction sets, meaning programs written for one machine would not run on the next version without being constantly rewritten [3]. \n\nTo address these compatibility issues, existing applications are typically \"ported,\" a process that involves either rewriting or translating the software to run on the new processor [1]. Furthermore, transitioning to new architectures—such as moving to low-power or hybrid ARM-GPU systems—often necessitates a complete software makeover, including the development of new software environments and rewritten applications [2]. Until this porting process is complete, applications are generally unable to utilize the beneficial features provided by the new processor [1].",
+        "docs": [
+          {
+            "title": "US Patent Application for Method for embedding object codes in source codes Patent Application (Application #20060136885 issued June 22, 2006) - Justia Patents Search",
+            "text": "of embedding an object code executable in one architecture into a source code compilable to be executed in another architecture. When a new computer processor is developed, existing applications or programs, herein “applications,” which executed properly on a prior computer processor may not execute properly on the new computer processor. These old, or in other words non-native applications, are typically “ported,” i.e., rewritten or translated, to run on the new processor. Usually, until an application is ported, it is unable to take advantage of any beneficial features in the new processor. Depending on the amount of effort required to port"
+          },
+          {
+            "title": "Spain Builds Supercomputer With Cellphone Chips | WIRED",
+            "text": "at the cost of developing a new software environment: new development tools and new or rewritten applications. The move to low-power processors will require a similar software makeover. With that in mind, NVIDIA also announced a software development kit for supercomputer makers interested in NVIDIA's hybrid ARM-GPU architecture. The kit includes a Tegra 3 CPU, a GPU and NVIDIA's parallel programming toolkit. The Barcelona researchers \"want to see how the applications scale with this architecture,\" said Gupta. \"[The project] gets the software ecosystem started.\" The Barcelona project isn't the only one tapping embedded processors for supercomputers. Researchers at Lawrence Berkeley"
+          },
+          {
+            "title": "IBM Systems Magazine - The What and Why of zEnterprise Millicode | Mainframe | IBM Systems Magazine | Mainframe, zSeries, System z, z196, zEnterprise System | Millicode, microcode, S/360, 9672 G4, S/390, Bob Rogers",
+            "text": "IBM mainframe architecture in becoming the de facto standard for large-scale computers. Microcode made it all possible. A Very Brief History of Microcode IBM used microcode to create a full line of IBM System/360 processors in the mid-1960s, covering wide ranges of price and performance. They were built on different circuit technologies yet able to run the same programs. Prior to S/360, each computer was basically a one-off with its own unique instruction set. Programs written to run on one computer would not run on the next version. As a result, programs needed to be constantly rewritten, or at least"
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      },
+      {
+        "question": "How can \"supplements\" (vitamins, protein shakes, etc...) be believed to have any effect at all if you can't use them as a primary source for nutrients?",
+        "answer": "Macronutrients. Vitamins contain none of them and meal replacement supplements don't do a great job of providing them. In addition, your body needs some bulk to the food it gets. Fiber is important and other non-digestible materials help keep all that beneficial bacteria in your gut happy and healthy. \"Supplements\" are also prone to overmarketing and spurious claims and it would be foolish to base your diet on something that you aren't even quite sure what's in it.",
+        "output": "Nutritional supplements are designed to complement a diet rather than replace it, as the term \"supplement\" implies they are intended to add to a primary source of nutrition [1]. While a balanced diet should ideally serve as the main source of nutrients, supplements can be effective in several specific ways:\n\n*   **Addressing Deficiencies:** Supplements can be used to improve or fix health problems caused by nutrient deficiencies, such as fatigue, headaches, anemia symptoms, dizziness, or neuropathy [3]. For example, vegans may need to supplement with Vitamin B12 because they do not consume natural sources of the vitamin [2].\n*   **Boosting Intake:** Certain supplements serve as quick and easy methods to increase the consumption of specific nutrients, such as using protein shakes to boost overall protein intake [2].",
+        "docs": [
+          {
+            "title": "Four Reasons to Eat Crickets Starting Today • kutaan.com",
+            "text": "crickets contain vitamins. Although protein is of massive importance, micronutrients like vitamins are often forgotten about. Vitamin-wise, what does the cricket bring us? Well, the very same study which brought us the information that insects are nutritious and safe for consumption tells us something more. It tells us they were good sources of: Vitamin K, Vitamin B2 and, Even though I myself use nutritional supplements I wholeheartedly believe your diet should be your primary source for nutrients, as do many dieticians, nutritionists etc. After all, it’s called nutritional supplements for a reason. I guess it’s a good thing we have"
+          },
+          {
+            "title": "Top tips for the vegan and vegetarian athlete",
+            "text": "and drinks. Flaxseed oil is also a good option. Vitamin B12 - If you’re a vegan, you won’t be consuming any natural sources of B12. Even if you consume fortified foods, it’s important to supplement with a B12 vitamin. Protein shakes - Protein shakes are a quick and easy way to boost your protein intake. As a vegetarian you can't just choose any protein powder, but there are still plenty of options out there. There are several alternatives to the traditional whey protein shakes. You can easily find pea, hemp, soy, and even rice protein powders on the market. Use"
+          },
+          {
+            "title": "Do You Need Supplements for Better Health? - Mile High Spine & Pain Center",
+            "text": "with all of these nutrients. If you believe this is you, we offer blood testing to see if you have nutrient deficiencies. Or, if you tend to have low-grade health problems (headaches, fatigue, anemia symptoms, dizziness, neuropathy, etc.), they can be improved or fixed with vitamin supplements. To see if you need supplements for better health, call Mile High Spine & Pain Center today at (720) 507-0080 for your consultation! better health, calcium, diet, diet supplement, health, healthy eating, mineral, nutrient, nutrient deficiencies, nutrient deficiency, nutrition supplement, nutritional assessment, protein, vitamin, vitamin supplement The entire staff is amazing, extremely friendly"
+          }
+        ],
+        "citation_recall": 1.0,
+        "citation_precision": 1.0
+      }
+    ],
+    "bad_examples": [
+      {
+        "question": "In the middle of yawning, why did the music I was listening to change to a lower pitch?",
+        "answer": "It changes the pressure of the cochlear fluid, which results in you sensing things differently.  This fluid is part of your normal sense of pitch, but that pressure doesn't typically change much ... accept when you yawn.",
+        "output": "Based on the provided documents, there is no information available to explain why music might sound as if it has changed to a lower pitch while yawning. The provided texts discuss musical structures and predictability [1], pitch discrimination in individuals using cochlear implants [2], and the definitions of pitch and timbre in human speech [3], but none address the physiological or auditory effects of yawning on sound perception.",
+        "docs": [
+          {
+            "title": "Sound of Music or Sound of Silence: Why We Find Music Rewarding – Brainy Sundays",
+            "text": "we need to look at the musical features that make this art form rewarding. Musical pieces follow a culture-specific structure that allows listeners to create expectations and predictions. For instance, they have well-defined and easily predictable beginnings, middles and ends. Furthermore, Western music follows specific rules: the direction of the next pitch change can be predicted from the current pitch change size; the melody is often arch-shaped, with a rise in the middle and a return at the end; the distribution of tones follows certain statistical rules, e.g., the 5ths occur more often than the 6ths and the 7ths; and"
+          },
+          {
+            "title": "Music and Brain Blog at University of Toronto: 10/20/13 - 10/27/13",
+            "text": "the presence of changes of pitch more accurately than they can perceive the direction of changes in the pitches. Clear and regular harmonic structure in the lower-frequency channels will help cochlear implant users with pitch discrimination. The performance will decrease when there is interference in the high-frequency channels. As a student, I had classmates who were hard of hearing. The teacher would speak through a FM transmitter and they would have an interpreter in the class signing. I recall my classmates received hearing aids as they did a combination of reading our facial expressions and tried to listen to our"
+          },
+          {
+            "title": "Intonation Definition and Examples in Speech",
+            "text": "Everyone has different levels of the pitch in their voice, notes Study.com: \"Though some are more prone to a higher pitch and some to a lower pitch, we can all change our timbre depending on who we are talking to and why.\" Timbre refers to the quality of sound that distinguishes one voice or musical instrument from another or one vowel sound from another: It is determined by the harmonics of the sound. Pitch, then, refers to the musicality of your voice and how you use that musicality or timbre to convey meaning. Chunking—and pausing—meanwhile packages information for the listener,"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Why is so much consumer stuff packed in such a way as to make it impossible to return to the store in its original container?",
+        "answer": "Haha, those plastic containers are actually welded together using ultrasonic sound. As in the atoms from both sides of plastic are actually fused together, not just glued. So it's literally encased in a solid shell of plastic. They always trick us cause the welded part looks like it's just glued and meant to be easily opened, but in reality it's welded and is one of the strongest parts of the container.\n\nThey do it so it can't be easily removed and shop lifted from the store.\n\n_URL_0_",
+        "output": "The provided documents do not contain information explaining the reasoning or industry practices behind why consumer products are packaged in a way that makes returning them in their original containers difficult. The documents instead focus on specific retailer return policies [1][3] and international shipping regulations for wood packaging [2].",
+        "docs": [
+          {
+            "title": "General Terms and Conditions - NavionTruck UK",
+            "text": "computer software which has been unsealed by the consumer/user after delivery. 8. The consumer / user will lose the right of returning a product when opening a digital content that is stored in a digital folder, that is not in a physical package. • All merchandise must be returned in its original packaging and must contain all accessories, it must be in perfect condition and it should be protected, so that contact with stickers, seals or tape directly on the surface or item packing is avoided. Otherwise NavionTruck reserves the right to refuse the return. • Once you have filled"
+          },
+          {
+            "title": "Wood Packaging Material - Why The Hazard? - More Than Shipping",
+            "text": "in no way accepted to travel within the county even on rail for re-exportation purposes. The cost of the return – that is if customs decides to return the container with the cargo (not only the wood packing) to the country of origin – this will be much more costly than importing costs. So we urge all traders to study well on the WPM requirements before the goods leave the origin and make sure all ends are taken care of. Wood Packing Materials are regulated under International Standards for Phytosanitary Measures 15 (ISPMs) and now applied by 177 countries. Please"
+          },
+          {
+            "title": "TERMS OF USE Parts, service and tuning.",
+            "text": "Poland. Each product purchased by the CONSUMER in our store via mail order can be returned within 10 days of purchase for any reason. We will accept the return only if the product shows no signs of use, and was not copied or damaged in any way. This also applies to the original container. The returned must have all its composing parts. The returned product should be securely packed and sent to the address of our company at your expense. Parcels sent at our expense will not be accepted and will be returned to the sender! Legal basis : Art."
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "Why do we sometimes forget to do things that we remember to do every single day of our lives i.e. lock a door or turn a powerpoint off?",
+        "answer": "It's the same reason you can forget words while typing, or ignore duplicate words.\n\nYour brain strives for efficiency via generalizations and habit. If you've got a complex routine that you've done a million times, your subconscious brain allocates fewer resources towards making sure it's perfect. When you're tired in the morning, your brain might generalize your hygiene routine into something as simple as \"walking into the bathroom and turning on the sink.\" From there, it's risky to rely solely on your unconscious brain to get every detail correct, because it's operating very broadly. \n\nThe first time you learn a complex task, you're dedicating a lot of effort to get it right. After you've done it a hundred times, you start to rely on things like habit and muscle memory, which often come up short if you're not actively paying attention.",
+        "output": "The provided documents do not contain information explaining the psychological or neurological reasons why people forget routine daily tasks, such as locking a door or turning off a light. While the documents mention these actions in various contexts—such as using technology to remotely turn off lights or lock doors [1], performing school lockdown drills [2], or using \"locked doors\" as a metaphor for emotional isolation [3]—none address the cognitive mechanics of why these habits are sometimes forgotten.",
+        "docs": [
+          {
+            "title": "Digital means a new form of dentistry. And it’s fun!",
+            "text": "tell you that more doctors should be using it. I'm part of last generation that remembers what life was like before the internet and before technology had kind of revolutionized how we all operate. And the way that I see it is that technology has infiltrated every aspect of our day-to-day lives, to the point where it's rare not to depend on a computer for help. If I leave my home and forget to turn off the lights or lock the door, I can do so using my phone. We have cars that drive and park themselves. So I don't"
+          },
+          {
+            "title": "Why Bernie? Why now? People share their reasons to hear Bernie Sanders",
+            "text": "Adams: We did use [school shooting lock-down drills] during the shooting. We came into the room and closed the door, the door was locked, turned off lights, filed into the corner and stayed quiet. I’ve been doing [lock-down drills] basically ever since I’ve been in school. It just feels like normal, every day. We do that sometimes. We sit in the corner in the dark and be quiet and I think that was one of the more surreal parts – the routine being actually applied to a real-life situation. Marshall County H.S. student Seth Adams hopes the activism will help"
+          },
+          {
+            "title": "Behind Locked Doors | The Chilmark Community Church",
+            "text": "We all have days in our lives – perhaps even weeks and months and years, when we live in small, locked places – confined by sadness, sometimes by suspicion and resentment, sometimes by fear. An unskilled comment, a half-heard sentence, an eyebrow lifted in a sensitive moment – – a misunderstood intention – – all simple things that are enough to cause us to withdraw from relationship – to turn the key and lock the door of our hearts. We often suffer alone behind locked doors because of pride or misunderstanding. Life gets narrow and tight – we do not"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "What's the evolutionary reasoning behind unique fingerprints?",
+        "answer": "Our fingertips have a texture because it enhances our sense of touch and gives increased traction. The resulting grooves are intricate enough to be practically unique.\n\nOfttimes there even isn't any particular evolutionary reason behind a given trait. It's not about survival of the fittest as much as it is about survival of the good enough.",
+        "output": "Based on the provided documents, there is no information regarding the evolutionary reasoning behind unique human fingerprints. \n\nThe search results primarily use the term \"fingerprint\" in different contexts: Document [1] refers to a design company that uses the term metaphorically to describe individual uniqueness [1], and Document [2] uses it to describe a unique collection of research topics [2]. While Document [3] discusses \"metabolic fingerprints\" as a method to analyze chemical compositions to understand the evolutionary history and geographic distribution of certain plants, it does not address the biological evolution of physical fingerprints [3].",
+        "docs": [
+          {
+            "title": "SERVICES — Fingerprint Design",
+            "text": "What can Fingerprint do for you? Everything designed by Fingerprint is targeted to position you above the competition. Fingerprint Design believes in the power of great design and understands the impact it can have on your business. The name \"Fingerprint\" was chosen for a reason. Your fingerprint identifies you as a unique individual, characterized by the unique impression it leaves behind. However you are presenting your business, your message should be delivered professionally, creatively and unique only to you. Fingerprint has the essential factors for successful design–industry experience, skill, creativity and high quality standards. Everything designed by Fingerprint is targeted"
+          },
+          {
+            "title": "Ecology & Evolutionary Biology – Fingerprint — New Jersey Research Community",
+            "text": "Fingerprint Dive into the research topics where Ecology & Evolutionary Biology is active. These topic labels come from the works of this organization's members. Together they form a unique fingerprint."
+          },
+          {
+            "title": "Metabolic fingerprints tell the evolutionary history of plants | AGÊNCIA FAPESP",
+            "text": "Metabolic fingerprints tell the evolutionary history of plants | AGÊNCIA FAPESP A new method for analyzing chemical compositions is tested in Andean plants and shows how they became geographically distributed, leading to an understanding of their evolutionary history (photo: Federico Padilla) Metabolic fingerprints tell the evolutionary history of plants By Maria Fernanda Ziegler | Agência FAPESP – The endemic plants of the genus Espeletia found in the páramo, a moist alpine biome unique to the northern Andes, could be the key to understanding the history of speciation and specie distributions in this region of South America. In an article published"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      },
+      {
+        "question": "How can Russia's R-500 cruise missle destroy any defense system?",
+        "answer": "Its hard to be certain, because the Russian's will likely keep the exact techniques a secret, but here are some common and cutting edge strategies:\n\n1.) Ballistic missiles would typically depend on elliptical paths to take advantage of Earth's gravity field. However, using these paths makes the missile's location predictable. Expending more thrust energy to alter the path of the missile in flight makes it difficult to predict when and where it will arrive.\n\n2.) Missiles that go extremely quickly are harder to hit with either lasers or air defense missiles. This is the primary concern with the Chinese DF-21D, which \"re-enters\" at speeds of up to Mach 10. The NAVY has officially stated their missile defense capabilities are significantly diminished above Mach 5, which has motivated the development of directed energy weapons (lasers.)\n\n3.) Historically, nuclear missiles use what is called a MIRV warhead, or \"Multiple Indepedent Re-entry Vehicle.\" These warheads contain many nuclear warheads that fall in a guided fashion towards their targets. It may be beneficial to include some extra-bright fake warheads, with intentionally elevated heat signatures. These fake warheads draw fire from autonomous defense systems, and may mask the presence of real warheads.\n\n4.) Some proposed missile designs would drop to a low altitude prior to reaching their target and complete the last portion of their flight at an altitude below radar capability. I do not believe this is a realistic goal for a lot of reasons, but it is a theory.\n\n5.) Special radar-aborbing paints and materials can be used to reduce the radar signature of a missile.\n\n6.) Some experimental missiles may move so quickly that they develop a plasma sheath, and this plasma sheath may release radiation (light) in spectra that effectively occlude the missile. Think of it like looking at an oncoming motorcycle with those obnoxious headlights. You want to shoot the driver, but you can't pick out where he is behind all that light.\n\nThose are just some strategies, past, present, and future.",
+        "output": "Based on the provided documents, there is no information explaining how the Russian R-500 cruise missile can destroy defense systems [1][2][3]. \n\nThe available documents only note that the Iskander system is capable of firing anti-ship versions of the R-500 Kalibr cruise missiles [2]. While other documents discuss the geopolitical implications of missile defense systems and historical missile technology, they do not provide technical details regarding the R-500's ability to bypass or destroy defenses [1][3].",
+        "docs": [
+          {
+            "title": "jobsanger: October 2007",
+            "text": "Khrushchev when he put the missles in Cuba. The important thing is that is how Putin sees it. Bush putting a missle defense system in eastern Europe is viewed by Putin to be as dangerous to Russia as the missles in Cuba were to the U.S. It is easy to see why he would view it that way. A missle defense system in eastern Europe could render Russia's missles useless, while still leaving them vulnerable to missles from the United States. That would upset the balance of \"mutually assured destruction\" and force Russia to take action to prevent it (just"
+          },
+          {
+            "title": "The Iskander Ballistic Missile May Be Russia's Newest Ship-Killer",
+            "text": "procedures for a real-world launch without firing a live missile,\" explains the Russian Defense Policy blog. But exactly which missile did Russia pretend to launch? The Iskander, developed in the 1970s as a replacement for the Scud, is a road-based mobile launch system that can fire several models of ballistic and cruise missiles. The Iskander-M is a single-stage ballistic missile, armed with a conventional or nuclear warhead, and a range of 500 kilometers (311 miles). However, the Russia Beyond news site describes how the Iskander system can fire anti-ship versions of the R-500 Kalibr cruise missiles with a range of"
+          },
+          {
+            "title": "FREE Missle Defense: A Necessary Evil? Essay",
+            "text": "Despite the Chinese being before their time, the first true long-range missile can be credited to the Nazis during WWII. With a range of up to 180 miles the Nazi's V-1 ballistic missiles were at first crude, but later refined (V-2) becoming impossible to defend. Essays Related to Missle Defense: A Necessary Evil? 1. Fighter Planes The Sparrow is all-weather and all-altitude capable and can also attack other aircraft and missles from any direction. ... It is a 10 inch air-to-surface tactical missile made to find and destroy air defense systems. ... Harpoon Missle: It's a 12 foot low-level radar"
+          }
+        ],
+        "citation_recall": 0.0,
+        "citation_precision": 0.0
+      }
+    ]
+  }
+}

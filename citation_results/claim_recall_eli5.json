@@ -1,0 +1,11 @@
+{
+  "tot_ eli5-gemma-4-26b-a4b-it-shot1-ndoc3-42-quick_test200.json": {
+    "claim_recall": 18.8333
+  },
+  "cot_eli5-gemma-4-26b-a4b-it-gemma26-shot1-ndoc3-42-quick_test200.json": {
+    "claim_recall": 9.5
+  },
+  "vanilla_eli5-gemma-4-26b-a4b-it-openrouter-shot1-ndoc3-42-quick_test200.json": {
+    "claim_recall": 8.1667
+  }
+}

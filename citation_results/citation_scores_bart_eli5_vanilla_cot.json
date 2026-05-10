@@ -1,0 +1,10 @@
+{
+  "eli5-gemma-4-26b-a4b-it-openrouter-shot1-ndoc3-42-quick_test200.json": {
+    "citation_recall": 60.980357142857144,
+    "citation_precision": 56.97519841269841
+  },
+  "eli5-gemma-4-26b-a4b-it-cot_gemma26-shot1-ndoc3-42-quick_test200.json": {
+    "citation_recall": 58.3625,
+    "citation_precision": 55.33353174603175
+  }
+}
